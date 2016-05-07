@@ -144,9 +144,9 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 147);
+            this.comboBox1.Location = new System.Drawing.Point(229, 205);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(281, 20);
+            this.comboBox1.Size = new System.Drawing.Size(327, 20);
             this.comboBox1.Sorted = true;
             this.comboBox1.TabIndex = 9;
             // 
@@ -154,7 +154,7 @@
             // 
             this.treeView1.Location = new System.Drawing.Point(229, 15);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(327, 97);
+            this.treeView1.Size = new System.Drawing.Size(327, 181);
             this.treeView1.TabIndex = 10;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -197,9 +197,9 @@
             // 
             // buttonShowLog
             // 
-            this.buttonShowLog.Location = new System.Drawing.Point(302, 144);
+            this.buttonShowLog.Location = new System.Drawing.Point(562, 202);
             this.buttonShowLog.Name = "buttonShowLog";
-            this.buttonShowLog.Size = new System.Drawing.Size(85, 23);
+            this.buttonShowLog.Size = new System.Drawing.Size(86, 23);
             this.buttonShowLog.TabIndex = 15;
             this.buttonShowLog.Text = "ログ表示";
             this.buttonShowLog.UseVisualStyleBackColor = true;
@@ -209,7 +209,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(562, 15);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(86, 23);
             this.button1.TabIndex = 16;
             this.button1.Text = "AddNode";
             this.button1.UseVisualStyleBackColor = true;
@@ -219,7 +219,7 @@
             // 
             this.button2.Location = new System.Drawing.Point(562, 45);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(86, 23);
             this.button2.TabIndex = 17;
             this.button2.Text = "RemoveNode";
             this.button2.UseVisualStyleBackColor = true;
@@ -229,7 +229,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(660, 179);
+            this.ClientSize = new System.Drawing.Size(660, 237);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonShowLog);

@@ -53,7 +53,19 @@ namespace Timer
                 if (!isWhiteSpaceOnly && idx == -1) 
                 { 
                     comboBox1.Items.Add(s); 
-                    treeView1.Nodes.Add(s); 
+                    //treeView1.Nodes.Add(s); 
+
+                    // 文字列sを:で分割する
+                    //string[] ary = s.Split(':');
+                    string[] separators = { ":", "：" };
+                    string[] ary = s.Split(separators, StringSplitOptions.None);
+                    //三番目の要素(C)を出力
+                    //Console.WriteLine(ary[0]);
+                    RecursiveAddTree(treeView1.Nodes, ary, 0);
+                    // 分割した先頭を取得
+                    // 指定された親の子を１つ取得する。
+                        // 先頭が既存の先頭と同じ場合→既存の先頭の子供として２番目を追加
+                    // 先頭が既存の先頭と違う場合→小としてAddし、２番目以降も追加する。
                 }
             }
 
@@ -195,6 +207,8 @@ namespace Timer
                 // 何もしない
             }
 
+            stringList.Sort();
+
             //for (int i = 0; i < al.Count; i++) {
                 //MessageBox.Show(al[i]);
             //}
@@ -251,6 +265,12 @@ namespace Timer
         {
             //MessageBox.Show(e.Node.Text);
             comboBox1.Text = e.Node.Text;
+            TreeNode ctn,ptn;
+            ctn = treeView1.SelectedNode;
+            while ((ptn = ctn.Parent) != null) {
+                comboBox1.Text = ptn.Text + "：" + comboBox1.Text;
+                ctn = ptn;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -271,6 +291,37 @@ namespace Timer
         {
             treeView1.SelectedNode.Remove();
             //treeView1.Nodes.Clear();
+        }
+
+        private void RecursiveAddTree(TreeNodeCollection tnc, string[] ary, int aryIdx)
+        {
+            // 文字列sを:で分割する
+            //string[] ary = s.Split(':');
+            //三番目の要素(C)を出力
+            //Console.WriteLine(ary[0]);
+
+            // 指定された親の子を１つ取得する。
+            foreach (TreeNode tn in tnc)
+            {
+                // 先頭が既存の先頭と同じ場合→既存の先頭の子供として２番目を追加
+                if (tn.Text == ary[aryIdx])
+                {
+                    if (ary.Length - aryIdx >= 2)
+                    {
+                        //tn.Nodes.Add(ary[1]);
+                        RecursiveAddTree(tn.Nodes, ary, aryIdx + 1);
+                    }
+                    return;
+                }
+            }
+
+            // 先頭が既存の先頭と違う場合→小としてAddし、２番目以降も追加する。
+ //           for (int i = aryIdx; i < ary.Length; i++)
+ //           {
+ //               tnc.Add(ary[i]);
+ //           }
+            tnc.Add(ary[aryIdx]);
+            RecursiveAddTree(tnc, ary, aryIdx);
         }
     }
 }

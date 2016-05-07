@@ -8,3 +8,13 @@ D:\develop\c_sharp\作って覚えるVisualCシャープ2013デスクトップ�
 D:\develop\c_sharp\作って覚えるVisualCシャープ2013デスクトップアプリ入門\VCS2013DeskTop_Sample\VCS2013DeskTop_Sample\Chapter5\5.1 「タイマー」の作成\Timer\Timer\obj\Debug\Timer.exe
 D:\develop\c_sharp\作って覚えるVisualCシャープ2013デスクトップアプリ入門\VCS2013DeskTop_Sample\VCS2013DeskTop_Sample\Chapter5\5.1 「タイマー」の作成\Timer\Timer\obj\Debug\Timer.pdb
 D:\develop\c_sharp\作って覚えるVisualCシャープ2013デスクトップアプリ入門\VCS2013DeskTop_Sample\VCS2013DeskTop_Sample\Chapter5\5.1 「タイマー」の作成\Timer\Timer\obj\Debug\Timer.FormShowLog.resources
+D:\develop\work\Timer\Timer\Timer\bin\Debug\Timer.exe.config
+D:\develop\work\Timer\Timer\Timer\obj\Debug\Timer.exe
+D:\develop\work\Timer\Timer\Timer\obj\Debug\Timer.pdb
+D:\develop\work\Timer\Timer\Timer\bin\Debug\Timer.exe
+D:\develop\work\Timer\Timer\Timer\bin\Debug\Timer.pdb
+D:\develop\work\Timer\Timer\Timer\obj\Debug\Timer.csprojResolveAssemblyReference.cache
+D:\develop\work\Timer\Timer\Timer\obj\Debug\Timer.FormTimer.resources
+D:\develop\work\Timer\Timer\Timer\obj\Debug\Timer.FormShowLog.resources
+D:\develop\work\Timer\Timer\Timer\obj\Debug\Timer.Properties.Resources.resources
+D:\develop\work\Timer\Timer\Timer\obj\Debug\Timer.csproj.GenerateResource.Cache
