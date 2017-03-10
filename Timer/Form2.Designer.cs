@@ -36,14 +36,14 @@
             this.textBox1.Location = new System.Drawing.Point(12, 12);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(260, 238);
+            this.textBox1.Size = new System.Drawing.Size(401, 345);
             this.textBox1.TabIndex = 0;
             // 
             // FormShowLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(425, 369);
             this.Controls.Add(this.textBox1);
             this.Name = "FormShowLog";
             this.Text = "ログ表示";

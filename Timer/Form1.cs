@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Timer
 {
@@ -69,6 +70,7 @@ namespace Timer
                 }
             }
 
+	    ShowChart();
 
         }
 
@@ -122,6 +124,9 @@ namespace Timer
                 // 作業内容のテキストボックスの読み取り専用を解除する
                 this.comboBox1.Enabled = true;
             }
+            // 前回停止時間のTextBoxの内容を現在の時間の内容に設定
+            textLastStopTime1.Text = textLastStopTime2.Text;
+            textLastStopTime2.Text = DateTime.Now.ToString();
         }
 
         private void timerControl_Tick(object sender, EventArgs e)
@@ -166,6 +171,9 @@ namespace Timer
             nowTime = 0;
             // 時間設定のTextBoxの内容を残り時間のTextBoxの内容に設定
             textRemainingTime.Text = textSetTime.Text;
+            // 前回停止時間のTextBoxの内容を現在の時間の内容に設定
+            textLastStopTime1.Text = textLastStopTime2.Text;
+            textLastStopTime2.Text = DateTime.Now.ToString();
             // スタート／ストップボタンの表示をスタート！にする
             buttonStart.Text = "スタート！";
             writeLog("リセット," + comboBox1.Text);
@@ -292,6 +300,157 @@ namespace Timer
             treeView1.SelectedNode.Remove();
             //treeView1.Nodes.Clear();
         }
+
+        private void ShowChart()
+        {
+//chart1.Width = 100;
+//chart1.Height = 100;
+
+Series series = new Series();
+series.ChartType = SeriesChartType.Pie;
+series["PieStartAngle"] = "270";
+
+DataPoint point = new DataPoint();
+point.XValue = 0;
+point.YValues = new double[] { 65 };
+point.Color = System.Drawing.Color.Red;
+point.BackSecondaryColor = System.Drawing.Color.DarkRed;
+point.BackGradientStyle = GradientStyle.DiagonalLeft;
+series.Points.Add(point);
+
+point = new DataPoint();
+point.XValue = 0;
+point.YValues = new double[] { 35 };
+point.Color = System.Drawing.Color.Khaki;
+
+series.Points.Add(point);
+
+//chart1.Series.Add(series);
+
+ChartArea area = new ChartArea();
+area.AxisX.IsLabelAutoFit = true;
+area.AxisY.IsLabelAutoFit = true;
+chart1.ChartAreas.Add(area);
+
+/*
+            // ラベルを読みやすく表示するには、明るい色を利用します。
+            chart1.ColorGeneration = ColorGeneration.Flow;  
+                
+            // ChartArea を最大化します。
+            chart1.ChartArea.Margins.SetMargins(0, 0, 0, 0);   
+            chart1.ChartArea.Style.Border.BorderStyle = BorderStyleEnum.None;
+            // グラフの種類を設定します。 
+            chart1.ChartArea.Inverted = true;   
+            chart1.ChartGroups[0].ChartType = C1.Win.C1Chart.Chart2DTypeEnum.Pie;
+            // 以前のデータをクリアします。 
+            chart1.ChartGroups[0].ChartData.SeriesList.Clear();  
+            // データを追加します。 
+                
+            string[] ProductNames = { "Mortgage", "Car", "Food", "Day Care", "Other", "Savings","Utilities" };    
+            int[] PriceX = {2000, 1200, 500, 500, 450, 400, 350 };   
+                
+            // シリーズのコレクションを取得します。   
+            ChartDataSeriesCollection dscoll = chart1.ChartGroups[0].ChartData.SeriesList;  
+            // シリーズにデータを挿入します。   
+            for (int i = 0; i < PriceX.Length; i++)    
+            { 
+                ChartDataSeries series = dscoll.AddNewSeries();   
+                // 円をひとつ表示するには、1つの点を追加します。   
+                series.PointData.Length = 1;  
+                // Y データ系列に価格を割り当てます。   
+                series.Y[0] = PriceX[i];   
+                // 凡例上の製品名と製品価格の書式設定します。
+                series.Label = string.Format("{0} ({1:c})", ProductNames[i], PriceX[i]);  
+                series.DataLabel.Text = "{#TEXT}\r\n{#YVAL} ({%YVAL:%})";
+                series.DataLabel.Compass = LabelCompassEnum.RadialText; 
+                series.DataLabel.Offset = -5;
+                series.DataLabel.Visible = true;         
+            }   
+            // 円の凡例を表示します。   
+            chart1.Legend.Visible = true;
+            // グラフの凡例にタイトルを追加します。    
+            chart1.Legend.Text = "Monthly Expenses";     
+*/
+/*
+Chart chart = new Chart();
+
+chart = new Chart();
+chart.Width = 100;
+chart.Height = 100;
+
+Series series = new Series();
+series.ChartType = SeriesChartType.Pie;
+series["PieStartAngle"] = "270";
+
+DataPoint point = new DataPoint();
+point.XValue = 0;
+point.YValues = new double[] { 65 };
+point.Color = System.Drawing.Color.Red;
+point.BackSecondaryColor = System.Drawing.Color.DarkRed;
+point.BackGradientStyle = GradientStyle.DiagonalLeft;
+series.Points.Add(point);
+
+point = new DataPoint();
+point.XValue = 0;
+point.YValues = new double[] { 35 };
+point.Color = System.Drawing.Color.Khaki;
+
+series.Points.Add(point);
+
+chart.Series.Add(series);
+
+ChartArea area = new ChartArea();
+area.AxisX.IsLabelAutoFit = true;
+area.AxisY.IsLabelAutoFit = true;
+chart.ChartAreas.Add(area);
+
+Div1.Controls.Add(chart);
+
+*/
+	}
+
+	/*
+private void Form1_Load(object sender, EventArgs e)          
+    {
+        // ラベルを読みやすく表示するには、明るい色を利用します。
+        c1Chart1.ColorGeneration = ColorGeneration.Flow;  
+                
+        // ChartArea を最大化します。
+        c1Chart1.ChartArea.Margins.SetMargins(0, 0, 0, 0);   
+        c1Chart1.ChartArea.Style.Border.BorderStyle = BorderStyleEnum.None;
+        // グラフの種類を設定します。 
+        c1Chart1.ChartArea.Inverted = true;   
+        c1Chart1.ChartGroups[0].ChartType = C1.Win.C1Chart.Chart2DTypeEnum.Pie;
+        // 以前のデータをクリアします。 
+        c1Chart1.ChartGroups[0].ChartData.SeriesList.Clear();  
+        // データを追加します。 
+                
+        string[] ProductNames = { "Mortgage", "Car", "Food", "Day Care", "Other", "Savings","Utilities" };    
+        int[] PriceX = {2000, 1200, 500, 500, 450, 400, 350 };   
+                
+        // シリーズのコレクションを取得します。   
+        ChartDataSeriesCollection dscoll = c1Chart1.ChartGroups[0].ChartData.SeriesList;  
+        // シリーズにデータを挿入します。   
+        for (int i = 0; i < PriceX.Length; i++)    
+        { 
+            ChartDataSeries series = dscoll.AddNewSeries();   
+            // 円をひとつ表示するには、1つの点を追加します。   
+            series.PointData.Length = 1;  
+            // Y データ系列に価格を割り当てます。   
+            series.Y[0] = PriceX[i];   
+            // 凡例上の製品名と製品価格の書式設定します。
+            series.Label = string.Format("{0} ({1:c})", ProductNames[i], PriceX[i]);  
+            series.DataLabel.Text = "{#TEXT}\r\n{#YVAL} ({%YVAL:%})";
+            series.DataLabel.Compass = LabelCompassEnum.RadialText; 
+            series.DataLabel.Offset = -5;
+            series.DataLabel.Visible = true;         
+        }   
+        // 円の凡例を表示します。   
+        c1Chart1.Legend.Visible = true;
+        // グラフの凡例にタイトルを追加します。    
+        c1Chart1.Legend.Text = "Monthly Expenses";     
+    }
+    */
 
         private void RecursiveAddTree(TreeNodeCollection tnc, string[] ary, int aryIdx)
         {
