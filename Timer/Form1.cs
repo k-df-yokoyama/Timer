@@ -303,8 +303,8 @@ namespace Timer
 
         private void ShowChart()
         {
-//chart1.Width = 100;
-//chart1.Height = 100;
+chart1.Width = 200;
+chart1.Height = 130;
 
 Series series = new Series();
 series.ChartType = SeriesChartType.Pie;
@@ -482,5 +482,74 @@ private void Form1_Load(object sender, EventArgs e)
             tnc.Add(ary[aryIdx]);
             RecursiveAddTree(tnc, ary, aryIdx);
         }
+
+        private void buttonShowGraph_Click(object sender, EventArgs e)
+        {
+            string[] legends = new string[] { "グラフ１", "グラフ２" }; //凡例
+
+            chart1.Series.Clear();  //グラフ初期化
+
+            foreach (var item in legends)
+            {
+                chart1.Series.Add(item);    //グラフ追加
+                //グラフの種類を指定（Columnは積み上げ縦棒グラフ）
+                chart1.Series[item].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
+                chart1.Series[item].LegendText = item;  //凡例に表示するテキストを指定
+            }  
+
+            string[] xValues = new string[] { "A", "B", "C", "D", "E" };    //X軸のデータ
+            int[,] yValues = new int[,] {{ 10, 20, 30, 40, 50 }, {20, 40, 60, 80, 100} };    //Y軸のデータ
+
+            for (int i = 0; i < xValues.Length; i++)
+            {
+                for (int j = 0; j < yValues.GetLength(0); j++)
+                {
+                    //グラフに追加するデータクラスを生成
+                    System.Windows.Forms.DataVisualization.Charting.DataPoint dp = new System.Windows.Forms.DataVisualization.Charting.DataPoint();
+                    dp.SetValueXY(xValues[i], yValues[j,i]);  //XとYの値を設定
+                    dp.IsValueShownAsLabel = true;  //グラフに値を表示するように指定
+                    chart1.Series[legends[j]].Points.Add(dp);   //グラフにデータ追加
+                }
+            }
+        }
+
     }
+
+/*
+http://blog.hiros-dot.net/?p=2099
+*/
+    /*
+http://nogusa.hateblo.jp/entry/20101004/1286183197
+
+private void button1_Click(object sender, EventArgs e)
+{
+    string[] legends = new string[] { "グラフ１", "グラフ２" }; //凡例
+
+    chart1.Series.Clear();  //グラフ初期化
+
+    foreach (var item in legends)
+    {
+        chart1.Series.Add(item);    //グラフ追加
+        //グラフの種類を指定（Columnは積み上げ縦棒グラフ）
+        chart1.Series[item].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
+        chart1.Series[item].LegendText = item;  //凡例に表示するテキストを指定
+    }  
+
+    string[] xValues = new string[] { "A", "B", "C", "D", "E" };    //X軸のデータ
+    int[,] yValues = new int[,] {{ 10, 20, 30, 40, 50 }, {20, 40, 60, 80, 100} };    //Y軸のデータ
+
+    for (int i = 0; i < xValues.Length; i++)
+    {
+        for (int j = 0; j < yValues.GetLength(0); j++)
+        {
+            //グラフに追加するデータクラスを生成
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dp = new System.Windows.Forms.DataVisualization.Charting.DataPoint();
+            dp.SetValueXY(xValues[i], yValues[j,i]);  //XとYの値を設定
+            dp.IsValueShownAsLabel = true;  //グラフに値を表示するように指定
+            chart1.Series[legends[j]].Points.Add(dp);   //グラフにデータ追加
+        }
+    }
+}
+*/
+
 }

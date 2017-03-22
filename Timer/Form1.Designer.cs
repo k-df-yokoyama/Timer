@@ -63,6 +63,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.textLastStopTime2 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.buttonShowGraph = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -333,6 +334,16 @@
             this.label13.TabIndex = 24;
             this.label13.Text = "前回操作時刻2";
             // 
+            // buttonShowGraph
+            // 
+            this.buttonShowGraph.Location = new System.Drawing.Point(562, 276);
+            this.buttonShowGraph.Name = "buttonShowGraph";
+            this.buttonShowGraph.Size = new System.Drawing.Size(86, 23);
+            this.buttonShowGraph.TabIndex = 15;
+            this.buttonShowGraph.Text = "グラフ表示";
+            this.buttonShowGraph.UseVisualStyleBackColor = true;
+            this.buttonShowGraph.Click += new System.EventHandler(this.buttonShowGraph_Click);
+            // 
             // FormTimer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -348,6 +359,7 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonShowGraph);
             this.Controls.Add(this.buttonShowLog);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.textElaspedTimeSeconds);
@@ -403,6 +415,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textLastStopTime2;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button buttonShowGraph;
     }
 }
 
