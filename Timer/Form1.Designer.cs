@@ -284,7 +284,7 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(12, 175);
+            this.chart1.Location = new System.Drawing.Point(675, 10);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
@@ -294,7 +294,7 @@
             series1.Points.Add(dataPoint2);
             series1.Points.Add(dataPoint3);
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(190, 115);
+            this.chart1.Size = new System.Drawing.Size(252, 289);
             this.chart1.TabIndex = 22;
             this.chart1.Text = "chart1";
             // 
@@ -348,7 +348,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 334);
+            this.ClientSize = new System.Drawing.Size(939, 334);
             this.Controls.Add(this.textLastStopTime2);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.textLastStopTime1);

@@ -70,7 +70,8 @@ namespace Timer
                 }
             }
 
-	    ShowChart();
+            //ShowChartPie();
+            ShowChartStackedColumn();
 
         }
 
@@ -301,115 +302,122 @@ namespace Timer
             //treeView1.Nodes.Clear();
         }
 
-        private void ShowChart()
+        private void RecursiveAddTree(TreeNodeCollection tnc, string[] ary, int aryIdx)
         {
-chart1.Width = 200;
-chart1.Height = 130;
+            // 文字列sを:で分割する
+            //string[] ary = s.Split(':');
+            //三番目の要素(C)を出力
+            //Console.WriteLine(ary[0]);
 
-Series series = new Series();
-series.ChartType = SeriesChartType.Pie;
-series["PieStartAngle"] = "270";
+            // 指定された親の子を１つ取得する。
+            foreach (TreeNode tn in tnc)
+            {
+                // 先頭が既存の先頭と同じ場合→既存の先頭の子供として２番目を追加
+                if (tn.Text == ary[aryIdx])
+                {
+                    if (ary.Length - aryIdx >= 2)
+                    {
+                        //tn.Nodes.Add(ary[1]);
+                        RecursiveAddTree(tn.Nodes, ary, aryIdx + 1);
+                    }
+                    return;
+                }
+            }
 
-DataPoint point = new DataPoint();
-point.XValue = 0;
-point.YValues = new double[] { 65 };
-point.Color = System.Drawing.Color.Red;
-point.BackSecondaryColor = System.Drawing.Color.DarkRed;
-point.BackGradientStyle = GradientStyle.DiagonalLeft;
-series.Points.Add(point);
+            // 先頭が既存の先頭と違う場合→小としてAddし、２番目以降も追加する。
+ //           for (int i = aryIdx; i < ary.Length; i++)
+ //           {
+ //               tnc.Add(ary[i]);
+ //           }
+            tnc.Add(ary[aryIdx]);
+            RecursiveAddTree(tnc, ary, aryIdx);
+        }
 
-point = new DataPoint();
-point.XValue = 0;
-point.YValues = new double[] { 35 };
-point.Color = System.Drawing.Color.Khaki;
+        private void buttonShowGraph_Click(object sender, EventArgs e)
+        {
+            //ShowChartPie();
+            ShowChartStackedColumn();
+        }
 
-series.Points.Add(point);
+        private void ShowChartStackedColumn()
+        {
+            string[] legends = new string[] { "グラフ１", "グラフ２", "グラフ３" }; //凡例
 
-//chart1.Series.Add(series);
+            chart1.Series.Clear();  //グラフ初期化
 
-ChartArea area = new ChartArea();
-area.AxisX.IsLabelAutoFit = true;
-area.AxisY.IsLabelAutoFit = true;
-chart1.ChartAreas.Add(area);
+            foreach (var item in legends)
+            {
+                chart1.Series.Add(item);    //グラフ追加
+                //グラフの種類を指定（Columnは積み上げ縦棒グラフ）
+                chart1.Series[item].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
+//                chart1.Series[item].LegendText = item;  //凡例に表示するテキストを指定
+            }  
+
+//            string[] xValues = new string[] { "A", "B", "C", "D", "E" };    //X軸のデータ
+//            int[,] yValues = new int[,] {{ 10, 20, 30, 40, 50 }, {20, 40, 60, 80, 100} };    //Y軸のデータ
+
+            string[] xValues = new string[] { "予定", "実績" };    //X軸のデータ
+            int[,] yValues = new int[,] {{10, 5}, {20, 10}, {30, 40} };    //Y軸のデータ
+
+            for (int i = 0; i < xValues.Length; i++)
+            {
+                for (int j = 0; j < yValues.GetLength(0); j++)
+                {
+                    //グラフに追加するデータクラスを生成
+                    System.Windows.Forms.DataVisualization.Charting.DataPoint dp = new System.Windows.Forms.DataVisualization.Charting.DataPoint();
+                    dp.SetValueXY(xValues[i], yValues[j,i]);  //XとYの値を設定
+                    dp.IsValueShownAsLabel = true;  //グラフに値を表示するように指定
+                    chart1.Series[legends[j]].Points.Add(dp);   //グラフにデータ追加
+                }
+            }
+        }
 
 /*
-            // ラベルを読みやすく表示するには、明るい色を利用します。
-            chart1.ColorGeneration = ColorGeneration.Flow;  
-                
-            // ChartArea を最大化します。
-            chart1.ChartArea.Margins.SetMargins(0, 0, 0, 0);   
-            chart1.ChartArea.Style.Border.BorderStyle = BorderStyleEnum.None;
-            // グラフの種類を設定します。 
-            chart1.ChartArea.Inverted = true;   
-            chart1.ChartGroups[0].ChartType = C1.Win.C1Chart.Chart2DTypeEnum.Pie;
-            // 以前のデータをクリアします。 
-            chart1.ChartGroups[0].ChartData.SeriesList.Clear();  
-            // データを追加します。 
-                
-            string[] ProductNames = { "Mortgage", "Car", "Food", "Day Care", "Other", "Savings","Utilities" };    
-            int[] PriceX = {2000, 1200, 500, 500, 450, 400, 350 };   
-                
-            // シリーズのコレクションを取得します。   
-            ChartDataSeriesCollection dscoll = chart1.ChartGroups[0].ChartData.SeriesList;  
-            // シリーズにデータを挿入します。   
-            for (int i = 0; i < PriceX.Length; i++)    
-            { 
-                ChartDataSeries series = dscoll.AddNewSeries();   
-                // 円をひとつ表示するには、1つの点を追加します。   
-                series.PointData.Length = 1;  
-                // Y データ系列に価格を割り当てます。   
-                series.Y[0] = PriceX[i];   
-                // 凡例上の製品名と製品価格の書式設定します。
-                series.Label = string.Format("{0} ({1:c})", ProductNames[i], PriceX[i]);  
-                series.DataLabel.Text = "{#TEXT}\r\n{#YVAL} ({%YVAL:%})";
-                series.DataLabel.Compass = LabelCompassEnum.RadialText; 
-                series.DataLabel.Offset = -5;
-                series.DataLabel.Visible = true;         
-            }   
-            // 円の凡例を表示します。   
-            chart1.Legend.Visible = true;
-            // グラフの凡例にタイトルを追加します。    
-            chart1.Legend.Text = "Monthly Expenses";     
+        private void ShowChartPie()
+        {
+            chart1.Series.Clear();  //グラフ初期化
+            chart1.Width = 200;
+            chart1.Height = 130;
+
+            Series series = new Series();
+            series.ChartType = SeriesChartType.Pie;
+            series["PieStartAngle"] = "270";
+
+            DataPoint point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 65 };
+            point.Color = System.Drawing.Color.Red;
+            point.BackSecondaryColor = System.Drawing.Color.DarkRed;
+            point.BackGradientStyle = GradientStyle.DiagonalLeft;
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 35 };
+            point.Color = System.Drawing.Color.Khaki;
+
+            series.Points.Add(point);
+
+            chart1.Series.Add(series);
+
+            ChartArea area = new ChartArea();
+            area.AxisX.IsLabelAutoFit = true;
+            area.AxisY.IsLabelAutoFit = true;
+            chart1.ChartAreas.Add(area);
+        }
+*/
+
+    }
+}
+
+/*
+http://blog.hiros-dot.net/?p=2099
 */
 /*
-Chart chart = new Chart();
-
-chart = new Chart();
-chart.Width = 100;
-chart.Height = 100;
-
-Series series = new Series();
-series.ChartType = SeriesChartType.Pie;
-series["PieStartAngle"] = "270";
-
-DataPoint point = new DataPoint();
-point.XValue = 0;
-point.YValues = new double[] { 65 };
-point.Color = System.Drawing.Color.Red;
-point.BackSecondaryColor = System.Drawing.Color.DarkRed;
-point.BackGradientStyle = GradientStyle.DiagonalLeft;
-series.Points.Add(point);
-
-point = new DataPoint();
-point.XValue = 0;
-point.YValues = new double[] { 35 };
-point.Color = System.Drawing.Color.Khaki;
-
-series.Points.Add(point);
-
-chart.Series.Add(series);
-
-ChartArea area = new ChartArea();
-area.AxisX.IsLabelAutoFit = true;
-area.AxisY.IsLabelAutoFit = true;
-chart.ChartAreas.Add(area);
-
-Div1.Controls.Add(chart);
-
+http://nogusa.hateblo.jp/entry/20101004/1286183197
 */
-	}
 
-	/*
+/*
 private void Form1_Load(object sender, EventArgs e)          
     {
         // ラベルを読みやすく表示するには、明るい色を利用します。
@@ -450,106 +458,6 @@ private void Form1_Load(object sender, EventArgs e)
         // グラフの凡例にタイトルを追加します。    
         c1Chart1.Legend.Text = "Monthly Expenses";     
     }
-    */
-
-        private void RecursiveAddTree(TreeNodeCollection tnc, string[] ary, int aryIdx)
-        {
-            // 文字列sを:で分割する
-            //string[] ary = s.Split(':');
-            //三番目の要素(C)を出力
-            //Console.WriteLine(ary[0]);
-
-            // 指定された親の子を１つ取得する。
-            foreach (TreeNode tn in tnc)
-            {
-                // 先頭が既存の先頭と同じ場合→既存の先頭の子供として２番目を追加
-                if (tn.Text == ary[aryIdx])
-                {
-                    if (ary.Length - aryIdx >= 2)
-                    {
-                        //tn.Nodes.Add(ary[1]);
-                        RecursiveAddTree(tn.Nodes, ary, aryIdx + 1);
-                    }
-                    return;
-                }
-            }
-
-            // 先頭が既存の先頭と違う場合→小としてAddし、２番目以降も追加する。
- //           for (int i = aryIdx; i < ary.Length; i++)
- //           {
- //               tnc.Add(ary[i]);
- //           }
-            tnc.Add(ary[aryIdx]);
-            RecursiveAddTree(tnc, ary, aryIdx);
-        }
-
-        private void buttonShowGraph_Click(object sender, EventArgs e)
-        {
-            string[] legends = new string[] { "グラフ１", "グラフ２" }; //凡例
-
-            chart1.Series.Clear();  //グラフ初期化
-
-            foreach (var item in legends)
-            {
-                chart1.Series.Add(item);    //グラフ追加
-                //グラフの種類を指定（Columnは積み上げ縦棒グラフ）
-                chart1.Series[item].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
-                chart1.Series[item].LegendText = item;  //凡例に表示するテキストを指定
-            }  
-
-            string[] xValues = new string[] { "A", "B", "C", "D", "E" };    //X軸のデータ
-            int[,] yValues = new int[,] {{ 10, 20, 30, 40, 50 }, {20, 40, 60, 80, 100} };    //Y軸のデータ
-
-            for (int i = 0; i < xValues.Length; i++)
-            {
-                for (int j = 0; j < yValues.GetLength(0); j++)
-                {
-                    //グラフに追加するデータクラスを生成
-                    System.Windows.Forms.DataVisualization.Charting.DataPoint dp = new System.Windows.Forms.DataVisualization.Charting.DataPoint();
-                    dp.SetValueXY(xValues[i], yValues[j,i]);  //XとYの値を設定
-                    dp.IsValueShownAsLabel = true;  //グラフに値を表示するように指定
-                    chart1.Series[legends[j]].Points.Add(dp);   //グラフにデータ追加
-                }
-            }
-        }
-
-    }
-
-/*
-http://blog.hiros-dot.net/?p=2099
-*/
-    /*
-http://nogusa.hateblo.jp/entry/20101004/1286183197
-
-private void button1_Click(object sender, EventArgs e)
-{
-    string[] legends = new string[] { "グラフ１", "グラフ２" }; //凡例
-
-    chart1.Series.Clear();  //グラフ初期化
-
-    foreach (var item in legends)
-    {
-        chart1.Series.Add(item);    //グラフ追加
-        //グラフの種類を指定（Columnは積み上げ縦棒グラフ）
-        chart1.Series[item].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
-        chart1.Series[item].LegendText = item;  //凡例に表示するテキストを指定
-    }  
-
-    string[] xValues = new string[] { "A", "B", "C", "D", "E" };    //X軸のデータ
-    int[,] yValues = new int[,] {{ 10, 20, 30, 40, 50 }, {20, 40, 60, 80, 100} };    //Y軸のデータ
-
-    for (int i = 0; i < xValues.Length; i++)
-    {
-        for (int j = 0; j < yValues.GetLength(0); j++)
-        {
-            //グラフに追加するデータクラスを生成
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dp = new System.Windows.Forms.DataVisualization.Charting.DataPoint();
-            dp.SetValueXY(xValues[i], yValues[j,i]);  //XとYの値を設定
-            dp.IsValueShownAsLabel = true;  //グラフに値を表示するように指定
-            chart1.Series[legends[j]].Points.Add(dp);   //グラフにデータ追加
-        }
-    }
-}
 */
 
-}
+
