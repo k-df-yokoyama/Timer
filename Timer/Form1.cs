@@ -356,7 +356,7 @@ namespace Timer
 //            string[] xValues = new string[] { "A", "B", "C", "D", "E" };    //X軸のデータ
 //            int[,] yValues = new int[,] {{ 10, 20, 30, 40, 50 }, {20, 40, 60, 80, 100} };    //Y軸のデータ
 
-            string[] xValues = new string[] { "予定", "実績" };    //X軸のデータ
+            string[] xValues = new string[] { "予", "実" };    //X軸のデータ
             int[,] yValues = new int[,] {{10, 5}, {20, 10}, {30, 40} };    //Y軸のデータ
 
             for (int i = 0; i < xValues.Length; i++)
@@ -370,6 +370,26 @@ namespace Timer
                     chart1.Series[legends[j]].Points.Add(dp);   //グラフにデータ追加
                 }
             }
+        }
+
+        private void buttonAddPanel_Click(object sender, EventArgs e)
+        {
+            foreach(Panel p in panel1.Controls)
+            {
+                p.Top += 40;
+            }
+
+            Panel c = new Panel();
+            //c.Width = 120;
+            //c.Height = 30;
+            //c.Top = 10;
+            //c.BackColor = Color.Black;
+
+            c.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            c.Location = new System.Drawing.Point(24, 32);
+            c.Size = new System.Drawing.Size(120, 30);
+
+            panel1.Controls.Add(c);
         }
 
 /*

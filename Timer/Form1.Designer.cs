@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -58,12 +58,14 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.textLastStopTime1 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.textLastStopTime2 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.buttonShowGraph = new System.Windows.Forms.Button();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonAddPanel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -278,26 +280,6 @@
             this.label11.TabIndex = 21;
             this.label11.Text = "4. テンプレート（雛形）";
             // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(675, 10);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            series1.Points.Add(dataPoint1);
-            series1.Points.Add(dataPoint2);
-            series1.Points.Add(dataPoint3);
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(252, 289);
-            this.chart1.TabIndex = 22;
-            this.chart1.Text = "chart1";
-            // 
             // textLastStopTime1
             // 
             this.textLastStopTime1.Location = new System.Drawing.Point(101, 120);
@@ -336,7 +318,7 @@
             // 
             // buttonShowGraph
             // 
-            this.buttonShowGraph.Location = new System.Drawing.Point(562, 276);
+            this.buttonShowGraph.Location = new System.Drawing.Point(562, 264);
             this.buttonShowGraph.Name = "buttonShowGraph";
             this.buttonShowGraph.Size = new System.Drawing.Size(86, 23);
             this.buttonShowGraph.TabIndex = 15;
@@ -344,11 +326,52 @@
             this.buttonShowGraph.UseVisualStyleBackColor = true;
             this.buttonShowGraph.Click += new System.EventHandler(this.buttonShowGraph_Click);
             // 
+            // chart1
+            // 
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart1.Legends.Add(legend3);
+            this.chart1.Location = new System.Drawing.Point(14, 174);
+            this.chart1.Name = "chart1";
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            series3.Points.Add(dataPoint7);
+            series3.Points.Add(dataPoint8);
+            series3.Points.Add(dataPoint9);
+            this.chart1.Series.Add(series3);
+            this.chart1.Size = new System.Drawing.Size(201, 148);
+            this.chart1.TabIndex = 22;
+            this.chart1.Text = "chart1";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Window;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Location = new System.Drawing.Point(685, 15);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(242, 307);
+            this.panel1.TabIndex = 26;
+            // 
+            // buttonAddPanel
+            // 
+            this.buttonAddPanel.Location = new System.Drawing.Point(562, 293);
+            this.buttonAddPanel.Name = "buttonAddPanel";
+            this.buttonAddPanel.Size = new System.Drawing.Size(86, 23);
+            this.buttonAddPanel.TabIndex = 27;
+            this.buttonAddPanel.Text = "AddPanel";
+            this.buttonAddPanel.UseVisualStyleBackColor = true;
+            this.buttonAddPanel.Click += new System.EventHandler(this.buttonAddPanel_Click);
+            // 
             // FormTimer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(939, 334);
+            this.Controls.Add(this.buttonAddPanel);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.textLastStopTime2);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.textLastStopTime1);
@@ -410,12 +433,14 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.TextBox textLastStopTime1;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textLastStopTime2;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button buttonShowGraph;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonAddPanel;
     }
 }
 
