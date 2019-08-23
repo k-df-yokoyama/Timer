@@ -386,6 +386,7 @@ namespace Timer
             //c.BackColor = Color.Black;
 
             c.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			// 相対位置
             c.Location = new System.Drawing.Point(24, 32);
             c.Size = new System.Drawing.Size(120, 30);
 
