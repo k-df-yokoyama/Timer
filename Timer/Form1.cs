@@ -16,10 +16,12 @@ namespace Timer
 {
     public partial class FormTimer : Form
     {
-        int currEndTime; // 終了時間（今、時間設定のTextBoxから取得した内容）
-        int prevEndTime = 1500; // 終了時間
-        int nowTime; // 経過時間
-        bool isCounting; // 時間のカウント中か
+        int currEndTime; // 現在のタスク終了までの予定時間（[時間設定]TextBoxから取得した値）
+        int prevEndTime = 1500; // 前回のタスク終了までの予定時間のデフォルト値
+	//ToDo: prevEndTimeに設定されているマジックナンバー(1500)を定数にする
+        int nowTime; // 経過時間（残り時間を計算するために使用）
+        //internal bool isTimeCounting; // 時間のカウント中かの判定
+        bool isTimeCounting; // 時間のカウント中かの判定
         string strDesktopDirectory;
         string strHistoryFilePath, strLogFilePath;
         Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
@@ -30,9 +32,9 @@ namespace Timer
         {
             InitializeComponent();
 
-            // 時間のカウント中かを記録する変数を初期化
-            isCounting = false;
-            // 残り時間を計算するため経過時間の変数を0で初期化
+            // 変数の初期化（変数：時間のカウント中かの判定）
+            isTimeCounting = false;
+            // 変数の初期化（変数：経過時間）
             nowTime = 0;
             strDesktopDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             strHistoryFilePath = ".\\timer_history.txt"; 
@@ -73,49 +75,68 @@ namespace Timer
             //ShowChartPie();
             ShowChartStackedColumn();
 
+            //Hide developping controls
+            panel1.Visible = false;
+            btnShowGraph.Visible = false;
+            btnAddPanel.Visible = false;
+            this.Width = Constants.MainFormWidthFormal;
         }
 
-        private void buttonStart_Click(object sender, EventArgs e)
+        //Constructor to show developping controls
+        public FormTimer(string[] args):this()
         {
-            // 時間のカウント中でない場合
-            if (!isCounting)
+            if (args.Length >= 1 && args[0] == "-showdev") {
+                panel1.Visible = true;
+                btnShowGraph.Visible = true;
+                btnAddPanel.Visible = true;
+                this.Width = Constants.MainFormWidthDevelopping;
+            }
+        }
+
+        // [スタート]/[ストップ]ボタンクリック時の処理
+        internal void buttonStart_Click(object sender, EventArgs e)
+        {
+            // 時間のカウント中でない場合（＝ストップ状態でスタートボタンがクリックされた場合）
+            if (!isTimeCounting)
             {
-                // 時間設定のTextBoxの内容を終了時間の変数に取得
+                // [時間設定]TextBoxの値を変数に格納（変数：タスク終了までの予定時間）
                 if (!int.TryParse(textSetTime.Text, out currEndTime))
                 {
                     currEndTime = 1;
                 }
+                // タスク終了までの予定時間の設定値が前回と異なる場合リセットしてスタートする
                 if (prevEndTime != currEndTime)
                 {
                     // リセットしたことを知らせる
-                    MessageBox.Show("時刻設定の値が変更されました。リセットしてスタートします");
-                    // 残り時間を計算するため経過時間の変数を0で初期化
+                    MessageBox.Show("[時間設定]の値が変更されました。リセットしてスタートします");
+                    // 変数の初期化（変数：経過時間）
                     nowTime = 0;
                     // 時間設定のTextBoxの内容を残り時間のTextBoxの内容に設定
                     textRemainingTime.Text = textSetTime.Text;
                 }
                 // 作業内容の履歴の保存
+                // ToDo: UnitTest候補
                 //saveWorkHistory(textBox1.Text);
                 saveWorkHistory(comboBox1.Text);
-                // 終了時間の保存
+                // タスク終了までの予定時間の格納
                 prevEndTime = currEndTime;
                 // タイマースタート
                 timerControl.Start();
-                isCounting = true;
+                isTimeCounting = true;
                 // スタート／ストップボタンの表示をストップにする
-                buttonStart.Text = "ストップ";
+                btnStart.Text = "ストップ";
                 writeLog("スタート," + comboBox1.Text);
                 // 作業内容のテキストボックスを読み取り専用にする
                 this.comboBox1.Enabled = false;
             }
-            // 時間のカウント中の場合
+            // 時間のカウント中の場合（＝スタート状態でストップボタンがクリックされた場合）
             else
             {
                 // タイマーストップ
                 timerControl.Stop();
-                isCounting = false;
+                isTimeCounting = false;
                 // スタート／ストップボタンの表示をスタート！にする
-                buttonStart.Text = "スタート！";
+                btnStart.Text = "スタート！";
                 writeLog("ストップ," + comboBox1.Text);
                 // コンボボックスのリストに値を追加する
                 // ...空白文字のみの場合、追加しない
@@ -130,6 +151,7 @@ namespace Timer
             textLastStopTime2.Text = DateTime.Now.ToString();
         }
 
+        // [時間設定]の時間が経過したらダイアログ[時間になりました]を表示する。
         private void timerControl_Tick(object sender, EventArgs e)
         {
             int remainingTime; // 残り時間の変数を整数型で定義
@@ -140,24 +162,27 @@ namespace Timer
             textRemainingTime.Text = remainingTime.ToString();
             textElaspedTimeMinutes.Text = (nowTime/60).ToString();
             textElaspedTimeSeconds.Text = (nowTime%60).ToString();
-            // <判定>設定時間になった？
+            // <判定>タスク終了までの予定時間になった？
+            // ...「Yes」の場合の処理
             if (currEndTime == nowTime)
             {
-                // 「Yes」の場合の処理
-                // タイマーを止める
+                // ...タイマーを止める
                 //timerControl.Stop();
-                // 終了時間になったことを知らせる
+                // ...終了時間になったことを知らせる
                 MessageBox.Show("時間になりました！");
             }
+            // <判定>タスク終了までの予定時間になった？
+            // ...「No」の場合の処理
             else
             {
-                // 「No」の場合の処理
+                // なにもしない
             }
         }
 
+        // [リセット]ボタンクリック時の処理
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            // タイマーストップ
+            // (1)リセット実施可否確認
             DialogResult result = MessageBox.Show("リセットしてもよいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
             //「いいえ」が選択された時
             if (result == DialogResult.No)
@@ -165,27 +190,27 @@ namespace Timer
                 return;
             }
 
-            // タイマーストップ
+            // (2)タイマーストップ
             timerControl.Stop();
-            isCounting = false;
-            // 残り時間を計算するため経過時間の変数を0で初期化
+            isTimeCounting = false;
+            // (3)経過時間を0に変更
             nowTime = 0;
-            // 時間設定のTextBoxの内容を残り時間のTextBoxの内容に設定
+            // (4)時間設定のTextBoxの内容を残り時間のTextBoxの内容に設定
             textRemainingTime.Text = textSetTime.Text;
-            // 前回停止時間のTextBoxの内容を現在の時間の内容に設定
+            // (5)前回停止時間のTextBoxの内容を現在の時間の内容に設定
             textLastStopTime1.Text = textLastStopTime2.Text;
             textLastStopTime2.Text = DateTime.Now.ToString();
-            // スタート／ストップボタンの表示をスタート！にする
-            buttonStart.Text = "スタート！";
+            // (6)スタート／ストップボタンの表示をスタート！にする
+            btnStart.Text = "スタート！";
             writeLog("リセット," + comboBox1.Text);
-            // コンボボックスのリストに値を追加する
+            // (7)コンボボックスのリストに値を追加する
             // ...空白文字のみの場合、追加しない
             bool isWhiteSpaceOnly = !Regex.IsMatch(comboBox1.Text, "[^ 　]");
             int idx = comboBox1.Items.IndexOf(comboBox1.Text);
             if (!isWhiteSpaceOnly && idx == -1) { comboBox1.Items.Insert(0, comboBox1.Text); }
-            // 作業内容のテキストボックスの読み取り専用を解除する
+            // (8)作業内容のテキストボックスの読み取り専用を解除する
             this.comboBox1.Enabled = true;
-            // リセットしたことを知らせる
+            // (9)リセットしたことを知らせる
             //MessageBox.Show("リセットしました！");
         }
 
@@ -195,6 +220,7 @@ namespace Timer
             //buttonReset_Click(sender, e);
         }
 
+        //Todo: UnitTest候補
         private void readWorkHistory()
         {
             string line = "";
@@ -231,6 +257,7 @@ namespace Timer
 
         }
         
+        // ToDo: outStrigのフォーマットを記載
         private void saveWorkHistory(string outString)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
@@ -242,6 +269,7 @@ namespace Timer
             sw.Close();
         }
         
+        // ToDo: outStrigのフォーマットを記載
         private void writeLog(string outString)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
@@ -258,6 +286,7 @@ namespace Timer
             return true;
         }
 
+        // [ログ表示]ボタンをクリック
         private void buttonShowLog_Click(object sender, EventArgs e)
         {
             //Form2クラスのインスタンスを作成する
@@ -282,6 +311,7 @@ namespace Timer
             }
         }
 
+        // [AddNode]ボタンをクリック
         private void button1_Click(object sender, EventArgs e)
         {
             treeView1.Nodes.Add("company");
@@ -296,9 +326,11 @@ namespace Timer
             treeView1.Nodes[0].Nodes.Add("company1");
         }
 
+        // [RemoveNode]ボタンをクリック
         private void button2_Click(object sender, EventArgs e)
         {
-            treeView1.SelectedNode.Remove();
+            if (treeView1.SelectedNode != null)
+                treeView1.SelectedNode.Remove();
             //treeView1.Nodes.Clear();
         }
 
@@ -393,7 +425,6 @@ namespace Timer
             panel1.Controls.Add(c);
         }
 
-/*
         private void ShowChartPie()
         {
             chart1.Series.Clear();  //グラフ初期化
@@ -426,7 +457,6 @@ namespace Timer
             area.AxisY.IsLabelAutoFit = true;
             chart1.ChartAreas.Add(area);
         }
-*/
 
     }
 }
