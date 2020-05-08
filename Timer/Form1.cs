@@ -18,12 +18,16 @@ namespace Timer
     {
         int currEndTime; // 現在のタスク終了までの予定時間（[時間設定]TextBoxから取得した値）
         int prevEndTime = 1500; // 前回のタスク終了までの予定時間のデフォルト値
-	//ToDo: prevEndTimeに設定されているマジックナンバー(1500)を定数にする
+        //ToDo: prevEndTimeに設定されているマジックナンバー(1500)を定数にする
         int nowTime; // 経過時間（残り時間を計算するために使用）
         //internal bool isTimeCounting; // 時間のカウント中かの判定
         bool isTimeCounting; // 時間のカウント中かの判定
         string strDesktopDirectory;
+#if DEBUG
+        public string strHistoryFilePath, strLogFilePath;
+#else
         string strHistoryFilePath, strLogFilePath;
+#endif
         Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
         //ArrayList al = new ArrayList();
         List<string> stringList = new List<string>();
@@ -285,8 +289,13 @@ namespace Timer
             sw.Close();
         }
         
-        // ToDo: outStrigのフォーマットを記載
+        // Output Log
+        // Log format: datetime,(スタート|ストップ|リセット),task[:starttime-endtime]
+#if DEBUG
+        public void writeLog(string outString)
+#else
         private void writeLog(string outString)
+#endif
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
             StreamWriter writer = new StreamWriter(@strLogFilePath, true, sjisEnc);
@@ -388,10 +397,10 @@ namespace Timer
                 ShowChartStackedColumn();
                 isPieChart = false;
             }
-			else {
+            else {
                ShowChartPie();
                 isPieChart = true;
-			}
+            }
         }
 
         private void ShowChartStackedColumn()
@@ -427,7 +436,7 @@ namespace Timer
             }
         }
 
-		//https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
+        //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
         private void ShowChartPie()
         {
             chart1.Series.Clear();  //グラフ初期化
@@ -480,7 +489,7 @@ namespace Timer
             //c.BackColor = Color.Black;
 
             c.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			// 相対位置
+            // 相対位置
             c.Location = new System.Drawing.Point(24, 32);
             c.Size = new System.Drawing.Size(120, 30);
 
