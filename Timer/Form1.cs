@@ -23,11 +23,7 @@ namespace Timer
         //internal bool isTimeCounting; // 時間のカウント中かの判定
         bool isTimeCounting; // 時間のカウント中かの判定
         string strDesktopDirectory;
-#if DEBUG
-        public string strHistoryFilePath, strLogFilePath;
-#else
         string strHistoryFilePath, strLogFilePath;
-#endif
         Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
         //ArrayList al = new ArrayList();
         List<string> stringList = new List<string>();
@@ -291,11 +287,7 @@ namespace Timer
         
         // Output Log
         // Log format: datetime,(スタート|ストップ|リセット),task[:starttime-endtime]
-#if DEBUG
-        public void writeLog(string outString)
-#else
         private void writeLog(string outString)
-#endif
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
             StreamWriter writer = new StreamWriter(@strLogFilePath, true, sjisEnc);
