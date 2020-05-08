@@ -27,6 +27,7 @@ namespace Timer
         Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
         //ArrayList al = new ArrayList();
         List<string> stringList = new List<string>();
+        bool isPieChart; // true=PieChart、false=StackedColumn
 
         public FormTimer()
         {
@@ -39,6 +40,9 @@ namespace Timer
             strDesktopDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             strHistoryFilePath = ".\\timer_history.txt"; 
             strLogFilePath = strDesktopDirectory + "\\timer.log";
+
+            // 変数の初期化（変数：時間のカウント中かの判定）
+            isPieChart = true;
 
             // 履歴ファイルから値を読み取る
             readWorkHistory();
@@ -73,9 +77,15 @@ namespace Timer
             }
 
             //ShowChartPie();
-            ShowChartStackedColumn();
+            //ShowChartStackedColumn();
 
             //Hide developping controls
+            btnAddNode.Visible = false;
+            btnRemoveNode.Visible = false;
+            label8.Visible = false;
+            label9.Visible = false;
+            label10.Visible = false;
+            label11.Visible = false;
             panel1.Visible = false;
             btnShowGraph.Visible = false;
             btnAddPanel.Visible = false;
@@ -86,6 +96,12 @@ namespace Timer
         public FormTimer(string[] args):this()
         {
             if (args.Length >= 1 && args[0] == "-showdev") {
+                btnAddNode.Visible = true;
+                btnRemoveNode.Visible = true;
+                label8.Visible = true;
+                label9.Visible = true;
+                label10.Visible = true;
+                label11.Visible = true;
                 panel1.Visible = true;
                 btnShowGraph.Visible = true;
                 btnAddPanel.Visible = true;
@@ -365,10 +381,17 @@ namespace Timer
             RecursiveAddTree(tnc, ary, aryIdx);
         }
 
+        // [ShowGraph]ボタンをクリック
         private void buttonShowGraph_Click(object sender, EventArgs e)
         {
-            //ShowChartPie();
-            ShowChartStackedColumn();
+            if (isPieChart) {
+                ShowChartStackedColumn();
+                isPieChart = false;
+            }
+			else {
+               ShowChartPie();
+                isPieChart = true;
+			}
         }
 
         private void ShowChartStackedColumn()
@@ -404,6 +427,45 @@ namespace Timer
             }
         }
 
+		//https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
+        private void ShowChartPie()
+        {
+            chart1.Series.Clear();  //グラフ初期化
+            //chart1.Width = 200;
+            //chart1.Height = 130;
+
+            Series series = new Series();
+            series.ChartType = SeriesChartType.Pie;
+            series["PieStartAngle"] = "270";
+
+            DataPoint point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 10 }; // 円グラフに占める割合
+            point.Color = System.Drawing.Color.Red;
+            point.BackSecondaryColor = System.Drawing.Color.DarkRed;
+            point.BackGradientStyle = GradientStyle.DiagonalLeft;
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 20 }; // 円グラフに占める割合
+            point.Color = System.Drawing.Color.Khaki;
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 30 }; // 円グラフに占める割合
+            point.Color = System.Drawing.Color.Blue;
+            series.Points.Add(point);
+
+            chart1.Series.Add(series);
+
+            //ChartArea area = new ChartArea();
+            //area.AxisX.IsLabelAutoFit = true;
+            //area.AxisY.IsLabelAutoFit = true;
+            //chart1.ChartAreas.Add(area);
+        }
+
         private void buttonAddPanel_Click(object sender, EventArgs e)
         {
             foreach(Panel p in panel1.Controls)
@@ -423,39 +485,6 @@ namespace Timer
             c.Size = new System.Drawing.Size(120, 30);
 
             panel1.Controls.Add(c);
-        }
-
-        private void ShowChartPie()
-        {
-            chart1.Series.Clear();  //グラフ初期化
-            chart1.Width = 200;
-            chart1.Height = 130;
-
-            Series series = new Series();
-            series.ChartType = SeriesChartType.Pie;
-            series["PieStartAngle"] = "270";
-
-            DataPoint point = new DataPoint();
-            point.XValue = 0;
-            point.YValues = new double[] { 65 };
-            point.Color = System.Drawing.Color.Red;
-            point.BackSecondaryColor = System.Drawing.Color.DarkRed;
-            point.BackGradientStyle = GradientStyle.DiagonalLeft;
-            series.Points.Add(point);
-
-            point = new DataPoint();
-            point.XValue = 0;
-            point.YValues = new double[] { 35 };
-            point.Color = System.Drawing.Color.Khaki;
-
-            series.Points.Add(point);
-
-            chart1.Series.Add(series);
-
-            ChartArea area = new ChartArea();
-            area.AxisX.IsLabelAutoFit = true;
-            area.AxisY.IsLabelAutoFit = true;
-            chart1.ChartAreas.Add(area);
         }
 
     }
