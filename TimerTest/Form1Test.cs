@@ -40,6 +40,58 @@ namespace TimerTest
         }
 
         [TestMethod]
+        public void Test_getStartAndEndTime()
+        {
+            int ret;
+            string startTime = "00:00", endTime = "00:00";
+
+            FormTimer formTimer = new FormTimer();
+            ret = formTimer.GetStartAndEndTime("Task:03:00-05:00", ref startTime, ref endTime);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(startTime.Equals("03:00"));
+            Assert.IsTrue(endTime.Equals("05:00"));
+            ret = formTimer.GetStartAndEndTime("Task:0:00-05:00", ref startTime, ref endTime);
+            Assert.IsTrue(ret == -1);
+            ret = formTimer.GetStartAndEndTime("Task:00:00-12:00", ref startTime, ref endTime);
+            Assert.IsTrue(ret == -1);
+            ret = formTimer.GetStartAndEndTime("Task:03:00-05:00a", ref startTime, ref endTime);
+            Assert.IsTrue(ret == -1);
+            ret = formTimer.GetStartAndEndTime("Task:05:00-03:00", ref startTime, ref endTime);
+            Assert.IsTrue(ret == -1);
+        }
+
+        [TestMethod]
+        public void Test_drawChartDoughnut()
+        {
+            int ret;
+
+            FormTimer formTimer = new FormTimer();
+            ret = formTimer.DrawChartDoughnut("00:00", "10:00");
+            Assert.IsTrue(ret == 0);
+
+            ret = formTimer.DrawChartDoughnut("03:00", "12:00");
+            Assert.IsTrue(ret == -1);
+
+            ret = formTimer.DrawChartDoughnut("12:00", "03:00");
+            Assert.IsTrue(ret == -1);
+
+            ret = formTimer.DrawChartDoughnut("0:00", "03:00");
+            Assert.IsTrue(ret == -1);
+
+            ret = formTimer.DrawChartDoughnut("00:0", "03:00");
+            Assert.IsTrue(ret == -1);
+
+            ret = formTimer.DrawChartDoughnut("aa:00", "03:00");
+            Assert.IsTrue(ret == -1);
+
+            ret = formTimer.DrawChartDoughnut("00:00", "00:00");
+            Assert.IsTrue(ret == 0);
+
+            ret = formTimer.DrawChartDoughnut("02:00", "01:00");
+            Assert.IsTrue(ret == -1);
+        }
+
+        [TestMethod]
         public void Test_approximateMm()
         {
             int ret;
@@ -52,6 +104,9 @@ namespace TimerTest
             Assert.IsTrue(ret == -1);
 
             ret = formTimer.ApproximateMm("0", ref intMm);
+            Assert.IsTrue(ret == -1);
+
+            ret = formTimer.ApproximateMm("60", ref intMm);
             Assert.IsTrue(ret == -1);
 
             ret = formTimer.ApproximateMm("00", ref intMm);
@@ -84,11 +139,11 @@ namespace TimerTest
 
             ret = formTimer.ApproximateMm("53", ref intMm);
             Assert.IsTrue(ret == 0);
-            Assert.IsTrue(intMm == 0);
+            Assert.IsTrue(intMm == 60);
 
             ret = formTimer.ApproximateMm("59", ref intMm);
             Assert.IsTrue(ret == 0);
-            Assert.IsTrue(intMm == 0);
+            Assert.IsTrue(intMm == 60);
         }
     }
 }

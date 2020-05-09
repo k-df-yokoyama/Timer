@@ -76,9 +76,6 @@ namespace Timer
                 }
             }
 
-            //ShowChartPie();
-            //ShowChartStackedColumn();
-
             //Hide developping controls
             btnAddNode.Visible = false;
             btnRemoveNode.Visible = false;
@@ -166,8 +163,12 @@ namespace Timer
             textLastStopTime1.Text = textLastStopTime2.Text;
             textLastStopTime2.Text = DateTime.Now.ToString();
 
-            // ドーナッツグラフを再描画する
-            DrawChartDoughnut();
+            // 作業内容のテキストから開始時間と終了時間を取得する
+            string startTime = "00:00", endTime = "00:00";
+            if (GetStartAndEndTime(comboBox1.Text, ref startTime, ref endTime) == 0) {
+                // ドーナッツグラフを再描画する
+                DrawChartDoughnut(startTime, endTime);
+            }
         }
 
         // [時間設定]の時間が経過したらダイアログ[時間になりました]を表示する。
@@ -231,6 +232,13 @@ namespace Timer
             this.comboBox1.Enabled = true;
             // (9)リセットしたことを知らせる
             //MessageBox.Show("リセットしました！");
+
+            // 作業内容のテキストから開始時間と終了時間を取得する
+            string startTime = "00:00", endTime = "00:00";
+            if (GetStartAndEndTime(comboBox1.Text, ref startTime, ref endTime) == 0) {
+                // ドーナッツグラフを再描画する
+                DrawChartDoughnut(startTime, endTime);
+            }
         }
 
         private void textSetTime_TextChanged(object sender, EventArgs e)
@@ -398,12 +406,21 @@ namespace Timer
             }
         }
 
-
-        //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
-        //<開始時間(hh:mm)>と<終了時間(hh:mm)>を渡してドーナッツグラフを描画する
-        private void DrawChartDoughnut(string startTime, string endTime)
+        // 作業内容のテキストボックスの入力値から<開始時間(hh:mm)>と<終了時間(hh:mm)>を取得する
+        internal int GetStartAndEndTime(string taskAndTime, ref string startTime, ref string endTime)
         {
-            //ToDo:入力値のフォーマットチェック
+            //入力値のフォーマットチェック
+            if (!Regex.IsMatch(taskAndTime, @":(0[0-9]|1[0-1]):[0-5][0-9]-(0[0-9]|1[0-1]):[0-5][0-9]$")) {
+                return -1;
+            }
+
+            Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-1]):[0-5][0-9]-(0[0-9]|1[0-1]):[0-5][0-9]$");
+
+            Match startTimeObj = Regex.Match(matchedObj.Value, @"^(0[0-9]|1[0-1]):[0-5][0-9]");
+            Match endTimeObj = Regex.Match(matchedObj.Value, @"(0[0-9]|1[0-1]):[0-5][0-9]$");
+
+            startTime = startTimeObj.Value;
+            endTime = endTimeObj.Value;
 
             //入力値を時間と分に分割
             var startHh = startTime.Substring(0, 2);
@@ -411,26 +428,84 @@ namespace Timer
             var endHh = endTime.Substring(0, 2);
             var endMm = endTime.Substring(3, 2);
 
+            //入力値のチェック
+            if (int.Parse(startHh) > int.Parse(endHh)) {
+                return -1;
+            }
+
+            return 0;
+        }
+
+        //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
+        //<開始時間(hh:mm)>と<終了時間(hh:mm)>を渡してドーナッツグラフを描画する
+        internal int DrawChartDoughnut(string startTime, string endTime)
+        {
+            //入力値のフォーマットチェック
+            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-1]):[0-5][0-9]")) {
+                return -1;
+            }
+            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-1]):[0-5][0-9]")) {
+                return -1;
+            }
+
+            //入力値を時間と分に分割
+            var startHh = startTime.Substring(0, 2);
+            var startMm = startTime.Substring(3, 2);
+            var endHh = endTime.Substring(0, 2);
+            var endMm = endTime.Substring(3, 2);
+
+            //入力値のチェック
+            if (int.Parse(startHh) > int.Parse(endHh)) {
+                return -1;
+            }
+
             //開始時間と終了時間を15分刻みの時間に変換する
             int intStartMm = 0;
-            ApproximateMm(startMm, ref intStartMm);
+            int intEndMm = 0;
+            if (ApproximateMm(startMm, ref intStartMm) < 0) {
+                return -1;
+            }
+            if (ApproximateMm(endMm, ref intEndMm) < 0) {
+                return -1;
+            }
 
-            //データの終了時間からAM/PMを判断する
+            //グラフ描画
+            chart1.Palette = ChartColorPalette.BrightPastel;
+            chart1.ApplyPaletteColors();
+            chart1.Series.Clear();  //グラフ初期化
 
-            //AMかPMかの判断結果が最後のデータから判断したAM/PMと異なっていたらループを抜ける
+            Series series = new Series();
+            series.ChartType = SeriesChartType.Doughnut;
+            series["DoughnutRadius"] = "60";
+            series["PieStartAngle"] = "270";
 
-            //データを描画対象として処理する
-            //...開始時間が0:00/12:00の場合、0から描画を始める
-            //...開始時間が0:00以外の場合、...する
+            DataPoint point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { (int.Parse(startHh) * 60 + intStartMm) }; // 円グラフに占める割合
+            point.BackSecondaryColor = System.Drawing.Color.DarkRed;
+            point.BackGradientStyle = GradientStyle.DiagonalLeft;
+            series.Points.Add(point);
 
-            //開始時間と終了時間のAM/PMが異なっていたらループを抜ける
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { (int.Parse(endHh) * 60 + intEndMm) - (int.Parse(startHh) * 60 + intStartMm) }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 60 * 12 - (int.Parse(endHh) * 60 + intEndMm) }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            chart1.Series.Add(series);
+
+            return 0;
         }
 
         //開始時間と終了時間を15分刻みの時間に変換する
         internal int ApproximateMm(string strMm, ref int intMm)
         {
-            //ToDo:入力値のフォーマットチェック
-            if (!Regex.IsMatch(strMm, @"[0-9]{2}")) {
+            //入力値のフォーマットチェック
+            if (!Regex.IsMatch(strMm, @"[0-5][0-9]")) {
                 return -1;
             }
 
@@ -447,7 +522,7 @@ namespace Timer
                 intMm = 45;
             }
             else if (int.Parse(strMm) >= 45 + 8 && int.Parse(strMm) < 60) {
-                intMm = 0;
+                intMm = 60;
             }
 
             return 0;
