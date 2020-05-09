@@ -400,8 +400,59 @@ namespace Timer
 
 
         //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
-        //時間の配列を渡してドーナッツグラフを描画する
-        //時間の配列:=<開始時間(hh:mm)>-<終了時間(hh:mm)>
+        //<開始時間(hh:mm)>と<終了時間(hh:mm)>を渡してドーナッツグラフを描画する
+        private void DrawChartDoughnut(string startTime, string endTime)
+        {
+            //ToDo:入力値のフォーマットチェック
+
+            //入力値を時間と分に分割
+            var startHh = startTime.Substring(0, 2);
+            var startMm = startTime.Substring(3, 2);
+            var endHh = endTime.Substring(0, 2);
+            var endMm = endTime.Substring(3, 2);
+
+            //開始時間と終了時間を15分刻みの時間に変換する
+            int intStartMm = 0;
+            ApproximateMm(startMm, ref intStartMm);
+
+            //データの終了時間からAM/PMを判断する
+
+            //AMかPMかの判断結果が最後のデータから判断したAM/PMと異なっていたらループを抜ける
+
+            //データを描画対象として処理する
+            //...開始時間が0:00/12:00の場合、0から描画を始める
+            //...開始時間が0:00以外の場合、...する
+
+            //開始時間と終了時間のAM/PMが異なっていたらループを抜ける
+        }
+
+        //開始時間と終了時間を15分刻みの時間に変換する
+        internal int ApproximateMm(string strMm, ref int intMm)
+        {
+            //ToDo:入力値のフォーマットチェック
+            if (!Regex.IsMatch(strMm, @"[0-9]{2}")) {
+                return -1;
+            }
+
+            if (int.Parse(strMm) >= 0 && int.Parse(strMm) < 8) {
+                intMm = 0;
+            }
+            else if (int.Parse(strMm) >= 8 && int.Parse(strMm) < 15 + 8) {
+                intMm = 15;
+            }
+            else if (int.Parse(strMm) >= 15 + 8 && int.Parse(strMm) < 30 + 8) {
+                intMm = 30;
+            }
+            else if (int.Parse(strMm) >= 30 + 8 && int.Parse(strMm) < 45 + 8) {
+                intMm = 45;
+            }
+            else if (int.Parse(strMm) >= 45 + 8 && int.Parse(strMm) < 60) {
+                intMm = 0;
+            }
+
+            return 0;
+        }
+
         private void DrawChartDoughnut()
         {
 #if !NOTDEF
