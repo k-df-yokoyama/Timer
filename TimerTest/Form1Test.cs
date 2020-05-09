@@ -30,7 +30,7 @@ namespace TimerTest
         {
             FormTimer formTimer = new FormTimer();
             var pbFormTimer = new PrivateObject(formTimer);
-            string outString = "Task:00:00-00:15";
+            string outString = "Start,Task:00:00-00:15";
             pbFormTimer.Invoke("writeLog", outString);
             //ログファイルを開いて書き込まれていることを確認
             var strLogFilePath = (string)pbFormTimer.GetField("strLogFilePath");
