@@ -165,6 +165,9 @@ namespace Timer
             // 前回停止時間のTextBoxの内容を現在の時間の内容に設定
             textLastStopTime1.Text = textLastStopTime2.Text;
             textLastStopTime2.Text = DateTime.Now.ToString();
+
+            // ドーナッツグラフを再描画する
+            DrawChartDoughnut();
         }
 
         // [時間設定]の時間が経過したらダイアログ[時間になりました]を表示する。
@@ -390,9 +393,82 @@ namespace Timer
                 isPieChart = false;
             }
             else {
-               ShowChartPie();
+                ShowChartPie();
                 isPieChart = true;
             }
+        }
+
+
+        //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
+        //時間の配列を渡してドーナッツグラフを描画する
+        //時間の配列:=<開始時間(hh:mm)>-<終了時間(hh:mm)>
+        private void DrawChartDoughnut()
+        {
+#if !NOTDEF
+/*
+            //ToDo
+            //How to read a text file reversely with iterator in C#
+            //https://stackoverflow.com/questions/452902/how-to-read-a-text-file-reversely-with-iterator-in-c-sharp
+            //
+            //テキストファイルの最終行を読む
+            //https://www.it-swarm.dev/ja/c%23/%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E6%9C%80%E7%B5%82%E8%A1%8C%E3%82%92%E8%AA%AD%E3%82%80/1068377715/
+            //
+            //Logの最終行を取得する
+            string last = File.ReadLines(@strLogFilePath).Last();
+            //Logのフォーマットを確認する
+            string loggedString = last.Substring(last.IndexOf(",") + 1);
+            //...Logのフォーマットが以下の場合、ドーナッツグラフの再描画を行う
+            //...<日時>,(スタート|ストップ|リセット),<タスク文字列>:<開始時間(hh:mm)>-<終了時間(hh:mm)>
+*/
+            //最後のデータの終了時間からAM/PMを判断し、その結果を格納する
+            bool isAM = true;
+
+            //データを後ろから1行読む
+                //データがなかったらループを抜ける
+
+                //開始時間と終了時間を15分刻みの時間に変換する
+
+                //データの終了時間からAM/PMを判断する
+
+                //AMかPMかの判断結果が最後のデータから判断したAM/PMと異なっていたらループを抜ける
+
+                //データを描画対象として処理する
+                //...開始時間が0:00/12:00の場合、0から描画を始める
+                //...開始時間が0:00以外の場合、...する
+
+                //開始時間と終了時間のAM/PMが異なっていたらループを抜ける
+
+#else
+            chart1.Series.Clear();  //グラフ初期化
+            //chart1.Width = 200;
+            //chart1.Height = 130;
+
+            Series series = new Series();
+            series.ChartType = SeriesChartType.Doughnut;
+            series["PieStartAngle"] = "0";
+
+            DataPoint point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 10 }; // 円グラフに占める割合
+            point.Color = System.Drawing.Color.Red;
+            point.BackSecondaryColor = System.Drawing.Color.DarkRed;
+            point.BackGradientStyle = GradientStyle.DiagonalLeft;
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 20 }; // 円グラフに占める割合
+            point.Color = System.Drawing.Color.Khaki;
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 30 }; // 円グラフに占める割合
+            point.Color = System.Drawing.Color.Blue;
+            series.Points.Add(point);
+
+            chart1.Series.Add(series);
+#endif
         }
 
         private void ShowChartStackedColumn()
