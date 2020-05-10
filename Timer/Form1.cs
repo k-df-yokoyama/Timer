@@ -482,8 +482,8 @@ namespace Timer
             DataPoint point = new DataPoint();
             point.XValue = 0;
             point.YValues = new double[] { (int.Parse(startHh) * 60 + intStartMm) }; // 円グラフに占める割合
-            point.BackSecondaryColor = System.Drawing.Color.DarkRed;
-            point.BackGradientStyle = GradientStyle.DiagonalLeft;
+            //point.BackSecondaryColor = System.Drawing.Color.DarkRed;
+            //point.BackGradientStyle = GradientStyle.DiagonalLeft;
             series.Points.Add(point);
 
             point = new DataPoint();
