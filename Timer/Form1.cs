@@ -496,6 +496,38 @@ namespace Timer
             point.YValues = new double[] { 60 * 12 - (int.Parse(endHh) * 60 + intEndMm) }; // 円グラフに占める割合
             series.Points.Add(point);
 
+#if NOTDEFINED
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+#endif
+
             chart1.Series.Add(series);
 
             return 0;
