@@ -410,22 +410,23 @@ namespace Timer
         internal int GetStartAndEndTime(string taskAndTime, ref string startTime, ref string endTime)
         {
             //入力値のフォーマットチェック
-            if (!Regex.IsMatch(taskAndTime, @":(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @":(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-24:00$") &&
-                !Regex.IsMatch(taskAndTime, @":24:00-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @":24:00-24:00$")) {
+            if (!Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-24[:：]00$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-24[:：]00$")) {
                 return -1;
             }
 
-            Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]$");
+            Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
 
-            Match startTimeObj = Regex.Match(matchedObj.Value, @"^(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]");
-            Match endTimeObj = Regex.Match(matchedObj.Value, @"(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]$");
+            Match startTimeObj = Regex.Match(matchedObj.Value, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]");
+            Match endTimeObj = Regex.Match(matchedObj.Value, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
 
             startTime = startTimeObj.Value;
             endTime = endTimeObj.Value;
 
             //入力値を時間と分に分割
+            int found = 0;
             var startHh = startTime.Substring(0, 2);
             var startMm = startTime.Substring(3, 2);
             var endHh = endTime.Substring(0, 2);
@@ -439,10 +440,10 @@ namespace Timer
         internal int DrawChartDoughnut(string startTime, string endTime)
         {
             //入力値のフォーマットチェック
-            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]")) {
+            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
                 return -1;
             }
-            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]")) {
+            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
                 return -1;
             }
 
