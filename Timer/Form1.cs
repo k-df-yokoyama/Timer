@@ -410,14 +410,17 @@ namespace Timer
         internal int GetStartAndEndTime(string taskAndTime, ref string startTime, ref string endTime)
         {
             //入力値のフォーマットチェック
-            if (!Regex.IsMatch(taskAndTime, @":(0[0-9]|1[0-1]):[0-5][0-9]-(0[0-9]|1[0-1]):[0-5][0-9]$")) {
+            if (!Regex.IsMatch(taskAndTime, @":(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @":(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-24:00$") &&
+                !Regex.IsMatch(taskAndTime, @":24:00-(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @":24:00-24:00$")) {
                 return -1;
             }
 
-            Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-1]):[0-5][0-9]-(0[0-9]|1[0-1]):[0-5][0-9]$");
+            Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]-(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]$");
 
-            Match startTimeObj = Regex.Match(matchedObj.Value, @"^(0[0-9]|1[0-1]):[0-5][0-9]");
-            Match endTimeObj = Regex.Match(matchedObj.Value, @"(0[0-9]|1[0-1]):[0-5][0-9]$");
+            Match startTimeObj = Regex.Match(matchedObj.Value, @"^(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]");
+            Match endTimeObj = Regex.Match(matchedObj.Value, @"(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]$");
 
             startTime = startTimeObj.Value;
             endTime = endTimeObj.Value;
@@ -428,11 +431,6 @@ namespace Timer
             var endHh = endTime.Substring(0, 2);
             var endMm = endTime.Substring(3, 2);
 
-            //入力値のチェック
-            if (int.Parse(startHh) > int.Parse(endHh)) {
-                return -1;
-            }
-
             return 0;
         }
 
@@ -441,10 +439,10 @@ namespace Timer
         internal int DrawChartDoughnut(string startTime, string endTime)
         {
             //入力値のフォーマットチェック
-            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-1]):[0-5][0-9]")) {
+            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]")) {
                 return -1;
             }
-            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-1]):[0-5][0-9]")) {
+            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-9]|2[0-4]):[0-5][0-9]")) {
                 return -1;
             }
 
@@ -454,11 +452,6 @@ namespace Timer
             var endHh = endTime.Substring(0, 2);
             var endMm = endTime.Substring(3, 2);
 
-            //入力値のチェック
-            if (int.Parse(startHh) > int.Parse(endHh)) {
-                return -1;
-            }
-
             //開始時間と終了時間を15分刻みの時間に変換する
             int intStartMm = 0;
             int intEndMm = 0;
@@ -467,6 +460,34 @@ namespace Timer
             }
             if (ApproximateMm(endMm, ref intEndMm) < 0) {
                 return -1;
+            }
+
+            //入力値に応じた処理
+            //...開始時間の方が終了時間より大きい
+            if (int.Parse(startHh) > int.Parse(endHh)) {
+                if (int.Parse(endHh) < 12) {
+                    startHh = "00";
+                    startMm = "00";
+                }
+                else {
+                    startHh = "12";
+                    startMm = "00";
+                }
+            }
+            //...開始時間と終了時間が12時をまたぐ
+            if (int.Parse(startHh) < 12 && 12 <= int.Parse(endHh))
+            {
+                    startHh = "12";
+                    startMm = "00";
+            }
+
+            int intStartHh = int.Parse(startHh);
+            int intEndHh = int.Parse(endHh);
+            if (intStartHh >= 12) {
+                intStartHh -= 12;
+            }
+            if (intEndHh >= 12 && !(intEndHh ==12 && intEndMm == 0)) {
+                intEndHh -= 12;
             }
 
             //グラフ描画
@@ -481,19 +502,19 @@ namespace Timer
 
             DataPoint point = new DataPoint();
             point.XValue = 0;
-            point.YValues = new double[] { (int.Parse(startHh) * 60 + intStartMm) }; // 円グラフに占める割合
+            point.YValues = new double[] { (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
             //point.BackSecondaryColor = System.Drawing.Color.DarkRed;
             //point.BackGradientStyle = GradientStyle.DiagonalLeft;
             series.Points.Add(point);
 
             point = new DataPoint();
             point.XValue = 0;
-            point.YValues = new double[] { (int.Parse(endHh) * 60 + intEndMm) - (int.Parse(startHh) * 60 + intStartMm) }; // 円グラフに占める割合
+            point.YValues = new double[] { (intEndHh * 60 + intEndMm) - (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
             series.Points.Add(point);
 
             point = new DataPoint();
             point.XValue = 0;
-            point.YValues = new double[] { 60 * 12 - (int.Parse(endHh) * 60 + intEndMm) }; // 円グラフに占める割合
+            point.YValues = new double[] { 60 * 12 - (intEndHh * 60 + intEndMm) }; // 円グラフに占める割合
             series.Points.Add(point);
 
 #if NOTDEFINED
