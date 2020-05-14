@@ -83,6 +83,10 @@ namespace Timer
             label9.Visible = false;
             label10.Visible = false;
             label11.Visible = false;
+            label12.Visible = false;
+            label13.Visible = false;
+            textLastStopTime1.Visible = false;
+            textLastStopTime2.Visible = false;
             panel1.Visible = false;
             btnShowGraph.Visible = false;
             btnAddPanel.Visible = false;
@@ -99,6 +103,10 @@ namespace Timer
                 label9.Visible = true;
                 label10.Visible = true;
                 label11.Visible = true;
+                label12.Visible = true;
+                label13.Visible = true;
+                textLastStopTime1.Visible = true;
+                textLastStopTime2.Visible = true;
                 panel1.Visible = true;
                 btnShowGraph.Visible = true;
                 btnAddPanel.Visible = true;
