@@ -295,7 +295,12 @@ namespace Timer
 
         }
         
-        // ToDo: inStringのフォーマットを記載
+        // inString、outStringのフォーマットは以下。
+        // IN:  "Start,Task:00:00-"
+        // IN:  "Start,Task:00:00-00:15"
+        // IN:  "Start,Task:00:00-00:15-"
+        // IN:  "Start,Task:00:00-00:15-00:30"
+        // OUT: "Start,Task"
         internal void RemoveTimeString(string inString, ref string outString)
         {
             Regex re = new Regex("[:：][0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]$", RegexOptions.Singleline);
@@ -315,7 +320,11 @@ namespace Timer
             if (!outString.Equals(inString)) return;
         }
 
-        // ToDo: inStrigのフォーマットを記載
+        // inStringのフォーマットは以下。
+        // "Start,Task:00:00-"
+        // "Start,Task:00:00-00:15"
+        // "Start,Task:00:00-00:15-"
+        // "Start,Task:00:00-00:15-00:30"
         private void SaveWorkHistory(string inString)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
