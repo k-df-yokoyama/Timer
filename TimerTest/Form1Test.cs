@@ -31,12 +31,41 @@ namespace TimerTest
             FormTimer formTimer = new FormTimer();
             var pbFormTimer = new PrivateObject(formTimer);
             string outString = "Start,Task:00:00-00:15";
-            pbFormTimer.Invoke("writeLog", outString);
+            pbFormTimer.Invoke("WriteLog", outString);
             //ログファイルを開いて書き込まれていることを確認
             var strLogFilePath = (string)pbFormTimer.GetField("strLogFilePath");
             string last = File.ReadLines(@strLogFilePath).Last();
             string loggedString = last.Substring(last.IndexOf(",") + 1);
             Assert.IsTrue(outString.Equals(loggedString));
+        }
+
+        [TestMethod]
+        public void Test_removeTimeString()
+        {
+            FormTimer formTimer = new FormTimer();
+            string inString = "Start,Task:00:00-00:15-00:30";
+            string outString = "";
+            formTimer.RemoveTimeString(inString, ref outString);
+
+            Assert.IsTrue(outString.Equals("Start,Task"));
+
+            inString = "Start,Task:00:00-00:15-";
+            outString = "";
+            formTimer.RemoveTimeString(inString, ref outString);
+
+            Assert.IsTrue(outString.Equals("Start,Task"));
+
+            inString = "Start,Task:00:00-00:15";
+            outString = "";
+            formTimer.RemoveTimeString(inString, ref outString);
+
+            Assert.IsTrue(outString.Equals("Start,Task"));
+
+            inString = "Start,Task:00:00-";
+            outString = "";
+            formTimer.RemoveTimeString(inString, ref outString);
+
+            Assert.IsTrue(outString.Equals("Start,Task"));
         }
 
         [TestMethod]

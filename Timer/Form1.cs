@@ -137,8 +137,8 @@ namespace Timer
                 }
                 // 作業内容の履歴の保存
                 // ToDo: UnitTest候補
-                //saveWorkHistory(textBox1.Text);
-                saveWorkHistory(comboBox1.Text);
+                //SaveWorkHistory(textBox1.Text);
+                SaveWorkHistory(comboBox1.Text);
                 // タスク終了までの予定時間の格納
                 prevEndTime = currEndTime;
                 // タイマースタート
@@ -146,7 +146,7 @@ namespace Timer
                 isTimeCounting = true;
                 // スタート／ストップボタンの表示をストップにする
                 btnStart.Text = "ストップ";
-                writeLog("スタート," + comboBox1.Text);
+                WriteLog("スタート," + comboBox1.Text);
                 // 作業内容のテキストボックスを読み取り専用にする
                 this.comboBox1.Enabled = false;
             }
@@ -158,7 +158,7 @@ namespace Timer
                 isTimeCounting = false;
                 // スタート／ストップボタンの表示をスタート！にする
                 btnStart.Text = "スタート！";
-                writeLog("ストップ," + comboBox1.Text);
+                WriteLog("ストップ," + comboBox1.Text);
                 // コンボボックスのリストに値を追加する
                 // ...空白文字のみの場合、追加しない
                 bool isWhiteSpaceOnly = !Regex.IsMatch(comboBox1.Text, "[^ 　]");
@@ -230,15 +230,18 @@ namespace Timer
             textLastStopTime2.Text = DateTime.Now.ToString();
             // (6)スタート／ストップボタンの表示をスタート！にする
             btnStart.Text = "スタート！";
-            writeLog("リセット," + comboBox1.Text);
-            // (7)コンボボックスのリストに値を追加する
+            WriteLog("リセット," + comboBox1.Text);
+            // (7)作業内容の履歴の保存
+            // ToDo: UnitTest候補
+            SaveWorkHistory(comboBox1.Text);
+            // (8)コンボボックスのリストに値を追加する
             // ...空白文字のみの場合、追加しない
             bool isWhiteSpaceOnly = !Regex.IsMatch(comboBox1.Text, "[^ 　]");
             int idx = comboBox1.Items.IndexOf(comboBox1.Text);
             if (!isWhiteSpaceOnly && idx == -1) { comboBox1.Items.Insert(0, comboBox1.Text); }
-            // (8)作業内容のテキストボックスの読み取り専用を解除する
+            // (9)作業内容のテキストボックスの読み取り専用を解除する
             this.comboBox1.Enabled = true;
-            // (9)リセットしたことを知らせる
+            // (10)リセットしたことを知らせる
             //MessageBox.Show("リセットしました！");
 
             // 作業内容のテキストから開始時間と終了時間を取得する
@@ -292,12 +295,36 @@ namespace Timer
 
         }
         
-        // ToDo: outStrigのフォーマットを記載
-        private void saveWorkHistory(string outString)
+        // ToDo: inStringのフォーマットを記載
+        internal void RemoveTimeString(string inString, ref string outString)
+        {
+            Regex re = new Regex("[:：][0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]$", RegexOptions.Singleline);
+            outString = re.Replace(inString, "");
+            if (!outString.Equals(inString)) return;
+
+            re = new Regex("[:：][0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]-$", RegexOptions.Singleline);
+            outString = re.Replace(inString, "");
+            if (!outString.Equals(inString)) return;
+
+            re = new Regex("[:：][0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]$", RegexOptions.Singleline);
+            outString = re.Replace(inString, "");
+            if (!outString.Equals(inString)) return;
+
+            re = new Regex("[:：][0-9][0-9][:：][0-9][0-9]-$", RegexOptions.Singleline);
+            outString = re.Replace(inString, "");
+            if (!outString.Equals(inString)) return;
+        }
+
+        // ToDo: inStrigのフォーマットを記載
+        private void SaveWorkHistory(string inString)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
             StreamWriter sw = new StreamWriter(@strHistoryFilePath, true, sjisEnc);
+            //ToDo:書き込もうとしている値とファイル中の値が重複していないか確認
             //（2）テキスト内容を書き込む
+            //ToDo:時間の部分は削除する
+            string outString = "";
+            RemoveTimeString(inString, ref outString);
             //sw.WriteLine(DateTime.Now + "," + outString);
             sw.WriteLine(outString);
             //（3）テキスト・ファイルを閉じる
@@ -306,7 +333,7 @@ namespace Timer
         
         // Output Log
         // Log format: datetime,(スタート|ストップ|リセット),task[:starttime-endtime]
-        private void writeLog(string outString)
+        private void WriteLog(string outString)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
             StreamWriter writer = new StreamWriter(@strLogFilePath, true, sjisEnc);
