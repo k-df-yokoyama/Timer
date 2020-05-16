@@ -461,7 +461,7 @@ namespace Timer
             endTime = endTimeObj.Value;
 
             //入力値を時間と分に分割
-            int found = 0;
+            //int found = 0;
             var startHh = startTime.Substring(0, 2);
             var startMm = startTime.Substring(3, 2);
             var endHh = endTime.Substring(0, 2);
@@ -636,7 +636,7 @@ namespace Timer
             //...<日時>,(スタート|ストップ|リセット),<タスク文字列>:<開始時間(hh:mm)>-<終了時間(hh:mm)>
 */
             //最後のデータの終了時間からAM/PMを判断し、その結果を格納する
-            bool isAM = true;
+            //bool isAM = true;
 
             //データを後ろから1行読む
                 //データがなかったらループを抜ける
