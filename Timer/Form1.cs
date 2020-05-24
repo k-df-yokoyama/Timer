@@ -295,6 +295,7 @@ namespace Timer
 
         }
         
+        // inString から時間部分を削除した文字列を作成する。
         // inString、outStringのフォーマットは以下。
         // IN:  "Start,Task:00:00-"
         // IN:  "Start,Task:00:00-00:15"
@@ -451,17 +452,47 @@ namespace Timer
         }
 
         // 作業内容のテキストボックスの入力値から<開始時間(hh:mm)>と<終了時間(hh:mm)>を取得する
+        // 処理できる時間部分のフォーマットと取得結果は以下。
+        // "Start,Task:00:00-"
+        //   return -1
+        // "Start,Task:00:00-00:15"
+        //   開始時間：00:00
+        //   終了時間：00:15
+        // "Start,Task:00:00-00:15-"
+        //   return -1
+        // "Start,Task:00:00-00:15-00:30"
+        //   開始時間：00:00
+        //   終了時間：00:30
         internal int GetStartAndEndTime(string taskAndTime, ref string startTime, ref string endTime)
         {
+            bool isFormatOK = true;
+
             //入力値のフォーマットチェック
             if (!Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
                 !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-24[:：]00$") &&
                 !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
                 !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-24[:：]00$")) {
+                isFormatOK = false;
+            }
+            else {
+                isFormatOK = true;
+            }
+            if (!isFormatOK &&
+                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-24[:：]00$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-24[:：]00$"))
+            {
+                isFormatOK = false;
+            }
+            else {
+                isFormatOK = true;
+            }
+            if (!isFormatOK) {
                 return -1;
             }
 
-            Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
+            Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
 
             Match startTimeObj = Regex.Match(matchedObj.Value, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]");
             Match endTimeObj = Regex.Match(matchedObj.Value, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");

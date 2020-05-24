@@ -115,6 +115,20 @@ namespace TimerTest
 
             ret = formTimer.GetStartAndEndTime("Task:03:00-05:00a", ref startTime, ref endTime);
             Assert.IsTrue(ret == -1);
+
+            ret = formTimer.GetStartAndEndTime("Task:03:00", ref startTime, ref endTime);
+            Assert.IsTrue(ret == -1);
+
+            ret = formTimer.GetStartAndEndTime("Task:03:00-", ref startTime, ref endTime);
+            Assert.IsTrue(ret == -1);
+
+            ret = formTimer.GetStartAndEndTime("Task:01:00-02:00-", ref startTime, ref endTime);
+            Assert.IsTrue(ret == -1);
+
+            ret = formTimer.GetStartAndEndTime("Task:01:00-02:00-03:00", ref startTime, ref endTime);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(startTime.Equals("01:00"));
+            Assert.IsTrue(endTime.Equals("03:00"));
         }
 
         [TestMethod]
