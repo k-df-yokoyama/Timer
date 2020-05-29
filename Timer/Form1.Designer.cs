@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -66,6 +66,7 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAddPanel = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -172,7 +173,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(382, 357);
+            this.comboBox1.Location = new System.Drawing.Point(382, 266);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(542, 26);
@@ -184,7 +185,7 @@
             this.treeView1.Location = new System.Drawing.Point(382, 22);
             this.treeView1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(542, 318);
+            this.treeView1.Size = new System.Drawing.Size(542, 236);
             this.treeView1.TabIndex = 10;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -231,7 +232,7 @@
             // 
             // btnShowLog
             // 
-            this.btnShowLog.Location = new System.Drawing.Point(937, 352);
+            this.btnShowLog.Location = new System.Drawing.Point(934, 266);
             this.btnShowLog.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnShowLog.Name = "btnShowLog";
             this.btnShowLog.Size = new System.Drawing.Size(143, 34);
@@ -265,7 +266,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(937, 134);
+            this.label8.Location = new System.Drawing.Point(934, 120);
             this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(105, 18);
@@ -275,7 +276,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(937, 170);
+            this.label9.Location = new System.Drawing.Point(934, 156);
             this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(161, 18);
@@ -285,7 +286,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(937, 206);
+            this.label10.Location = new System.Drawing.Point(934, 192);
             this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(111, 18);
@@ -295,7 +296,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(937, 240);
+            this.label11.Location = new System.Drawing.Point(934, 226);
             this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(163, 18);
@@ -344,7 +345,7 @@
             // 
             // btnShowGraph
             // 
-            this.btnShowGraph.Location = new System.Drawing.Point(937, 396);
+            this.btnShowGraph.Location = new System.Drawing.Point(934, 310);
             this.btnShowGraph.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnShowGraph.Name = "btnShowGraph";
             this.btnShowGraph.Size = new System.Drawing.Size(143, 34);
@@ -355,22 +356,22 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(23, 261);
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart1.Legends.Add(legend4);
+            this.chart1.Location = new System.Drawing.Point(23, 266);
             this.chart1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            series1.Points.Add(dataPoint1);
-            series1.Points.Add(dataPoint2);
-            series1.Points.Add(dataPoint3);
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(335, 222);
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            series4.Points.Add(dataPoint10);
+            series4.Points.Add(dataPoint11);
+            series4.Points.Add(dataPoint12);
+            this.chart1.Series.Add(series4);
+            this.chart1.Size = new System.Drawing.Size(335, 392);
             this.chart1.TabIndex = 22;
             this.chart1.Text = "chart1";
             // 
@@ -379,15 +380,15 @@
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(1142, 22);
+            this.panel1.Location = new System.Drawing.Point(1129, 22);
             this.panel1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(402, 460);
+            this.panel1.Size = new System.Drawing.Size(345, 636);
             this.panel1.TabIndex = 26;
             // 
             // btnAddPanel
             // 
-            this.btnAddPanel.Location = new System.Drawing.Point(937, 440);
+            this.btnAddPanel.Location = new System.Drawing.Point(934, 354);
             this.btnAddPanel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnAddPanel.Name = "btnAddPanel";
             this.btnAddPanel.Size = new System.Drawing.Size(143, 34);
@@ -396,11 +397,20 @@
             this.btnAddPanel.UseVisualStyleBackColor = true;
             this.btnAddPanel.Click += new System.EventHandler(this.buttonAddPanel_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(382, 299);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(542, 359);
+            this.textBox1.TabIndex = 28;
+            // 
             // FormTimer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1565, 501);
+            this.ClientSize = new System.Drawing.Size(1492, 675);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnAddPanel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.textLastStopTime2);
@@ -473,6 +483,7 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAddPanel;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
