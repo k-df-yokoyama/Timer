@@ -544,10 +544,12 @@ namespace Timer
                 if (int.Parse(endHh) < 12) {
                     startHh = "00";
                     startMm = "00";
+                    intStartMm = 0;
                 }
                 else {
                     startHh = "12";
                     startMm = "00";
+                    intStartMm = 0;
                 }
             }
             //...開始時間と終了時間が12時をまたぐ
@@ -555,10 +557,16 @@ namespace Timer
             {
                     startHh = "12";
                     startMm = "00";
+                    intStartMm = 0;
             }
 
             int intStartHh = int.Parse(startHh);
             int intEndHh = int.Parse(endHh);
+            if ((intStartHh == 12 && intStartMm == 0) && (intEndHh == 12 && intEndMm == 0))
+            {
+                intStartHh -= 12;
+                intEndHh -= 12;
+            }
             if (intStartHh >= 12) {
                 intStartHh -= 12;
             }
