@@ -4,7 +4,7 @@ using Timer;
 using System.IO;
 using System.Linq;
 
-namespace TimerTest
+namespace Timer.Tests
 {
     //MSTestでprivateメソッドをテストする
     //https://www.gesource.jp/weblog/?p=7742
@@ -215,6 +215,38 @@ namespace TimerTest
             ret = formTimer.ApproximateMm("59", ref intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 60);
+        }
+
+        [TestMethod()]
+        public void Test_readActivityLog()
+        {
+            FormTimer formTimer = new FormTimer();
+            var pbFormTimer = new PrivateObject(formTimer);
+            formTimer.readActivityLog();
+            //ログファイルを開いて読み込まれていることを確認
+            var strActivityLogFilePath = (string)pbFormTimer.GetField("strActivityLogFilePath");
+            string textFromTextBox = formTimer.myTextBox1.Text;
+            //byte[] bytesUTF8 = System.Text.Encoding.Default.GetBytes(textFromTextBox);
+            //string textFromTextBoxSJIS = System.Text.Encoding.UTF8.GetString(bytesUTF8);
+            string textFromLogFile = File.ReadAllText(@strActivityLogFilePath, (System.Text.Encoding)pbFormTimer.GetField("sjisEnc"));
+            Assert.IsTrue(textFromTextBox.Equals(textFromLogFile));
+        }
+
+        [TestMethod()]
+        public void Test_btnSaveActivityLog_Click()
+        {
+            FormTimer formTimer = new FormTimer();
+            var pbFormTimer = new PrivateObject(formTimer);
+            formTimer.btnSaveActivityLog_Click(null, null);
+            //string outString = "Start,Task:00:00-00:15";
+            //pbFormTimer.Invoke("WriteLog", outString);
+            //ログファイルを開いて書き込まれていることを確認
+            var strActivityLogFilePath = (string)pbFormTimer.GetField("strActivityLogFilePath");
+            string textFromTextBox = formTimer.myTextBox1.Text;
+            //byte[] bytesUTF8 = System.Text.Encoding.Default.GetBytes(textFromTextBox);
+            //string textFromTextBoxSJIS = System.Text.Encoding.UTF8.GetString(bytesUTF8);
+            string textFromLogFile = File.ReadAllText(@strActivityLogFilePath, (System.Text.Encoding)pbFormTimer.GetField("sjisEnc"));
+            Assert.IsTrue(textFromTextBox.Equals(textFromLogFile));
         }
     }
 }

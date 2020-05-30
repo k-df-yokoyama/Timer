@@ -23,11 +23,13 @@ namespace Timer
         //internal bool isTimeCounting; // 時間のカウント中かの判定
         bool isTimeCounting; // 時間のカウント中かの判定
         string strDesktopDirectory;
-        string strHistoryFilePath, strLogFilePath;
-        Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
+        string strHistoryFilePath, strLogFilePath, strActivityLogFilePath;
+        internal Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
         //ArrayList al = new ArrayList();
         List<string> stringList = new List<string>();
         bool isPieChart; // true=PieChart、false=StackedColumn
+        //
+        internal System.Windows.Forms.TextBox myTextBox1;
 
         public FormTimer()
         {
@@ -40,9 +42,12 @@ namespace Timer
             strDesktopDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             strHistoryFilePath = ".\\timer_history.txt"; 
             strLogFilePath = strDesktopDirectory + "\\timer.log";
+            strActivityLogFilePath = ".\\timer_activity.log";
 
             // 変数の初期化（変数：時間のカウント中かの判定）
             isPieChart = true;
+
+            myTextBox1 = textBox1;
 
             // 履歴ファイルから値を読み取る
             readWorkHistory();
@@ -75,6 +80,9 @@ namespace Timer
                     // 先頭が既存の先頭と違う場合→小としてAddし、２番目以降も追加する。
                 }
             }
+
+            // テキストボックスに値を設定する
+            readActivityLog();
 
             //Hide developping controls
             btnAddNode.Visible = false;
@@ -604,6 +612,8 @@ namespace Timer
             point.LegendText = "Task 3";
             point.XValue = 0;
             point.YValues = new double[] { 60 * 12 - (intEndHh * 60 + intEndMm) }; // 円グラフに占める割合
+            point.Color = System.Drawing.Color.Silver;
+            //point.Color = "BFBFBF"
             series.Points.Add(point);
 
 #if NOTDEF
@@ -824,6 +834,29 @@ namespace Timer
             //area.AxisX.IsLabelAutoFit = true;
             //area.AxisY.IsLabelAutoFit = true;
             //chart1.ChartAreas.Add(area);
+        }
+
+        internal void readActivityLog()
+        {
+            if (!File.Exists(@strActivityLogFilePath))
+            {
+                StreamWriter sw = new StreamWriter(@strActivityLogFilePath, true, sjisEnc);
+                sw.Close();
+            }
+
+            string textFromLogFile = File.ReadAllText(@strActivityLogFilePath, sjisEnc);
+            textBox1.Text = textFromLogFile;
+        }
+
+        internal void btnSaveActivityLog_Click(object sender, EventArgs e)
+        {
+            //（1）テキスト・ファイルを開く、もしくは作成する
+            StreamWriter sw = new StreamWriter(@strActivityLogFilePath, false, sjisEnc);
+            //（2）テキスト内容を書き込む
+            //string outString = myTextBox1.Text;
+            sw.Write(textBox1.Text);
+            //（3）テキスト・ファイルを閉じる
+            sw.Close();
         }
 
         private void buttonAddPanel_Click(object sender, EventArgs e)
