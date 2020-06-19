@@ -222,7 +222,7 @@ namespace Timer.Tests
         {
             FormTimer formTimer = new FormTimer();
             var pbFormTimer = new PrivateObject(formTimer);
-            formTimer.readActivityLog();
+            formTimer.ReadActivityLog();
             //ログファイルを開いて読み込まれていることを確認
             var strActivityLogFilePath = (string)pbFormTimer.GetField("strActivityLogFilePath");
             string textFromTextBox = formTimer.myTextBox1.Text;

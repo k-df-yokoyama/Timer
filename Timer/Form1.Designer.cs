@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -69,7 +69,9 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.btnSaveActivityLog = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -178,7 +180,7 @@
             this.comboBox1.Location = new System.Drawing.Point(382, 266);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(542, 26);
+            this.comboBox1.Size = new System.Drawing.Size(729, 26);
             this.comboBox1.Sorted = true;
             this.comboBox1.TabIndex = 9;
             // 
@@ -187,7 +189,7 @@
             this.treeView1.Location = new System.Drawing.Point(382, 22);
             this.treeView1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(542, 236);
+            this.treeView1.Size = new System.Drawing.Size(729, 236);
             this.treeView1.TabIndex = 10;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -234,7 +236,7 @@
             // 
             // btnShowLog
             // 
-            this.btnShowLog.Location = new System.Drawing.Point(934, 266);
+            this.btnShowLog.Location = new System.Drawing.Point(1121, 266);
             this.btnShowLog.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnShowLog.Name = "btnShowLog";
             this.btnShowLog.Size = new System.Drawing.Size(143, 34);
@@ -245,7 +247,7 @@
             // 
             // btnAddNode
             // 
-            this.btnAddNode.Location = new System.Drawing.Point(937, 80);
+            this.btnAddNode.Location = new System.Drawing.Point(1124, 80);
             this.btnAddNode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnAddNode.Name = "btnAddNode";
             this.btnAddNode.Size = new System.Drawing.Size(143, 34);
@@ -256,7 +258,7 @@
             // 
             // btnRemoveNode
             // 
-            this.btnRemoveNode.Location = new System.Drawing.Point(937, 126);
+            this.btnRemoveNode.Location = new System.Drawing.Point(1124, 126);
             this.btnRemoveNode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnRemoveNode.Name = "btnRemoveNode";
             this.btnRemoveNode.Size = new System.Drawing.Size(143, 34);
@@ -268,7 +270,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(934, 409);
+            this.label8.Location = new System.Drawing.Point(1121, 409);
             this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(105, 18);
@@ -278,7 +280,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(934, 445);
+            this.label9.Location = new System.Drawing.Point(1121, 445);
             this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(161, 18);
@@ -288,7 +290,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(934, 481);
+            this.label10.Location = new System.Drawing.Point(1121, 481);
             this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(111, 18);
@@ -298,7 +300,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(934, 515);
+            this.label11.Location = new System.Drawing.Point(1121, 515);
             this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(163, 18);
@@ -347,7 +349,7 @@
             // 
             // btnShowGraph
             // 
-            this.btnShowGraph.Location = new System.Drawing.Point(937, 168);
+            this.btnShowGraph.Location = new System.Drawing.Point(1124, 168);
             this.btnShowGraph.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnShowGraph.Name = "btnShowGraph";
             this.btnShowGraph.Size = new System.Drawing.Size(143, 34);
@@ -358,21 +360,21 @@
             // 
             // chart1
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(23, 266);
             this.chart1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            series2.Points.Add(dataPoint4);
-            series2.Points.Add(dataPoint5);
-            series2.Points.Add(dataPoint6);
-            this.chart1.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.Points.Add(dataPoint1);
+            series1.Points.Add(dataPoint2);
+            series1.Points.Add(dataPoint3);
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(335, 392);
             this.chart1.TabIndex = 22;
             this.chart1.Text = "chart1";
@@ -382,7 +384,7 @@
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(1129, 22);
+            this.panel1.Location = new System.Drawing.Point(1316, 22);
             this.panel1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(345, 636);
@@ -390,7 +392,7 @@
             // 
             // btnAddPanel
             // 
-            this.btnAddPanel.Location = new System.Drawing.Point(937, 214);
+            this.btnAddPanel.Location = new System.Drawing.Point(1124, 214);
             this.btnAddPanel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnAddPanel.Name = "btnAddPanel";
             this.btnAddPanel.Size = new System.Drawing.Size(143, 34);
@@ -404,12 +406,12 @@
             this.textBox1.Location = new System.Drawing.Point(382, 299);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(542, 359);
+            this.textBox1.Size = new System.Drawing.Size(729, 359);
             this.textBox1.TabIndex = 28;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(937, 22);
+            this.button1.Location = new System.Drawing.Point(1124, 975);
             this.button1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(143, 34);
@@ -419,7 +421,7 @@
             // 
             // btnSaveActivityLog
             // 
-            this.btnSaveActivityLog.Location = new System.Drawing.Point(937, 624);
+            this.btnSaveActivityLog.Location = new System.Drawing.Point(1124, 624);
             this.btnSaveActivityLog.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnSaveActivityLog.Name = "btnSaveActivityLog";
             this.btnSaveActivityLog.Size = new System.Drawing.Size(143, 34);
@@ -428,11 +430,22 @@
             this.btnSaveActivityLog.UseVisualStyleBackColor = true;
             this.btnSaveActivityLog.Click += new System.EventHandler(this.btnSaveActivityLog_Click);
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(23, 678);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 27;
+            this.dataGridView1.Size = new System.Drawing.Size(1088, 332);
+            this.dataGridView1.TabIndex = 30;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
             // FormTimer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1492, 675);
+            this.ClientSize = new System.Drawing.Size(1674, 1022);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnAddPanel);
@@ -469,7 +482,9 @@
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "FormTimer";
             this.Text = "タイマー";
+            this.Load += new System.EventHandler(this.FormTimer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -511,6 +526,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnSaveActivityLog;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

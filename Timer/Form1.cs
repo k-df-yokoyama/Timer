@@ -50,7 +50,7 @@ namespace Timer
             myTextBox1 = textBox1;
 
             // 履歴ファイルから値を読み取る
-            readWorkHistory();
+            ReadWorkHistory();
 
             // コンボボックスに値を設定する
 //            for (int i = 0; i < stringList.Count; i++) {
@@ -82,7 +82,7 @@ namespace Timer
             }
 
             // テキストボックスに値を設定する
-            readActivityLog();
+            ReadActivityLog();
 
             //Hide developping controls
             btnAddNode.Visible = false;
@@ -147,6 +147,8 @@ namespace Timer
                 // ToDo: UnitTest候補
                 //SaveWorkHistory(textBox1.Text);
                 SaveWorkHistory(comboBox1.Text);
+                // 作業内容の履歴の保存
+                AddActivityLog(comboBox1.Text);
                 // タスク終了までの予定時間の格納
                 prevEndTime = currEndTime;
                 // タイマースタート
@@ -242,6 +244,8 @@ namespace Timer
             // (7)作業内容の履歴の保存
             // ToDo: UnitTest候補
             SaveWorkHistory(comboBox1.Text);
+            // (7)-2作業内容の履歴の保存
+            AddActivityLog(comboBox1.Text);
             // (8)コンボボックスのリストに値を追加する
             // ...空白文字のみの場合、追加しない
             bool isWhiteSpaceOnly = !Regex.IsMatch(comboBox1.Text, "[^ 　]");
@@ -267,7 +271,7 @@ namespace Timer
         }
 
         //Todo: UnitTest候補
-        private void readWorkHistory()
+        private void ReadWorkHistory()
         {
             string line = "";
 
@@ -836,7 +840,47 @@ namespace Timer
             //chart1.ChartAreas.Add(area);
         }
 
-        internal void readActivityLog()
+        private void AddActivityLog(string taskAndTime)
+        {
+            //タスクと時間に分割する
+            bool isFormatOK = true;
+
+            //入力値のフォーマットチェック
+            if (!Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-24[:：]00$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-24[:：]00$")) {
+                isFormatOK = false;
+            }
+            else {
+                isFormatOK = true;
+            }
+            if (!isFormatOK &&
+                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-24[:：]00$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
+                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-24[:：]00$"))
+            {
+                isFormatOK = false;
+            }
+            else {
+                isFormatOK = true;
+            }
+            if (!isFormatOK) {
+                textBox1.Text = textBox1.Text + "\r\n" + taskAndTime;
+            }
+            else {
+                Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
+                string taskString = "";
+                RemoveTimeString(taskAndTime, ref taskString);
+
+                textBox1.Text = textBox1.Text + "\r\n" + matchedObj.Value + "  " + taskString;
+            }
+
+            btnSaveActivityLog_Click(null, null);
+        }
+
+        internal void ReadActivityLog()
         {
             if (!File.Exists(@strActivityLogFilePath))
             {
@@ -846,6 +890,29 @@ namespace Timer
 
             string textFromLogFile = File.ReadAllText(@strActivityLogFilePath, sjisEnc);
             textBox1.Text = textFromLogFile;
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void FormTimer_Load(object sender, EventArgs e)
+        {
+            // カラム数を指定
+            dataGridView1.ColumnCount = 5;
+
+            // カラム名を指定
+            dataGridView1.Columns[0].HeaderText = "From";
+            dataGridView1.Columns[1].HeaderText = "To";
+            dataGridView1.Columns[2].HeaderText = "Story/Task";
+            dataGridView1.Columns[3].HeaderText = "Output";
+            dataGridView1.Columns[4].HeaderText = "スキルアップ";
+
+            // データを追加
+            dataGridView1.Rows.Add("08:30", "9:00", "朝会", "ToDo.txt更新", "");
+            dataGridView1.Rows.Add("9:00", "10:00", "引継ぎ資料作成", "引継ぎ資料", "○");
+            dataGridView1.Rows.Add("10:00", "12:00", "引継ぎ会議", "議事メモ", "○");
         }
 
         internal void btnSaveActivityLog_Click(object sender, EventArgs e)
