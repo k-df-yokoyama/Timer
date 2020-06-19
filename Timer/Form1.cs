@@ -903,17 +903,98 @@ namespace Timer
             dataGridView1.ColumnCount = 5;
 
             // カラム名を指定
+
+#if NOTDEF
             dataGridView1.Columns[0].HeaderText = "From";
             dataGridView1.Columns[1].HeaderText = "To";
             dataGridView1.Columns[2].HeaderText = "Story/Task";
             dataGridView1.Columns[3].HeaderText = "Output";
             dataGridView1.Columns[4].HeaderText = "スキルアップ";
 
+            dataGridView1.Columns[0].Width = 50;
+            dataGridView1.Columns[1].Width = 50;
+            dataGridView1.Columns[2].Width = 100;
+            dataGridView1.Columns[3].Width = 80;
+            dataGridView1.Columns[4].Width = 100;
+#else
+            DataGridViewColumn colA = CreateDataGridViewTextBoxColumn("From", "From", 50, typeof(string));
+            DataGridViewColumn colB = CreateDataGridViewTextBoxColumn("To", "To", 50, typeof(string));
+            DataGridViewColumn colC = CreateDataGridViewTextBoxColumn("Task", "Task/Story", 100, typeof(string));
+            DataGridViewColumn colD = CreateDataGridViewTextBoxColumn("Output", "Output", 80, typeof(string));
+            DataGridViewColumn colM = CreateDataGridViewTextBoxColumn("HowToImprove", "How to improve", 120, typeof(string));
+            DataGridViewColumn colE = CreateDataGridViewCheckBoxColumn("SkillUp", "スキルアップ", 80);
+            DataGridViewColumn colF = CreateDataGridViewCheckBoxColumn("Contribution", "貢献", 50);
+            DataGridViewColumn colG = CreateDataGridViewCheckBoxColumn("Important", "重要", 50);
+            DataGridViewColumn colH = CreateDataGridViewCheckBoxColumn("Break", "休憩", 50);
+            DataGridViewColumn colI = CreateDataGridViewCheckBoxColumn("SkillUp", "緊急", 50);
+            DataGridViewColumn colJ = CreateDataGridViewCheckBoxColumn("Emergency", "重要", 50);
+            DataGridViewColumn colK = CreateDataGridViewCheckBoxColumn("Proactive", "自発的", 50);
+            DataGridViewColumn colL = CreateDataGridViewCheckBoxColumn("Tax", "税", 50);
+            //DataGridViewColumn colL = CreateDataGridViewCheckBoxColumn("Group", "グループ", 60);
+            //DataGridViewColumn colL = CreateDataGridViewCheckBoxColumn("Time", "時間", 50);
+            //DataGridViewColumn colL = CreateDataGridViewCheckBoxColumn("Relative", "関係者", 50);
+
+            dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
+            dataGridView1.Columns.Add(colA);
+            dataGridView1.Columns.Add(colB);
+            dataGridView1.Columns.Add(colC);
+            dataGridView1.Columns.Add(colD);
+            dataGridView1.Columns.Add(colM);
+            dataGridView1.Columns.Add(colE);
+            dataGridView1.Columns.Add(colF);
+            dataGridView1.Columns.Add(colG);
+            dataGridView1.Columns.Add(colH);
+            dataGridView1.Columns.Add(colI);
+            dataGridView1.Columns.Add(colJ);
+            dataGridView1.Columns.Add(colK);
+            dataGridView1.Columns.Add(colL);
+#endif
+
             // データを追加
-            dataGridView1.Rows.Add("08:30", "9:00", "朝会", "ToDo.txt更新", "");
-            dataGridView1.Rows.Add("9:00", "10:00", "引継ぎ資料作成", "引継ぎ資料", "○");
-            dataGridView1.Rows.Add("10:00", "12:00", "引継ぎ会議", "議事メモ", "○");
+            dataGridView1.Rows.Add("08:30", "09:00", "朝会", "ToDo.txt更新", "", false, false, false, false, false, false, false, false);
+            dataGridView1.Rows.Add("09:00", "10:00", "引継ぎ資料作成", "引継ぎ資料", "", true, false, false, false, false, false, false, false);
+            dataGridView1.Rows.Add("10:00", "12:00", "引継ぎ会議", "議事メモ", "", false, false, false, false, false, false, false, false);
         }
+
+private DataGridViewColumn CreateDataGridViewTextBoxColumn(string name, string header, int width, Type type)
+{
+    DataGridViewTextBoxColumn col = new DataGridViewTextBoxColumn();
+    col.Name = name;
+    col.DataPropertyName = name;
+    col.HeaderText = header;
+    col.ValueType = type;
+    col.Width = width;
+    return col;
+}
+
+private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string header, int width)
+{
+    DataGridViewCheckBoxColumn col = new DataGridViewCheckBoxColumn();
+    col.Name = name;
+    col.DataPropertyName = name; // データソースの name をバインドする
+    col.HeaderText = header;
+    //checkBoxCol.SortMode = DataGridViewColumnSortMode.NotSortable;
+    //checkBoxCol.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+    //checkBoxCol.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+    //col.ValueType = type;
+    col.Width = width;
+    return col;
+}
+
+/*
+// ▼チェックボックス型式
+DataGridViewCheckBoxColumn checkBoxCol = new DataGridViewCheckBoxColumn();
+// データソースの "ColSelect" をバインドする
+checkBoxCol.DataPropertyName = "ColSelect";
+// 名前とヘッダーを設定
+checkBoxCol.Name = "ColSelect";
+checkBoxCol.HeaderText = "選択";
+checkBoxCol.SortMode = DataGridViewColumnSortMode.NotSortable;
+checkBoxCol.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+checkBoxCol.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+checkBoxCol.Width = 50;
+*/
 
         internal void btnSaveActivityLog_Click(object sender, EventArgs e)
         {
