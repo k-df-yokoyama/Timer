@@ -892,11 +892,6 @@ namespace Timer
             textBox1.Text = textFromLogFile;
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void FormTimer_Load(object sender, EventArgs e)
         {
             // カラム数を指定
@@ -982,19 +977,20 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
     return col;
 }
 
-/*
-// ▼チェックボックス型式
-DataGridViewCheckBoxColumn checkBoxCol = new DataGridViewCheckBoxColumn();
-// データソースの "ColSelect" をバインドする
-checkBoxCol.DataPropertyName = "ColSelect";
-// 名前とヘッダーを設定
-checkBoxCol.Name = "ColSelect";
-checkBoxCol.HeaderText = "選択";
-checkBoxCol.SortMode = DataGridViewColumnSortMode.NotSortable;
-checkBoxCol.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-checkBoxCol.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-checkBoxCol.Width = 50;
-*/
+
+        /*
+        // ▼チェックボックス型式
+        DataGridViewCheckBoxColumn checkBoxCol = new DataGridViewCheckBoxColumn();
+        // データソースの "ColSelect" をバインドする
+        checkBoxCol.DataPropertyName = "ColSelect";
+        // 名前とヘッダーを設定
+        checkBoxCol.Name = "ColSelect";
+        checkBoxCol.HeaderText = "選択";
+        checkBoxCol.SortMode = DataGridViewColumnSortMode.NotSortable;
+        checkBoxCol.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        checkBoxCol.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+        checkBoxCol.Width = 50;
+        */
 
         internal void btnSaveActivityLog_Click(object sender, EventArgs e)
         {
