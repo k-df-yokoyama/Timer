@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -86,7 +86,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 22);
+            this.label1.Location = new System.Drawing.Point(773, 26);
             this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 18);
@@ -96,7 +96,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(330, 22);
+            this.label2.Location = new System.Drawing.Point(1083, 26);
             this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(26, 18);
@@ -106,7 +106,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 104);
+            this.label3.Location = new System.Drawing.Point(773, 108);
             this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 18);
@@ -116,7 +116,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(330, 104);
+            this.label4.Location = new System.Drawing.Point(1083, 108);
             this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(26, 18);
@@ -125,7 +125,7 @@
             // 
             // textSetTime
             // 
-            this.textSetTime.Location = new System.Drawing.Point(153, 18);
+            this.textSetTime.Location = new System.Drawing.Point(906, 22);
             this.textSetTime.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textSetTime.Name = "textSetTime";
             this.textSetTime.Size = new System.Drawing.Size(164, 25);
@@ -136,7 +136,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(20, 56);
+            this.btnStart.Location = new System.Drawing.Point(773, 60);
             this.btnStart.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(142, 34);
@@ -147,7 +147,7 @@
             // 
             // textRemainingTime
             // 
-            this.textRemainingTime.Location = new System.Drawing.Point(153, 99);
+            this.textRemainingTime.Location = new System.Drawing.Point(906, 103);
             this.textRemainingTime.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textRemainingTime.Name = "textRemainingTime";
             this.textRemainingTime.ReadOnly = true;
@@ -163,7 +163,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(197, 56);
+            this.btnReset.Location = new System.Drawing.Point(950, 60);
             this.btnReset.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(142, 34);
@@ -174,7 +174,7 @@
             // 
             // textElaspedTimeMinutes
             // 
-            this.textElaspedTimeMinutes.Location = new System.Drawing.Point(153, 138);
+            this.textElaspedTimeMinutes.Location = new System.Drawing.Point(906, 142);
             this.textElaspedTimeMinutes.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textElaspedTimeMinutes.Name = "textElaspedTimeMinutes";
             this.textElaspedTimeMinutes.ReadOnly = true;
@@ -186,7 +186,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(23, 266);
+            this.comboBox1.Location = new System.Drawing.Point(23, 267);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(1088, 26);
@@ -195,7 +195,7 @@
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(382, 22);
+            this.treeView1.Location = new System.Drawing.Point(23, 22);
             this.treeView1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(729, 236);
@@ -205,7 +205,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 142);
+            this.label5.Location = new System.Drawing.Point(773, 146);
             this.label5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(80, 18);
@@ -215,7 +215,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(225, 142);
+            this.label6.Location = new System.Drawing.Point(978, 146);
             this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(26, 18);
@@ -224,7 +224,7 @@
             // 
             // textElaspedTimeSeconds
             // 
-            this.textElaspedTimeSeconds.Location = new System.Drawing.Point(268, 138);
+            this.textElaspedTimeSeconds.Location = new System.Drawing.Point(1021, 142);
             this.textElaspedTimeSeconds.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textElaspedTimeSeconds.Name = "textElaspedTimeSeconds";
             this.textElaspedTimeSeconds.ReadOnly = true;
@@ -236,7 +236,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(330, 142);
+            this.label7.Location = new System.Drawing.Point(1083, 146);
             this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(26, 18);
@@ -279,7 +279,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1519, 678);
+            this.label8.Location = new System.Drawing.Point(1280, 503);
             this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(105, 18);
@@ -289,7 +289,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1519, 714);
+            this.label9.Location = new System.Drawing.Point(1280, 539);
             this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(161, 18);
@@ -299,7 +299,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(1519, 750);
+            this.label10.Location = new System.Drawing.Point(1280, 575);
             this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(111, 18);
@@ -309,7 +309,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(1519, 784);
+            this.label11.Location = new System.Drawing.Point(1280, 609);
             this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(163, 18);
@@ -318,7 +318,7 @@
             // 
             // textLastStopTime1
             // 
-            this.textLastStopTime1.Location = new System.Drawing.Point(168, 180);
+            this.textLastStopTime1.Location = new System.Drawing.Point(921, 184);
             this.textLastStopTime1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textLastStopTime1.Name = "textLastStopTime1";
             this.textLastStopTime1.ReadOnly = true;
@@ -329,7 +329,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(20, 184);
+            this.label12.Location = new System.Drawing.Point(773, 188);
             this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(125, 18);
@@ -338,7 +338,7 @@
             // 
             // textLastStopTime2
             // 
-            this.textLastStopTime2.Location = new System.Drawing.Point(168, 219);
+            this.textLastStopTime2.Location = new System.Drawing.Point(921, 223);
             this.textLastStopTime2.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textLastStopTime2.Name = "textLastStopTime2";
             this.textLastStopTime2.ReadOnly = true;
@@ -349,7 +349,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(20, 224);
+            this.label13.Location = new System.Drawing.Point(773, 228);
             this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(125, 18);
@@ -369,21 +369,21 @@
             // 
             // chart1
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chart1.Legends.Add(legend4);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(1124, 22);
             this.chart1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.chart1.Name = "chart1";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            series4.Points.Add(dataPoint10);
-            series4.Points.Add(dataPoint11);
-            series4.Points.Add(dataPoint12);
-            this.chart1.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.Points.Add(dataPoint1);
+            series1.Points.Add(dataPoint2);
+            series1.Points.Add(dataPoint3);
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(363, 270);
             this.chart1.TabIndex = 22;
             this.chart1.Text = "chart1";
