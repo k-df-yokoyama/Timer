@@ -916,18 +916,18 @@ namespace Timer
             DataGridViewColumn colB = CreateDataGridViewTextBoxColumn("To", "To", 50, typeof(string));
             DataGridViewColumn colC = CreateDataGridViewTextBoxColumn("Task", "Task/Story", 100, typeof(string));
             DataGridViewColumn colD = CreateDataGridViewTextBoxColumn("Output", "Output", 80, typeof(string));
-            DataGridViewColumn colM = CreateDataGridViewTextBoxColumn("HowToImprove", "How to improve", 120, typeof(string));
-            DataGridViewColumn colE = CreateDataGridViewCheckBoxColumn("SkillUp", "スキルアップ", 80);
-            DataGridViewColumn colF = CreateDataGridViewCheckBoxColumn("Contribution", "貢献", 50);
-            DataGridViewColumn colG = CreateDataGridViewCheckBoxColumn("Important", "重要", 50);
-            DataGridViewColumn colH = CreateDataGridViewCheckBoxColumn("Break", "休憩", 50);
-            DataGridViewColumn colI = CreateDataGridViewCheckBoxColumn("SkillUp", "緊急", 50);
-            DataGridViewColumn colJ = CreateDataGridViewCheckBoxColumn("Emergency", "重要", 50);
-            DataGridViewColumn colK = CreateDataGridViewCheckBoxColumn("Proactive", "自発的", 50);
-            DataGridViewColumn colL = CreateDataGridViewCheckBoxColumn("Tax", "税", 50);
-            //DataGridViewColumn colL = CreateDataGridViewCheckBoxColumn("Group", "グループ", 60);
-            //DataGridViewColumn colL = CreateDataGridViewCheckBoxColumn("Time", "時間", 50);
-            //DataGridViewColumn colL = CreateDataGridViewCheckBoxColumn("Relative", "関係者", 50);
+            DataGridViewColumn colE = CreateDataGridViewTextBoxColumn("HowToImprove", "How to improve", 120, typeof(string));
+            DataGridViewColumn colF = CreateDataGridViewCheckBoxColumn("Stries", "機能実現", 60);
+            DataGridViewColumn colG = CreateDataGridViewCheckBoxColumn("Taxes", "税", 40);
+            DataGridViewColumn colH = CreateDataGridViewCheckBoxColumn("Spikes", "スパイク", 60);
+            DataGridViewColumn colI = CreateDataGridViewCheckBoxColumn("Technical Debt", "前提条件", 60);
+            DataGridViewColumn colJ = CreateDataGridViewCheckBoxColumn("Break", "休憩", 40);
+            DataGridViewColumn colK = CreateDataGridViewCheckBoxColumn("SkillUp", "緊急", 40);
+            DataGridViewColumn colL = CreateDataGridViewCheckBoxColumn("Contribution", "貢献", 40);
+            DataGridViewColumn colM = CreateDataGridViewCheckBoxColumn("Proactive", "自発的", 50);
+            DataGridViewColumn colN = CreateDataGridViewCheckBoxColumn("Group", "グループ", 60);
+            DataGridViewColumn colO = CreateDataGridViewCheckBoxColumn("Time", "時間", 40);
+            //DataGridViewColumn colP = CreateDataGridViewCheckBoxColumn("Relative", "関係者", 50);
 
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
@@ -935,7 +935,6 @@ namespace Timer
             dataGridView1.Columns.Add(colB);
             dataGridView1.Columns.Add(colC);
             dataGridView1.Columns.Add(colD);
-            dataGridView1.Columns.Add(colM);
             dataGridView1.Columns.Add(colE);
             dataGridView1.Columns.Add(colF);
             dataGridView1.Columns.Add(colG);
@@ -944,12 +943,15 @@ namespace Timer
             dataGridView1.Columns.Add(colJ);
             dataGridView1.Columns.Add(colK);
             dataGridView1.Columns.Add(colL);
+            dataGridView1.Columns.Add(colM);
+            dataGridView1.Columns.Add(colN);
+            dataGridView1.Columns.Add(colO);
 #endif
 
             // データを追加
-            dataGridView1.Rows.Add("08:30", "09:00", "朝会", "ToDo.txt更新", "", false, false, false, false, false, false, false, false);
-            dataGridView1.Rows.Add("09:00", "10:00", "引継ぎ資料作成", "引継ぎ資料", "", true, false, false, false, false, false, false, false);
-            dataGridView1.Rows.Add("10:00", "12:00", "引継ぎ会議", "議事メモ", "", false, false, false, false, false, false, false, false);
+            dataGridView1.Rows.Add("08:30", "09:00", "朝会", "ToDo.txt更新", "", false, false, false, false, false, false, false, false, false, false);
+            dataGridView1.Rows.Add("09:00", "10:00", "引継ぎ資料作成", "引継ぎ資料", "", true, false, false, false, false, false, false, false, false, false);
+            dataGridView1.Rows.Add("10:00", "12:00", "引継ぎ会議", "議事メモ", "", false, false, false, false, false, false, false, false, false, false);
         }
 
 private DataGridViewColumn CreateDataGridViewTextBoxColumn(string name, string header, int width, Type type)
