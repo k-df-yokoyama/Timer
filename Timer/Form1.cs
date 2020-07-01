@@ -412,7 +412,7 @@ namespace Timer
         }
 
         // [RemoveNode]ボタンをクリック
-        private void button2_Click(object sender, EventArgs e)
+        private void btnRemoveNode_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode != null)
                 treeView1.SelectedNode.Remove();
@@ -978,6 +978,11 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
     col.Width = width;
     return col;
 }
+
+        private void btnSaveReviewedActivityLog_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
         /*
