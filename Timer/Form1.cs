@@ -981,7 +981,16 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
 
         private void btnSaveReviewedActivityLog_Click(object sender, EventArgs e)
         {
-
+#if NOTDEF
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                foreach (DataGridViewColumn column in dataGridView.Columns)
+                {
+                    //処理
+                    //セルの値は dataGridView[column.Index, row.Index].Value みたいな感じで取る
+                }
+            }
+#endif
         }
 
 
