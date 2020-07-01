@@ -87,10 +87,10 @@ namespace Timer
             //Hide developping controls
             btnAddNode.Visible = false;
             btnRemoveNode.Visible = false;
-            label8.Visible = false;
-            label9.Visible = false;
-            label10.Visible = false;
-            label11.Visible = false;
+            label8.Visible = true;
+            label9.Visible = true;
+            label10.Visible = true;
+            label11.Visible = true;
             label12.Visible = false;
             label13.Visible = false;
             textLastStopTime1.Visible = false;

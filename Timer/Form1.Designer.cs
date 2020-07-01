@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint22 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint23 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint24 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -79,6 +79,8 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -256,7 +258,7 @@
             // 
             // btnAddNode
             // 
-            this.btnAddNode.Location = new System.Drawing.Point(1124, 419);
+            this.btnAddNode.Location = new System.Drawing.Point(1546, 678);
             this.btnAddNode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnAddNode.Name = "btnAddNode";
             this.btnAddNode.Size = new System.Drawing.Size(143, 34);
@@ -267,7 +269,7 @@
             // 
             // btnRemoveNode
             // 
-            this.btnRemoveNode.Location = new System.Drawing.Point(1124, 461);
+            this.btnRemoveNode.Location = new System.Drawing.Point(1546, 720);
             this.btnRemoveNode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnRemoveNode.Name = "btnRemoveNode";
             this.btnRemoveNode.Size = new System.Drawing.Size(143, 34);
@@ -279,42 +281,42 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1280, 503);
+            this.label8.Location = new System.Drawing.Point(1121, 410);
             this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(105, 18);
+            this.label8.Size = new System.Drawing.Size(100, 18);
             this.label8.TabIndex = 18;
-            this.label8.Text = "1. ToDoリスト";
+            this.label8.Text = "1.ToDoリスト";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1280, 539);
+            this.label9.Location = new System.Drawing.Point(1121, 439);
             this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(161, 18);
+            this.label9.Size = new System.Drawing.Size(156, 18);
             this.label9.TabIndex = 19;
-            this.label9.Text = "2. 手順（ワークフロー）";
+            this.label9.Text = "2.手順（ワークフロー）";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(1280, 575);
+            this.label10.Location = new System.Drawing.Point(1121, 470);
             this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(111, 18);
+            this.label10.Size = new System.Drawing.Size(106, 18);
             this.label10.TabIndex = 20;
-            this.label10.Text = "3. チェックリスト";
+            this.label10.Text = "3.チェックリスト";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(1280, 609);
+            this.label11.Location = new System.Drawing.Point(1121, 500);
             this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(163, 18);
+            this.label11.Size = new System.Drawing.Size(158, 18);
             this.label11.TabIndex = 21;
-            this.label11.Text = "4. テンプレート（雛形）";
+            this.label11.Text = "4.テンプレート（雛形）";
             // 
             // textLastStopTime1
             // 
@@ -358,7 +360,7 @@
             // 
             // btnShowGraph
             // 
-            this.btnShowGraph.Location = new System.Drawing.Point(1124, 503);
+            this.btnShowGraph.Location = new System.Drawing.Point(1699, 720);
             this.btnShowGraph.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnShowGraph.Name = "btnShowGraph";
             this.btnShowGraph.Size = new System.Drawing.Size(143, 34);
@@ -369,21 +371,21 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea8.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea8);
+            legend8.Name = "Legend1";
+            this.chart1.Legends.Add(legend8);
             this.chart1.Location = new System.Drawing.Point(1124, 22);
             this.chart1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            series1.Points.Add(dataPoint1);
-            series1.Points.Add(dataPoint2);
-            series1.Points.Add(dataPoint3);
-            this.chart1.Series.Add(series1);
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series8.Legend = "Legend1";
+            series8.Name = "Series1";
+            series8.Points.Add(dataPoint22);
+            series8.Points.Add(dataPoint23);
+            series8.Points.Add(dataPoint24);
+            this.chart1.Series.Add(series8);
             this.chart1.Size = new System.Drawing.Size(363, 270);
             this.chart1.TabIndex = 22;
             this.chart1.Text = "chart1";
@@ -401,7 +403,7 @@
             // 
             // btnAddPanel
             // 
-            this.btnAddPanel.Location = new System.Drawing.Point(1124, 545);
+            this.btnAddPanel.Location = new System.Drawing.Point(1699, 678);
             this.btnAddPanel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnAddPanel.Name = "btnAddPanel";
             this.btnAddPanel.Size = new System.Drawing.Size(143, 34);
@@ -451,7 +453,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(1130, 307);
+            this.label14.Location = new System.Drawing.Point(1121, 307);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(79, 18);
             this.label14.TabIndex = 31;
@@ -460,7 +462,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(1130, 340);
+            this.label15.Location = new System.Drawing.Point(1121, 340);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(81, 18);
             this.label15.TabIndex = 32;
@@ -469,7 +471,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(1130, 370);
+            this.label16.Location = new System.Drawing.Point(1121, 370);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(80, 18);
             this.label16.TabIndex = 33;
@@ -478,7 +480,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(1280, 304);
+            this.label17.Location = new System.Drawing.Point(1300, 304);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(113, 18);
             this.label17.TabIndex = 34;
@@ -487,7 +489,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(1280, 340);
+            this.label18.Location = new System.Drawing.Point(1300, 340);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(190, 18);
             this.label18.TabIndex = 35;
@@ -496,16 +498,16 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(1280, 370);
+            this.label19.Location = new System.Drawing.Point(1300, 370);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(204, 18);
+            this.label19.Size = new System.Drawing.Size(188, 18);
             this.label19.TabIndex = 36;
-            this.label19.Text = "もっとうまくやれる方法ないか";
+            this.label19.Text = "もっとうまくやる方法ないか";
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(1280, 401);
+            this.label20.Location = new System.Drawing.Point(1300, 410);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(122, 18);
             this.label20.TabIndex = 37;
@@ -514,7 +516,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(1280, 430);
+            this.label21.Location = new System.Drawing.Point(1300, 439);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(110, 18);
             this.label21.TabIndex = 38;
@@ -523,17 +525,39 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(1280, 461);
+            this.label22.Location = new System.Drawing.Point(1300, 470);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(142, 18);
             this.label22.TabIndex = 39;
             this.label22.Text = "無駄をなくせないか";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1318, 587);
+            this.button2.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(143, 34);
+            this.button2.TabIndex = 40;
+            this.button2.Text = "DGV保存";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(1318, 629);
+            this.button3.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(143, 34);
+            this.button3.TabIndex = 41;
+            this.button3.Text = "DGVグラフ表示";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // FormTimer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1856, 1022);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.label20);
@@ -634,6 +658,8 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }
 
