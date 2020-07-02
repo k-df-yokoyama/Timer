@@ -23,7 +23,7 @@ namespace Timer
         //internal bool isTimeCounting; // 時間のカウント中かの判定
         bool isTimeCounting; // 時間のカウント中かの判定
         string strDesktopDirectory;
-        string strHistoryFilePath, strLogFilePath, strActivityLogFilePath;
+        string strHistoryFilePath, strLogFilePath, strActivityLogFilePath, strReviewedActivityLogFilePath;
         internal Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
         //ArrayList al = new ArrayList();
         List<string> stringList = new List<string>();
@@ -43,6 +43,7 @@ namespace Timer
             strHistoryFilePath = ".\\timer_history.txt"; 
             strLogFilePath = strDesktopDirectory + "\\timer.log";
             strActivityLogFilePath = ".\\timer_activity.log";
+            strReviewedActivityLogFilePath = ".\\timer_reviewed_activity.log";
 
             // 変数の初期化（変数：時間のカウント中かの判定）
             isPieChart = true;
@@ -981,16 +982,22 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
 
         private void btnSaveReviewedActivityLog_Click(object sender, EventArgs e)
         {
-#if NOTDEF
-            foreach (DataGridViewRow row in dataGridView.Rows)
+            //（1）テキスト・ファイルを開く、もしくは作成する
+            StreamWriter sw = new StreamWriter(@strReviewedActivityLogFilePath, false, sjisEnc);
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                foreach (DataGridViewColumn column in dataGridView.Columns)
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
                 {
-                    //処理
-                    //セルの値は dataGridView[column.Index, row.Index].Value みたいな感じで取る
+                    //（2）テキスト内容を書き込む
+                    if (column.Index != 0) sw.Write(",");
+                    sw.Write(dataGridView1[column.Index, row.Index].Value);
                 }
+                sw.Write("\r\n");
             }
-#endif
+
+            //（3）テキスト・ファイルを閉じる
+            sw.Close();
         }
 
 
