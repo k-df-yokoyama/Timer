@@ -980,6 +980,18 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
     return col;
 }
 
+        private void btnShowGraphReviewedActivityLog_Click(object sender, EventArgs e)
+        {
+            DrawChartDoughnut(dataGridView1);
+        }
+
+        //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
+        //DataGridViewを渡してドーナッツグラフを描画する
+        internal int DrawChartDoughnut(DataGridView dataGridView)
+        {
+            return 0;
+        }
+
         private void btnSaveReviewedActivityLog_Click(object sender, EventArgs e)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
