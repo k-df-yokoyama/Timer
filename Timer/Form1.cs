@@ -702,7 +702,7 @@ namespace Timer
 
         private void DrawChartDoughnut()
         {
-#if !NOTDEF
+#if NOTDEF
 /*
             //ToDo
             //How to read a text file reversely with iterator in C#
@@ -747,7 +747,7 @@ namespace Timer
 
             DataPoint point = new DataPoint();
             point.XValue = 0;
-            point.YValues = new double[] { 10 }; // 円グラフに占める割合
+            point.YValues = new double[] { 30 }; // 円グラフに占める割合
             point.Color = System.Drawing.Color.Red;
             point.BackSecondaryColor = System.Drawing.Color.DarkRed;
             point.BackGradientStyle = GradientStyle.DiagonalLeft;
@@ -761,7 +761,7 @@ namespace Timer
 
             point = new DataPoint();
             point.XValue = 0;
-            point.YValues = new double[] { 30 }; // 円グラフに占める割合
+            point.YValues = new double[] { 10 }; // 円グラフに占める割合
             point.Color = System.Drawing.Color.Blue;
             series.Points.Add(point);
 
@@ -989,6 +989,88 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
         //DataGridViewを渡してドーナッツグラフを描画する
         internal int DrawChartDoughnut(DataGridView dataGridView)
         {
+#if NOTDEF
+            //グラフ描画
+            chart1.Palette = ChartColorPalette.BrightPastel;
+            chart1.ApplyPaletteColors();
+            chart1.Series.Clear();  //グラフ初期化
+
+            Series series = new Series();
+            //series.Name = "Series";
+            series.LegendText = "Task";
+            series.ChartType = SeriesChartType.Doughnut;
+            series["DoughnutRadius"] = "60";
+            series["PieStartAngle"] = "270";
+
+            DataPoint point = new DataPoint();
+            point.LegendText = "Task 1";
+            point.XValue = 0;
+            point.YValues = new double[] { (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.LegendText = "Task 2";
+            point.XValue = 0;
+            point.YValues = new double[] { (intEndHh * 60 + intEndMm) - (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.LegendText = "Task 3";
+            point.XValue = 0;
+            point.YValues = new double[] { 60 * 12 - (intEndHh * 60 + intEndMm) }; // 円グラフに占める割合
+            point.Color = System.Drawing.Color.Silver;
+            //point.Color = "BFBFBF"
+            series.Points.Add(point);
+
+#if NOTDEF
+            point = new DataPoint();
+            point.LegendText = "Task 4";
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.LegendText = "Task 5";
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.LegendText = "Task 6";
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.LegendText = "Task 7";
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.LegendText = "Task 8";
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+
+            point = new DataPoint();
+            point.LegendText = "Task 9";
+            point.XValue = 0;
+            point.YValues = new double[] { 60 }; // 円グラフに占める割合
+            series.Points.Add(point);
+#endif
+
+            chart1.Series.Add(series);
+
+#if NOTDEF
+            chart1.Legends.Add(new Legend("Legend2"));
+            chart1.Legends["Legend2"].BackColor = Color.Transparent;
+            chart1.Series["Series"].Legend = "Legend2";
+            chart1.Series["Series"].Name = "Name";
+            //chart1.Series.Legend = "Legend2";
+            series.IsVisibleInLegend = true;
+#endif
+#endif
             return 0;
         }
 
