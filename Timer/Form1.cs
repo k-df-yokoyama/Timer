@@ -1012,6 +1012,109 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
         internal int DrawChartDoughnut(DataGridView dataGridView)
         {
 #if NOTDEF
+        internal int getApproximateIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
+            out int intEndHh, out int intEndMm)
+#endif
+
+#if !NOTDEF
+            //グラフ描画
+            chart1.Palette = ChartColorPalette.BrightPastel;
+            chart1.ApplyPaletteColors();
+            chart1.Series.Clear();  //グラフ初期化
+
+            Series series = new Series();
+            //series.Name = "Series";
+            series.LegendText = "Task";
+            series.ChartType = SeriesChartType.Doughnut;
+            series["DoughnutRadius"] = "60";
+            series["PieStartAngle"] = "270";
+
+            //直前のタスクの終了時間を00:00に設定する。
+
+            //円グラフのデータを作成する。
+            int taskIdx = 0;
+            //string prevStartTime = "00:00";
+            //string prevEndTime = "00:00";
+            string crntStartTime;
+            string crntEndTime;
+            //int intPrevStartHh = -1, intPrevStartMm = -1;
+            int intPrevEndHh = 0, intPrevEndMm = 0;
+            int intCrntStartHh = -1, intCrntStartMm = -1, intCrntEndHh = -1, intCrntEndMm = -1;
+            DataPoint point;
+
+#if NOTDEF
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
+                {
+
+                    sw.Write(dataGridView1[column.Index, row.Index].Value);
+#endif
+
+            foreach (DataGridViewRow row in dataGridView1.Rows) {
+                taskIdx++;
+
+                //DGVから1行分のデータ取得
+                if (dataGridView1[0, row.Index].Value == null || dataGridView1[1, row.Index].Value == null) {
+                    break;
+                }
+                crntStartTime = dataGridView1[0, row.Index].Value.ToString();
+                crntEndTime = dataGridView1[1, row.Index].Value.ToString();
+
+                //startTime/endTime1からintStratHh,intStartMm,intEndHh,intEndMmを取得
+                intCrntStartHh = intCrntStartMm = intCrntEndHh = intCrntEndMm = -1;
+                if (getApproximateIntHhAndMm(crntStartTime, crntEndTime, out intCrntStartHh, out intCrntStartMm,
+                    out intCrntEndHh, out intCrntEndMm) < 0) {
+                    return(-1);
+                }
+
+                //直前のタスクの終了時間から時間間隔が空いている場合
+                if (intPrevEndHh != intCrntStartHh || intPrevEndMm != intCrntStartMm) {
+                    //時間を埋める
+                    point = new DataPoint();
+                    point.LegendText = "Task " + taskIdx.ToString();
+                    point.XValue = 0;
+                    //point.YValues = new double[] { (intPrevEndHh * 60 + intStartMm) }; // 円グラフに占める割合
+                    point.YValues = new double[] { (intCrntStartHh * 60 + intCrntStartMm) - (intPrevEndHh * 60 + intPrevEndMm) }; // 円グラフに占める割合
+                    series.Points.Add(point);
+
+                    taskIdx++;
+                }
+                //直前のタスクの終了時間から時間間隔が空いていない場合
+                else {
+                    //時間を埋めない
+                }
+
+                point = new DataPoint();
+                point.LegendText = "Task " + taskIdx.ToString();
+                point.XValue = 0;
+                //point.YValues = new double[] { (intCrntStartHh * 60 + intCrntStartMm) }; // 円グラフに占める割合
+                point.YValues = new double[] { (intCrntEndHh * 60 + intCrntEndMm) - (intCrntStartHh * 60 + intCrntStartMm) }; // 円グラフに占める割合
+                series.Points.Add(point);
+
+                //intPrevStartHh = intCrntStartHh;
+                //intPrevStartMm = intCrntStartMm;
+                intPrevEndHh = intCrntEndHh;
+                intPrevEndMm = intCrntEndMm;
+            }
+
+            taskIdx++;
+
+            //直前のタスクの終了時間から時間間隔が空いている場合
+            if (intPrevEndHh != 12 || intPrevEndMm != 0) {
+                point = new DataPoint();
+                point.LegendText = "Task " + taskIdx.ToString();
+                point.XValue = 0;
+                point.YValues = new double[] { 60 * 12 - (intPrevEndHh * 60 + intPrevEndMm) }; // 円グラフに占める割合
+                point.Color = System.Drawing.Color.Silver;
+                //point.Color = "BFBFBF"
+                series.Points.Add(point);
+            }
+
+            chart1.Series.Add(series);
+#endif
+
+#if NOTDEF
             //グラフ描画
             chart1.Palette = ChartColorPalette.BrightPastel;
             chart1.ApplyPaletteColors();
@@ -1044,54 +1147,7 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
             //point.Color = "BFBFBF"
             series.Points.Add(point);
 
-#if NOTDEF
-            point = new DataPoint();
-            point.LegendText = "Task 4";
-            point.XValue = 0;
-            point.YValues = new double[] { 60 }; // 円グラフに占める割合
-            series.Points.Add(point);
-
-            point = new DataPoint();
-            point.LegendText = "Task 5";
-            point.XValue = 0;
-            point.YValues = new double[] { 60 }; // 円グラフに占める割合
-            series.Points.Add(point);
-
-            point = new DataPoint();
-            point.LegendText = "Task 6";
-            point.XValue = 0;
-            point.YValues = new double[] { 60 }; // 円グラフに占める割合
-            series.Points.Add(point);
-
-            point = new DataPoint();
-            point.LegendText = "Task 7";
-            point.XValue = 0;
-            point.YValues = new double[] { 60 }; // 円グラフに占める割合
-            series.Points.Add(point);
-
-            point = new DataPoint();
-            point.LegendText = "Task 8";
-            point.XValue = 0;
-            point.YValues = new double[] { 60 }; // 円グラフに占める割合
-            series.Points.Add(point);
-
-            point = new DataPoint();
-            point.LegendText = "Task 9";
-            point.XValue = 0;
-            point.YValues = new double[] { 60 }; // 円グラフに占める割合
-            series.Points.Add(point);
-#endif
-
             chart1.Series.Add(series);
-
-#if NOTDEF
-            chart1.Legends.Add(new Legend("Legend2"));
-            chart1.Legends["Legend2"].BackColor = Color.Transparent;
-            chart1.Series["Series"].Legend = "Legend2";
-            chart1.Series["Series"].Name = "Name";
-            //chart1.Series.Legend = "Legend2";
-            series.IsVisibleInLegend = true;
-#endif
 #endif
             return 0;
         }

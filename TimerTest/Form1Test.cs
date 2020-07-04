@@ -256,8 +256,6 @@ namespace Timer.Tests
             int intStartHh, intStartMm, intEndHh, intEndMm;
 
             FormTimer formTimer = new FormTimer();
-            //ret = formTimer.getApproximateIntHhAndMm(string startTime, string endTime, int intStartHh, int intStartMm, int intEndHh, int intEndMm);
-            //ret = formTimer.getApproximateIntHhAndMm("00:00", "01:00", intStartHh, intStartMm, intEndHh, intEndMm);
             ret = formTimer.getApproximateIntHhAndMm("00:00", "01:00", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intStartHh == 0);
