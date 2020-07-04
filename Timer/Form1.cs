@@ -571,7 +571,7 @@ namespace Timer
                 }
             }
             //...開始時間と終了時間が12時をまたぐ
-            if (!(int.Parse(endHh) == 12 && int.Parse(endMm) == 0) && int.Parse(startHh) < 12 && 12 <= int.Parse(endHh))
+            if (int.Parse(startHh) < 12 && 12 <= int.Parse(endHh) && !(int.Parse(endHh) == 12 && int.Parse(endMm) == 0))
             {
                 startHh = "12";
                 startMm = "00";
