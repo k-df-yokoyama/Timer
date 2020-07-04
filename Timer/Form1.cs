@@ -525,7 +525,7 @@ namespace Timer
             return 0;
         }
 
-		//入力フォーマット：hh:mm|hh：mm、00:00から24:00まで可、9:00や10:1は不可
+        //入力フォーマット：hh:mm|hh：mm、00:00から24:00まで可、9:00や10:1は不可
         internal int GetApproximateIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
             out int intEndHh, out int intEndMm)
         {
@@ -571,6 +571,7 @@ namespace Timer
                 }
             }
             //...開始時間と終了時間が12時をまたぐ
+            //...→開始時間を12とする
             if (int.Parse(startHh) < 12 && 12 <= int.Parse(endHh) && !(int.Parse(endHh) == 12 && int.Parse(endMm) == 0))
             {
                 startHh = "12";
@@ -580,14 +581,20 @@ namespace Timer
 
             intStartHh = int.Parse(startHh);
             intEndHh = int.Parse(endHh);
+            //開始時間＝12:00、終了時間＝12:00の場合
+            //→開始・終了時間を12未満の数とする
             if ((intStartHh == 12 && intStartMm == 0) && (intEndHh == 12 && intEndMm == 0))
             {
                 intStartHh -= 12;
                 intEndHh -= 12;
             }
+            //開始時間＝12:00以降の場合
+            //→開始時間を12未満の数とする
             if (intStartHh >= 12) {
                 intStartHh -= 12;
             }
+            //終了時間＝12:00以降で終了時間が12:00ではない場合
+            //→終了時間を12未満の数とする
             if (intEndHh >= 12 && !(intEndHh ==12 && intEndMm == 0)) {
                 intEndHh -= 12;
             }
