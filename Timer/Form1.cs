@@ -525,13 +525,72 @@ namespace Timer
             return 0;
         }
 
-        internal int getIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
+        internal int getApproximateIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
             out int intEndHh, out int intEndMm)
         {
             intStartHh = -1;
-	    intStartMm = -1;
+            intStartMm = -1;
             intEndHh = -1;
-	    intEndMm = -1;
+            intEndMm = -1;
+
+            //入力値のフォーマットチェック
+            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
+                return -1;
+            }
+            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
+                return -1;
+            }
+
+            //入力値を時間と分に分割
+            var startHh = startTime.Substring(0, 2);
+            var startMm = startTime.Substring(3, 2);
+            var endHh = endTime.Substring(0, 2);
+            var endMm = endTime.Substring(3, 2);
+
+            //開始時間と終了時間を15分刻みの時間に変換する
+            if (ApproximateMm(startMm, out intStartMm) < 0) {
+                return -1;
+            }
+            if (ApproximateMm(endMm, out intEndMm) < 0) {
+                return -1;
+            }
+
+            //入力値に応じた処理
+            //...開始時間の方が終了時間より大きい
+            if (int.Parse(startHh) > int.Parse(endHh)) {
+                if (int.Parse(endHh) < 12) {
+                    startHh = "00";
+                    startMm = "00";
+                    intStartMm = 0;
+                }
+                else {
+                    startHh = "12";
+                    startMm = "00";
+                    intStartMm = 0;
+                }
+            }
+            //...開始時間と終了時間が12時をまたぐ
+            if (int.Parse(startHh) < 12 && 12 <= int.Parse(endHh))
+            {
+                    startHh = "12";
+                    startMm = "00";
+                    intStartMm = 0;
+            }
+
+            intStartHh = int.Parse(startHh);
+            intEndHh = int.Parse(endHh);
+            if ((intStartHh == 12 && intStartMm == 0) && (intEndHh == 12 && intEndMm == 0))
+            {
+                intStartHh -= 12;
+                intEndHh -= 12;
+            }
+            if (intStartHh >= 12) {
+                intStartHh -= 12;
+            }
+            if (intEndHh >= 12 && !(intEndHh ==12 && intEndMm == 0)) {
+                intEndHh -= 12;
+            }
+
             return 0;
         }
 
@@ -556,10 +615,10 @@ namespace Timer
             //開始時間と終了時間を15分刻みの時間に変換する
             int intStartMm = 0;
             int intEndMm = 0;
-            if (ApproximateMm(startMm, ref intStartMm) < 0) {
+            if (ApproximateMm(startMm, out intStartMm) < 0) {
                 return -1;
             }
-            if (ApproximateMm(endMm, ref intEndMm) < 0) {
+            if (ApproximateMm(endMm, out intEndMm) < 0) {
                 return -1;
             }
 
@@ -686,10 +745,11 @@ namespace Timer
         }
 
         //開始時間と終了時間を15分刻みの時間に変換する
-        internal int ApproximateMm(string strMm, ref int intMm)
+        internal int ApproximateMm(string strMm, out int intMm)
         {
             //入力値のフォーマットチェック
             if (!Regex.IsMatch(strMm, @"[0-5][0-9]")) {
+                intMm = -1;
                 return -1;
             }
 
@@ -707,6 +767,10 @@ namespace Timer
             }
             else if (int.Parse(strMm) >= 45 + 8 && int.Parse(strMm) < 60) {
                 intMm = 60;
+            }
+            else {
+                intMm = -1;
+                return -1;
             }
 
             return 0;

@@ -171,48 +171,48 @@ namespace Timer.Tests
             FormTimer formTimer = new FormTimer();
             //var pbFormTimer = new PrivateObject(formTimer);
             //ret = pbFormTimer.Invoke("ApproximateMm", "00", intMm);
-            ret = formTimer.ApproximateMm("aa", ref intMm);
+            ret = formTimer.ApproximateMm("aa", out intMm);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.ApproximateMm("0", ref intMm);
+            ret = formTimer.ApproximateMm("0", out intMm);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.ApproximateMm("60", ref intMm);
+            ret = formTimer.ApproximateMm("60", out intMm);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.ApproximateMm("00", ref intMm);
+            ret = formTimer.ApproximateMm("00", out intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 0);
 
-            ret = formTimer.ApproximateMm("07", ref intMm);
+            ret = formTimer.ApproximateMm("07", out intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 0);
 
-            ret = formTimer.ApproximateMm("08", ref intMm);
+            ret = formTimer.ApproximateMm("08", out intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 15);
 
-            ret = formTimer.ApproximateMm("22", ref intMm);
+            ret = formTimer.ApproximateMm("22", out intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 15);
 
-            ret = formTimer.ApproximateMm("23", ref intMm);
+            ret = formTimer.ApproximateMm("23", out intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 30);
 
-            ret = formTimer.ApproximateMm("37", ref intMm);
+            ret = formTimer.ApproximateMm("37", out intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 30);
 
-            ret = formTimer.ApproximateMm("52", ref intMm);
+            ret = formTimer.ApproximateMm("52", out intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 45);
 
-            ret = formTimer.ApproximateMm("53", ref intMm);
+            ret = formTimer.ApproximateMm("53", out intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 60);
 
-            ret = formTimer.ApproximateMm("59", ref intMm);
+            ret = formTimer.ApproximateMm("59", out intMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 60);
         }
@@ -250,20 +250,48 @@ namespace Timer.Tests
         }
 
         [TestMethod]
-        public void Test_getIntHhAndMm()
+        public void Test_getApproximateIntHhAndMm()
         {
             int ret;
             int intStartHh, intStartMm, intEndHh, intEndMm;
 
             FormTimer formTimer = new FormTimer();
-            //ret = formTimer.getIntHhAndMm(string startTime, string endTime, int intStartHh, int intStartMm, int intEndHh, int intEndMm);
-            //ret = formTimer.getIntHhAndMm("00:00", "01:00", intStartHh, intStartMm, intEndHh, intEndMm);
-            ret = formTimer.getIntHhAndMm("00:00", "01:00", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
+            //ret = formTimer.getApproximateIntHhAndMm(string startTime, string endTime, int intStartHh, int intStartMm, int intEndHh, int intEndMm);
+            //ret = formTimer.getApproximateIntHhAndMm("00:00", "01:00", intStartHh, intStartMm, intEndHh, intEndMm);
+            ret = formTimer.getApproximateIntHhAndMm("00:00", "01:00", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intStartHh == 0);
             Assert.IsTrue(intStartMm == 0);
             Assert.IsTrue(intEndHh == 1);
             Assert.IsTrue(intEndMm == 0);
+
+            ret = formTimer.getApproximateIntHhAndMm("00:10", "02:20", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intStartHh == 0);
+            Assert.IsTrue(intStartMm == 15);
+            Assert.IsTrue(intEndHh == 2);
+            Assert.IsTrue(intEndMm == 15);
+
+            ret = formTimer.getApproximateIntHhAndMm("12:00", "13:00", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intStartHh == 0);
+            Assert.IsTrue(intStartMm == 0);
+            Assert.IsTrue(intEndHh == 1);
+            Assert.IsTrue(intEndMm == 0);
+
+            ret = formTimer.getApproximateIntHhAndMm("12:10", "13:20", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intStartHh == 0);
+            Assert.IsTrue(intStartMm == 15);
+            Assert.IsTrue(intEndHh == 1);
+            Assert.IsTrue(intEndMm == 15);
+
+            ret = formTimer.getApproximateIntHhAndMm("00:10", "13:20", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intStartHh == 0);
+            Assert.IsTrue(intStartMm == 0);
+            Assert.IsTrue(intEndHh == 1);
+            Assert.IsTrue(intEndMm == 15);
         }
     }
 }
