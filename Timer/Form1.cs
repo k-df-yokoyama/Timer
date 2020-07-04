@@ -598,64 +598,10 @@ namespace Timer
         //<開始時間(hh:mm)>と<終了時間(hh:mm)>を渡してドーナッツグラフを描画する
         internal int DrawChartDoughnut(string startTime, string endTime)
         {
-            //入力値のフォーマットチェック
-            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
-                return -1;
-            }
-            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
-                return -1;
-            }
+            int intStartHh, intStartMm, intEndHh, intEndMm;
 
-            //入力値を時間と分に分割
-            var startHh = startTime.Substring(0, 2);
-            var startMm = startTime.Substring(3, 2);
-            var endHh = endTime.Substring(0, 2);
-            var endMm = endTime.Substring(3, 2);
-
-            //開始時間と終了時間を15分刻みの時間に変換する
-            int intStartMm = 0;
-            int intEndMm = 0;
-            if (ApproximateMm(startMm, out intStartMm) < 0) {
+            if (getApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0) {
                 return -1;
-            }
-            if (ApproximateMm(endMm, out intEndMm) < 0) {
-                return -1;
-            }
-
-            //入力値に応じた処理
-            //...開始時間の方が終了時間より大きい
-            if (int.Parse(startHh) > int.Parse(endHh)) {
-                if (int.Parse(endHh) < 12) {
-                    startHh = "00";
-                    startMm = "00";
-                    intStartMm = 0;
-                }
-                else {
-                    startHh = "12";
-                    startMm = "00";
-                    intStartMm = 0;
-                }
-            }
-            //...開始時間と終了時間が12時をまたぐ
-            if (int.Parse(startHh) < 12 && 12 <= int.Parse(endHh))
-            {
-                    startHh = "12";
-                    startMm = "00";
-                    intStartMm = 0;
-            }
-
-            int intStartHh = int.Parse(startHh);
-            int intEndHh = int.Parse(endHh);
-            if ((intStartHh == 12 && intStartMm == 0) && (intEndHh == 12 && intEndMm == 0))
-            {
-                intStartHh -= 12;
-                intEndHh -= 12;
-            }
-            if (intStartHh >= 12) {
-                intStartHh -= 12;
-            }
-            if (intEndHh >= 12 && !(intEndHh ==12 && intEndMm == 0)) {
-                intEndHh -= 12;
             }
 
             //グラフ描画
