@@ -45,25 +45,25 @@ namespace Timer.Tests
             FormTimer formTimer = new FormTimer();
             string inString = "Start,Task:00:00-00:15-00:30";
             string outString = "";
-            formTimer.RemoveTimeString(inString, ref outString);
+            formTimer.RemoveTimeString(inString, out outString);
 
             Assert.IsTrue(outString.Equals("Start,Task"));
 
             inString = "Start,Task:00:00-00:15-";
             outString = "";
-            formTimer.RemoveTimeString(inString, ref outString);
+            formTimer.RemoveTimeString(inString, out outString);
 
             Assert.IsTrue(outString.Equals("Start,Task"));
 
             inString = "Start,Task:00:00-00:15";
             outString = "";
-            formTimer.RemoveTimeString(inString, ref outString);
+            formTimer.RemoveTimeString(inString, out outString);
 
             Assert.IsTrue(outString.Equals("Start,Task"));
 
             inString = "Start,Task:00:00-";
             outString = "";
-            formTimer.RemoveTimeString(inString, ref outString);
+            formTimer.RemoveTimeString(inString, out outString);
 
             Assert.IsTrue(outString.Equals("Start,Task"));
         }
@@ -75,57 +75,57 @@ namespace Timer.Tests
             string startTime = "00:00", endTime = "00:00";
 
             FormTimer formTimer = new FormTimer();
-            ret = formTimer.GetStartAndEndTime("Task:03:00-05:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:03:00-05:00", out startTime, out endTime);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(startTime.Equals("03:00"));
             Assert.IsTrue(endTime.Equals("05:00"));
 
-            ret = formTimer.GetStartAndEndTime("Task:05:00-03:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:05:00-03:00", out startTime, out endTime);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(startTime.Equals("05:00"));
             Assert.IsTrue(endTime.Equals("03:00"));
 
-            ret = formTimer.GetStartAndEndTime("Task:0:00-05:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:0:00-05:00", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:00:00-5:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:00:00-5:00", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:00:60-05:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:00:60-05:00", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:00:00-05:60", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:00:00-05:60", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:00:00-12:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:00:00-12:00", out startTime, out endTime);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(startTime.Equals("00:00"));
             Assert.IsTrue(endTime.Equals("12:00"));
 
-            ret = formTimer.GetStartAndEndTime("Task:12:00-24:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:12:00-24:00", out startTime, out endTime);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(startTime.Equals("12:00"));
             Assert.IsTrue(endTime.Equals("24:00"));
 
-            ret = formTimer.GetStartAndEndTime("Task:12:00-24:01", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:12:00-24:01", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:12:00-25:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:12:00-25:00", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:03:00-05:00a", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:03:00-05:00a", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:03:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:03:00", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:03:00-", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:03:00-", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:01:00-02:00-", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:01:00-02:00-", out startTime, out endTime);
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.GetStartAndEndTime("Task:01:00-02:00-03:00", ref startTime, ref endTime);
+            ret = formTimer.GetStartAndEndTime("Task:01:00-02:00-03:00", out startTime, out endTime);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(startTime.Equals("01:00"));
             Assert.IsTrue(endTime.Equals("03:00"));
@@ -247,6 +247,23 @@ namespace Timer.Tests
             //string textFromTextBoxSJIS = System.Text.Encoding.UTF8.GetString(bytesUTF8);
             string textFromLogFile = File.ReadAllText(@strActivityLogFilePath, (System.Text.Encoding)pbFormTimer.GetField("sjisEnc"));
             Assert.IsTrue(textFromTextBox.Equals(textFromLogFile));
+        }
+
+        [TestMethod]
+        public void Test_getIntHhAndMm()
+        {
+            int ret;
+            int intStartHh, intStartMm, intEndHh, intEndMm;
+
+            FormTimer formTimer = new FormTimer();
+            //ret = formTimer.getIntHhAndMm(string startTime, string endTime, int intStartHh, int intStartMm, int intEndHh, int intEndMm);
+            //ret = formTimer.getIntHhAndMm("00:00", "01:00", intStartHh, intStartMm, intEndHh, intEndMm);
+            ret = formTimer.getIntHhAndMm("00:00", "01:00", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intStartHh == 0);
+            Assert.IsTrue(intStartMm == 0);
+            Assert.IsTrue(intEndHh == 1);
+            Assert.IsTrue(intEndMm == 0);
         }
     }
 }

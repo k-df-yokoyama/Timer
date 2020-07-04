@@ -184,7 +184,7 @@ namespace Timer
 
             // 作業内容のテキストから開始時間と終了時間を取得する
             string startTime = "00:00", endTime = "00:00";
-            if (GetStartAndEndTime(comboBox1.Text, ref startTime, ref endTime) == 0) {
+            if (GetStartAndEndTime(comboBox1.Text, out startTime, out endTime) == 0) {
                 // ドーナッツグラフを再描画する
                 DrawChartDoughnut(startTime, endTime);
             }
@@ -259,7 +259,7 @@ namespace Timer
 
             // 作業内容のテキストから開始時間と終了時間を取得する
             string startTime = "00:00", endTime = "00:00";
-            if (GetStartAndEndTime(comboBox1.Text, ref startTime, ref endTime) == 0) {
+            if (GetStartAndEndTime(comboBox1.Text, out startTime, out endTime) == 0) {
                 // ドーナッツグラフを再描画する
                 DrawChartDoughnut(startTime, endTime);
             }
@@ -315,7 +315,7 @@ namespace Timer
         // IN:  "Start,Task:00:00-00:15-"
         // IN:  "Start,Task:00:00-00:15-00:30"
         // OUT: "Start,Task"
-        internal void RemoveTimeString(string inString, ref string outString)
+        internal void RemoveTimeString(string inString, out string outString)
         {
             Regex re = new Regex("[:：][0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]$", RegexOptions.Singleline);
             outString = re.Replace(inString, "");
@@ -347,7 +347,7 @@ namespace Timer
             //（2）テキスト内容を書き込む
             //ToDo:時間の部分は削除する
             string outString = "";
-            RemoveTimeString(inString, ref outString);
+            RemoveTimeString(inString, out outString);
             //sw.WriteLine(DateTime.Now + "," + outString);
             sw.WriteLine(outString);
             //（3）テキスト・ファイルを閉じる
@@ -476,7 +476,7 @@ namespace Timer
         // "Start,Task:00:00-00:15-00:30"
         //   開始時間：00:00
         //   終了時間：00:30
-        internal int GetStartAndEndTime(string taskAndTime, ref string startTime, ref string endTime)
+        internal int GetStartAndEndTime(string taskAndTime, out string startTime, out string endTime)
         {
             bool isFormatOK = true;
 
@@ -502,6 +502,8 @@ namespace Timer
                 isFormatOK = true;
             }
             if (!isFormatOK) {
+                startTime = null;
+                endTime = null;
                 return -1;
             }
 
@@ -520,6 +522,16 @@ namespace Timer
             var endHh = endTime.Substring(0, 2);
             var endMm = endTime.Substring(3, 2);
 
+            return 0;
+        }
+
+        internal int getIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
+            out int intEndHh, out int intEndMm)
+        {
+            intStartHh = -1;
+	    intStartMm = -1;
+            intEndHh = -1;
+	    intEndMm = -1;
             return 0;
         }
 
@@ -873,7 +885,7 @@ namespace Timer
             else {
                 Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
                 string taskString = "";
-                RemoveTimeString(taskAndTime, ref taskString);
+                RemoveTimeString(taskAndTime, out taskString);
 
                 textBox1.Text = textBox1.Text + "\r\n" + matchedObj.Value + "  " + taskString;
             }
