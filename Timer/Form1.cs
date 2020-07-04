@@ -525,7 +525,8 @@ namespace Timer
             return 0;
         }
 
-        internal int getApproximateIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
+		//入力フォーマット：hh:mm|hh：mm、00:00から24:00まで可、9:00や10:1は不可
+        internal int GetApproximateIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
             out int intEndHh, out int intEndMm)
         {
             intStartHh = -1;
@@ -548,10 +549,10 @@ namespace Timer
             var endMm = endTime.Substring(3, 2);
 
             //開始時間と終了時間を15分刻みの時間に変換する
-            if (ApproximateMm(startMm, out intStartMm) < 0) {
+            if (GetApproximateIntMm(startMm, out intStartMm) < 0) {
                 return -1;
             }
-            if (ApproximateMm(endMm, out intEndMm) < 0) {
+            if (GetApproximateIntMm(endMm, out intEndMm) < 0) {
                 return -1;
             }
 
@@ -570,11 +571,11 @@ namespace Timer
                 }
             }
             //...開始時間と終了時間が12時をまたぐ
-            if (int.Parse(startHh) < 12 && 12 <= int.Parse(endHh))
+            if (!(int.Parse(endHh) == 12 && int.Parse(endMm) == 0) && int.Parse(startHh) < 12 && 12 <= int.Parse(endHh))
             {
-                    startHh = "12";
-                    startMm = "00";
-                    intStartMm = 0;
+                startHh = "12";
+                startMm = "00";
+                intStartMm = 0;
             }
 
             intStartHh = int.Parse(startHh);
@@ -600,7 +601,7 @@ namespace Timer
         {
             int intStartHh, intStartMm, intEndHh, intEndMm;
 
-            if (getApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0) {
+            if (GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0) {
                 return -1;
             }
 
@@ -691,7 +692,7 @@ namespace Timer
         }
 
         //開始時間と終了時間を15分刻みの時間に変換する
-        internal int ApproximateMm(string strMm, out int intMm)
+        internal int GetApproximateIntMm(string strMm, out int intMm)
         {
             //入力値のフォーマットチェック
             if (!Regex.IsMatch(strMm, @"[0-5][0-9]")) {
@@ -1011,12 +1012,6 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
         //DataGridViewを渡してドーナッツグラフを描画する
         internal int DrawChartDoughnut(DataGridView dataGridView)
         {
-#if NOTDEF
-        internal int getApproximateIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
-            out int intEndHh, out int intEndMm)
-#endif
-
-#if !NOTDEF
             //グラフ描画
             chart1.Palette = ChartColorPalette.BrightPastel;
             chart1.ApplyPaletteColors();
@@ -1029,27 +1024,13 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
             series["DoughnutRadius"] = "60";
             series["PieStartAngle"] = "270";
 
-            //直前のタスクの終了時間を00:00に設定する。
-
             //円グラフのデータを作成する。
             int taskIdx = 0;
-            //string prevStartTime = "00:00";
-            //string prevEndTime = "00:00";
             string crntStartTime;
             string crntEndTime;
-            //int intPrevStartHh = -1, intPrevStartMm = -1;
-            int intPrevEndHh = 0, intPrevEndMm = 0;
+            int intPrevEndHh = 0, intPrevEndMm = 0; //直前のタスクの終了時間を00:00に設定する。
             int intCrntStartHh = -1, intCrntStartMm = -1, intCrntEndHh = -1, intCrntEndMm = -1;
             DataPoint point;
-
-#if NOTDEF
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                foreach (DataGridViewColumn column in dataGridView1.Columns)
-                {
-
-                    sw.Write(dataGridView1[column.Index, row.Index].Value);
-#endif
 
             foreach (DataGridViewRow row in dataGridView1.Rows) {
                 taskIdx++;
@@ -1063,7 +1044,7 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
 
                 //startTime/endTime1からintStratHh,intStartMm,intEndHh,intEndMmを取得
                 intCrntStartHh = intCrntStartMm = intCrntEndHh = intCrntEndMm = -1;
-                if (getApproximateIntHhAndMm(crntStartTime, crntEndTime, out intCrntStartHh, out intCrntStartMm,
+                if (GetApproximateIntHhAndMm(crntStartTime, crntEndTime, out intCrntStartHh, out intCrntStartMm,
                     out intCrntEndHh, out intCrntEndMm) < 0) {
                     return(-1);
                 }
@@ -1101,7 +1082,7 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
             taskIdx++;
 
             //直前のタスクの終了時間から時間間隔が空いている場合
-            if (intPrevEndHh != 12 || intPrevEndMm != 0) {
+            if (intPrevEndHh != 0 || intPrevEndMm != 0) {
                 point = new DataPoint();
                 point.LegendText = "Task " + taskIdx.ToString();
                 point.XValue = 0;
@@ -1112,43 +1093,7 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
             }
 
             chart1.Series.Add(series);
-#endif
 
-#if NOTDEF
-            //グラフ描画
-            chart1.Palette = ChartColorPalette.BrightPastel;
-            chart1.ApplyPaletteColors();
-            chart1.Series.Clear();  //グラフ初期化
-
-            Series series = new Series();
-            //series.Name = "Series";
-            series.LegendText = "Task";
-            series.ChartType = SeriesChartType.Doughnut;
-            series["DoughnutRadius"] = "60";
-            series["PieStartAngle"] = "270";
-
-            DataPoint point = new DataPoint();
-            point.LegendText = "Task 1";
-            point.XValue = 0;
-            point.YValues = new double[] { (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
-            series.Points.Add(point);
-
-            point = new DataPoint();
-            point.LegendText = "Task 2";
-            point.XValue = 0;
-            point.YValues = new double[] { (intEndHh * 60 + intEndMm) - (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
-            series.Points.Add(point);
-
-            point = new DataPoint();
-            point.LegendText = "Task 3";
-            point.XValue = 0;
-            point.YValues = new double[] { 60 * 12 - (intEndHh * 60 + intEndMm) }; // 円グラフに占める割合
-            point.Color = System.Drawing.Color.Silver;
-            //point.Color = "BFBFBF"
-            series.Points.Add(point);
-
-            chart1.Series.Add(series);
-#endif
             return 0;
         }
 
