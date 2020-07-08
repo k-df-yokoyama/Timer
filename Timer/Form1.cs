@@ -14,6 +14,14 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Timer
 {
+
+public enum DrawRange
+{
+    All,
+    Am,
+    Pm
+}
+
     public partial class FormTimer : Form
     {
         int currEndTime; // 現在のタスク終了までの予定時間（[時間設定]TextBoxから取得した値）
@@ -1015,6 +1023,22 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
             DrawChartDoughnut(dataGridView1);
         }
 
+/*
+public enum Season
+{
+    Spring,
+    Summer,
+    Autumn,
+    Winter
+}
+*/
+
+        internal int GetDrawRange(string lastValidEndTime, out DrawRange drawRange)
+        {
+            drawRange = DrawRange.Am;
+            return(0);
+        }
+
         //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
         //DataGridViewを渡してドーナッツグラフを描画する
         internal int DrawChartDoughnut(DataGridView dataGridView)
@@ -1038,6 +1062,21 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
             int intPrevEndHh = 0, intPrevEndMm = 0; //直前のタスクの終了時間を00:00に設定する。
             int intCrntStartHh = -1, intCrntStartMm = -1, intCrntEndHh = -1, intCrntEndMm = -1;
             DataPoint point;
+
+            string lastValidEndTime = "";
+            DrawRange drawRange;
+
+            foreach (DataGridViewRow row in dataGridView.Rows) {
+                //DGVから1行分のデータ取得
+                if (dataGridView[0, row.Index].Value == null || dataGridView[1, row.Index].Value == null) {
+                    break;
+                }
+                lastValidEndTime = dataGridView[1, row.Index].Value.ToString();
+            }
+
+            if (GetDrawRange(lastValidEndTime, out drawRange) < 0) {
+                return(-1);
+            }
 
             foreach (DataGridViewRow row in dataGridView.Rows) {
                 taskIdx++;

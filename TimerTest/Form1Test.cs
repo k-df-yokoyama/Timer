@@ -250,6 +250,18 @@ namespace Timer.Tests
         }
 
         [TestMethod]
+        public void Test_GetDrawRange()
+        {
+            int ret = 0;
+			DrawRange drawRange;
+
+            FormTimer formTimer = new FormTimer();
+            ret = formTimer.GetDrawRange("01:00", out drawRange);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(drawRange == DrawRange.Am);
+        }
+
+        [TestMethod]
         public void Test_GetApproximateIntHhAndMm()
         {
             int ret;
