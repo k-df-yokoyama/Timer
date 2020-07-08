@@ -1039,15 +1039,15 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
             int intCrntStartHh = -1, intCrntStartMm = -1, intCrntEndHh = -1, intCrntEndMm = -1;
             DataPoint point;
 
-            foreach (DataGridViewRow row in dataGridView1.Rows) {
+            foreach (DataGridViewRow row in dataGridView.Rows) {
                 taskIdx++;
 
                 //DGVから1行分のデータ取得
-                if (dataGridView1[0, row.Index].Value == null || dataGridView1[1, row.Index].Value == null) {
+                if (dataGridView[0, row.Index].Value == null || dataGridView[1, row.Index].Value == null) {
                     break;
                 }
-                crntStartTime = dataGridView1[0, row.Index].Value.ToString();
-                crntEndTime = dataGridView1[1, row.Index].Value.ToString();
+                crntStartTime = dataGridView[0, row.Index].Value.ToString();
+                crntEndTime = dataGridView[1, row.Index].Value.ToString();
 
                 //startTime/endTime1からintStratHh,intStartMm,intEndHh,intEndMmを取得
                 intCrntStartHh = intCrntStartMm = intCrntEndHh = intCrntEndMm = -1;
