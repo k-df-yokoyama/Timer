@@ -192,7 +192,7 @@ public enum DrawRange
 
             // 作業内容のテキストから開始時間と終了時間を取得する
             string startTime = "00:00", endTime = "00:00";
-            if (GetStartAndEndTime(comboBox1.Text, out startTime, out endTime) == 0) {
+            if (GetStartAndEndTimeFromTrailing(comboBox1.Text, out startTime, out endTime) == 0) {
                 // ドーナッツグラフを再描画する
                 DrawChartDoughnut(startTime, endTime);
             }
@@ -267,7 +267,7 @@ public enum DrawRange
 
             // 作業内容のテキストから開始時間と終了時間を取得する
             string startTime = "00:00", endTime = "00:00";
-            if (GetStartAndEndTime(comboBox1.Text, out startTime, out endTime) == 0) {
+            if (GetStartAndEndTimeFromTrailing(comboBox1.Text, out startTime, out endTime) == 0) {
                 // ドーナッツグラフを再描画する
                 DrawChartDoughnut(startTime, endTime);
             }
@@ -474,6 +474,74 @@ public enum DrawRange
 
         // 作業内容のテキストボックスの入力値から<開始時間(hh:mm)>と<終了時間(hh:mm)>を取得する
         // 処理できる時間部分のフォーマットと取得結果は以下。
+        // ""00:00-  Task"
+        //   return -1
+        // "00:00-00:15  Task"
+        //   開始時間：00:00
+        //   終了時間：00:15
+        // "00:00-00:15-  Task"
+        //   return -1
+        // "00:00-00:15-00:30  Task"
+        //   開始時間：00:00
+        //   終了時間：00:30
+        internal int GetStartAndEndTimeAndTaskFromHeading(string taskAndTime, out string startTime, out string endTime, out string task)
+        {
+            bool isFormatOK = true;
+
+            //入力値のフォーマットチェック
+            if (Regex.IsMatch(taskAndTime, @"^(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]  ") ||
+                Regex.IsMatch(taskAndTime, @"^(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-24[:：]00  ") ||
+                Regex.IsMatch(taskAndTime, @"^24[:：]00-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]  ") ||
+                Regex.IsMatch(taskAndTime, @"^24[:：]00-24[:：]00  ")) {
+                isFormatOK = true;
+            }
+            else {
+                isFormatOK = false;
+            }
+            if (isFormatOK ||
+                Regex.IsMatch(taskAndTime, @"^(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]  ") ||
+                Regex.IsMatch(taskAndTime, @"^(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-24[:：]00  ") ||
+                Regex.IsMatch(taskAndTime, @"^24[:：]00-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]  ") ||
+                Regex.IsMatch(taskAndTime, @"^24[:：]00-.*-24[:：]00  "))
+            {
+                isFormatOK = true;
+            }
+            else {
+                isFormatOK = false;
+            }
+
+            if (!isFormatOK) {
+                startTime = null;
+                endTime = null;
+                task = null;
+                return -1;
+            }
+
+            Match matchedObj = Regex.Match(taskAndTime, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]  ");
+
+            Match startTimeObj = Regex.Match(matchedObj.Value, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]");
+            Match endTimeObjWithDelimiter = Regex.Match(matchedObj.Value, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]  ");
+            Match endTimeObj = Regex.Match(endTimeObjWithDelimiter.Value, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]");
+            task = Regex.Replace(taskAndTime, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]  ", "");
+
+            startTime = startTimeObj.Value;
+            endTime = endTimeObj.Value;
+            //task = "task";
+
+#if NOTDEF
+            //入力値を時間と分に分割
+            //int found = 0;
+            var startHh = startTime.Substring(0, 2);
+            var startMm = startTime.Substring(3, 2);
+            var endHh = endTime.Substring(0, 2);
+            var endMm = endTime.Substring(3, 2);
+#endif
+
+            return 0;
+        }
+
+        // 作業内容のテキストボックスの入力値から<開始時間(hh:mm)>と<終了時間(hh:mm)>を取得する
+        // 処理できる時間部分のフォーマットと取得結果は以下。
         // "Start,Task:00:00-"
         //   return -1
         // "Start,Task:00:00-00:15"
@@ -484,31 +552,32 @@ public enum DrawRange
         // "Start,Task:00:00-00:15-00:30"
         //   開始時間：00:00
         //   終了時間：00:30
-        internal int GetStartAndEndTime(string taskAndTime, out string startTime, out string endTime)
+        internal int GetStartAndEndTimeFromTrailing(string taskAndTime, out string startTime, out string endTime)
         {
             bool isFormatOK = true;
 
             //入力値のフォーマットチェック
-            if (!Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-24[:：]00$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-24[:：]00$")) {
-                isFormatOK = false;
-            }
-            else {
+            if (Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
+                Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-24[:：]00$") ||
+                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
+                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-24[:：]00$")) {
                 isFormatOK = true;
             }
-            if (!isFormatOK &&
-                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-24[:：]00$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-24[:：]00$"))
+            else {
+                isFormatOK = false;
+            }
+            if (isFormatOK ||
+                Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
+                Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-24[:：]00$") ||
+                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
+                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-24[:：]00$"))
             {
-                isFormatOK = false;
-            }
-            else {
                 isFormatOK = true;
             }
+            else {
+                isFormatOK = false;
+            }
+
             if (!isFormatOK) {
                 startTime = null;
                 endTime = null;
@@ -879,6 +948,9 @@ public enum DrawRange
             //chart1.ChartAreas.Add(area);
         }
 
+        //AddActivityLog()
+        //引数で指定されたタスクと時間の情報をtextBox1(ActivityLog)に追加する
+        //引数で指定された文字列に時間の情報が含まれている場合には、時間の情報を先頭に移動して追加する
         private void AddActivityLog(string taskAndTime)
         {
             //タスクと時間に分割する
@@ -909,11 +981,13 @@ public enum DrawRange
                 textBox1.Text = textBox1.Text + "\r\n" + taskAndTime;
             }
             else {
-                Match matchedObj = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
-                string taskString = "";
+                //taskAndTimeから時間文字列を取得
+                Match timeString = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
+
+                string taskString;
                 RemoveTimeString(taskAndTime, out taskString);
 
-                textBox1.Text = textBox1.Text + "\r\n" + matchedObj.Value + "  " + taskString;
+                textBox1.Text = textBox1.Text + "\r\n" + timeString.Value + "  " + taskString;
             }
 
             btnSaveActivityLog_Click(null, null);
@@ -931,14 +1005,16 @@ public enum DrawRange
             textBox1.Text = textFromLogFile;
         }
 
-        private void FormTimer_Load(object sender, EventArgs e)
+        // dataGridView1の列の定義と初期値の設定
+        // (I)object sender;
+        // (I)EventArgs e;
+        internal void FormTimer_Load(object sender, EventArgs e)
         {
+#if NOTDEF
             // カラム数を指定
-            dataGridView1.ColumnCount = 5;
+            //dataGridView1.ColumnCount = 5;
 
             // カラム名を指定
-
-#if NOTDEF
             dataGridView1.Columns[0].HeaderText = "From";
             dataGridView1.Columns[1].HeaderText = "To";
             dataGridView1.Columns[2].HeaderText = "Story/Task";
@@ -956,7 +1032,7 @@ public enum DrawRange
             DataGridViewColumn colC = CreateDataGridViewTextBoxColumn("Task", "Task/Story", 100, typeof(string));
             DataGridViewColumn colD = CreateDataGridViewTextBoxColumn("Output", "Output", 80, typeof(string));
             DataGridViewColumn colE = CreateDataGridViewTextBoxColumn("HowToImprove", "How to improve", 120, typeof(string));
-            DataGridViewColumn colF = CreateDataGridViewCheckBoxColumn("Stries", "機能実現", 60);
+            DataGridViewColumn colF = CreateDataGridViewCheckBoxColumn("Stories", "機能実現", 60);
             DataGridViewColumn colG = CreateDataGridViewCheckBoxColumn("Taxes", "税", 40);
             DataGridViewColumn colH = CreateDataGridViewCheckBoxColumn("Spikes", "スパイク", 60);
             DataGridViewColumn colI = CreateDataGridViewCheckBoxColumn("Technical Debt", "前提条件", 60);
@@ -1018,6 +1094,7 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
     return col;
 }
 
+        // [RALグラフ表示](btnShowGraphReviewedActivityLog)ボタンがクリックされた時の処理
         private void btnShowGraphReviewedActivityLog_Click(object sender, EventArgs e)
         {
             DrawChartDoughnut(dataGridView1);
@@ -1143,6 +1220,7 @@ public enum Season
             return 0;
         }
 
+        // [RAL保存](btnSaveReviewedActivityLog)ボタンがクリックされた時の処理
         private void btnSaveReviewedActivityLog_Click(object sender, EventArgs e)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
@@ -1178,6 +1256,7 @@ public enum Season
         checkBoxCol.Width = 50;
         */
 
+        // [保存](btnSaveActivityLog)ボタンがクリックされた時の処理
         internal void btnSaveActivityLog_Click(object sender, EventArgs e)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
@@ -1187,8 +1266,45 @@ public enum Season
             sw.Write(textBox1.Text);
             //（3）テキスト・ファイルを閉じる
             sw.Close();
+
+            //（4）ReviewedActivityLogにコピーする
+            CopyActivityLogToReviewedActivityLog();
         }
 
+        //ActivityLogの値をReviewedActivityLogにコピーする
+        private void CopyActivityLogToReviewedActivityLog()
+        {
+            //ReviewedActivityLogの内容をクリアする
+            dataGridView1.Rows.Clear();
+
+            //ActivityLogのテキストボックスの内容を取得する
+            string textValue = textBox1.Text;
+            var lineList = textValue.Replace("\r\n","\n").Split(new[]{'\n','\r'});
+            foreach(var line in lineList)
+            {
+                //System.Console.WriteLine($"<{line}>");
+
+                //ActivityLogのテキストボックスの内容を1行ずつReviewedActivityLogに書き込む
+                string startTime, endTime, task;
+                //...startTime, endTime, Taskを取得
+                //(ActivityLogのテキストボックスの内容が書き込み可能かを判定)
+                if (GetStartAndEndTimeAndTaskFromHeading(line, out startTime, out endTime, out task) == 0) {
+                    //...startTime, endTime, Taskの書き込み
+                    dataGridView1.Rows.Add(startTime, endTime, task, "", "", false, false, false, false, false, false, false, false, false, false);
+                }
+            }
+            return;
+        }
+
+#if NOTDEF
+        // 内容情報を取得する
+        private void getContentInfo()
+        {
+            return;
+        }
+#endif
+
+        // [AddPanel](btnAddPanel)ボタンがクリックされた時の処理
         private void buttonAddPanel_Click(object sender, EventArgs e)
         {
             foreach(Panel p in panel1.Controls)
