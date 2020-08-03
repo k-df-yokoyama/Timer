@@ -1307,6 +1307,7 @@ public enum Season
                     //時間を埋める
                     point = new DataPoint();
                     point.LegendText = "Task " + taskIdx.ToString();
+                    //point.LegendText = dataGridView[2, row.Index].Value.ToString();
                     point.XValue = 0;
                     //point.YValues = new double[] { (intPrevEndHh * 60 + intStartMm) }; // 円グラフに占める割合
                     point.YValues = new double[] { (intCrntStartHh * 60 + intCrntStartMm) - (intPrevEndHh * 60 + intPrevEndMm) }; // 円グラフに占める割合
@@ -1320,7 +1321,8 @@ public enum Season
                 }
 
                 point = new DataPoint();
-                point.LegendText = "Task " + taskIdx.ToString();
+                //point.LegendText = "Task " + taskIdx.ToString();
+                point.LegendText = dataGridView[2, row.Index].Value.ToString();
                 point.XValue = 0;
                 //point.YValues = new double[] { (intCrntStartHh * 60 + intCrntStartMm) }; // 円グラフに占める割合
                 point.YValues = new double[] { (intCrntEndHh * 60 + intCrntEndMm) - (intCrntStartHh * 60 + intCrntStartMm) }; // 円グラフに占める割合
