@@ -258,6 +258,7 @@ namespace Timer.Tests
 			DrawRange drawRange;
 
             FormTimer formTimer = new FormTimer();
+            //ret = formTimer.GetDrawRange("01:00", "02:00", out drawRange);
             ret = formTimer.GetDrawRange("01:00", out drawRange);
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(drawRange == DrawRange.Am);

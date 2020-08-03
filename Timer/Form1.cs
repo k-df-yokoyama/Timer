@@ -15,12 +15,14 @@ using System.Windows.Forms.DataVisualization.Charting;
 namespace Timer
 {
 
-public enum DrawRange
-{
-    All,
-    Am,
-    Pm
-}
+    public enum DrawRange
+    {
+        SeveralDays,
+        SingleDay,
+        Am,
+        Pm,
+        None
+    }
 
     public partial class FormTimer : Form
     {
@@ -1057,30 +1059,33 @@ public enum DrawRange
             bool isFormatOK = true;
 
             //入力値のフォーマットチェック
-            if (!Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-24[:：]00$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-24[:：]00$")) {
-                isFormatOK = false;
-            }
-            else {
+            if (Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
+                Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-24[:：]00$") ||
+                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
+                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-24[:：]00$")) {
                 isFormatOK = true;
             }
-            if (!isFormatOK &&
-                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-24[:：]00$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") &&
-                !Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-24[:：]00$"))
+            else {
+                isFormatOK = false;
+            }
+            if (isFormatOK ||
+                Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
+                Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-24[:：]00$") ||
+                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
+                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-24[:：]00$"))
             {
-                isFormatOK = false;
-            }
-            else {
                 isFormatOK = true;
             }
+            else {
+                isFormatOK = false;
+            }
+
             if (!isFormatOK) {
+                //そのままActivityLogのテキストボックス(textBox1)に追加
                 textBox1.Text = textBox1.Text + "\r\n" + taskAndTime;
             }
             else {
+                //フォーマットを変更してActivityLogのテキストボックス(textBox1)に追加
                 //taskAndTimeから時間文字列を取得
                 Match timeString = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
 
@@ -1090,6 +1095,9 @@ public enum DrawRange
                 textBox1.Text = textBox1.Text + "\r\n" + timeString.Value + "  " + taskString;
             }
 
+            // 画面上に表示されているActivityLogの内容を
+            // (1)ActivityLogファイルに上書き保存する。
+            // (2)ReviewedActivityLogにコピーする。
             btnSaveActivityLog_Click(null, null);
         }
 
@@ -1234,17 +1242,63 @@ public enum Season
 
         /// <summary>
         /// 描画範囲の指定
-        /// <param name="lastValidEndTime"></param>
+        /// <param name="timeStr"></param>
         /// <param name="drawRange"></param>
         /// </summary>
-        internal int GetDrawRange(string lastValidEndTime, out DrawRange drawRange)
+//        internal int GetDrawRange(string startTime, string endTime, out DrawRange drawRange)
+        internal int GetDrawRange(string timeStr, out DrawRange drawRange)
         {
-            drawRange = DrawRange.Am;
+/*
+            int intStartHh, intStartMm, intEndHh, intEndMm;
+            if (GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0)
+            {
+                drawRange = DrawRange.None;
+                return (-1);
+            }
+*/
+            string hhStr, mmStr;
+            if (GetHhAndMmStr(timeStr, out hhStr, out mmStr) < 0)
+            {
+                drawRange = DrawRange.None;
+                return (-1);
+            }
+
+//            if (int.Parse(strMm) >= 0 && int.Parse(strMm) < 8) {
+
+            if (int.Parse(hhStr) >= 0 && int.Parse(hhStr) < 12) {
+                drawRange = DrawRange.Am;
+            }
+            else {
+                drawRange = DrawRange.Pm;
+            }
+
             return(0);
         }
 
         /// <summary>
-        ///  https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
+        /// 時間文字列から時と分の文字列を取得する
+        /// <param name="timeStr"></param>
+        /// <param name="hhStr"></param>
+        /// <param name="mmStr"></param>
+        /// </summary>
+        internal int GetHhAndMmStr(string timeStr, out string hhStr, out string mmStr)
+        {
+            //入力値のフォーマットチェック
+            if (!Regex.IsMatch(timeStr, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
+                hhStr = null;
+                mmStr = null;
+                return -1;
+            }
+
+            //入力値を時間と分に分割
+            hhStr = timeStr.Substring(0, 2);
+            mmStr = timeStr.Substring(3, 2);
+
+            return 0;
+        }
+
+        /// <summary>
+        /// https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
         /// DataGridViewを渡してドーナッツグラフを描画する
         /// <param name="dataGridView"></param>
         /// </summary>
@@ -1270,9 +1324,11 @@ public enum Season
             int intCrntStartHh = -1, intCrntStartMm = -1, intCrntEndHh = -1, intCrntEndMm = -1;
             DataPoint point;
 
+            string lastValidStartTime = "";
             string lastValidEndTime = "";
             DrawRange drawRange;
 
+#if NOTDEF
             foreach (DataGridViewRow row in dataGridView.Rows) {
                 //DGVから1行分のデータ取得
                 if (dataGridView[0, row.Index].Value == null || dataGridView[1, row.Index].Value == null) {
@@ -1280,8 +1336,24 @@ public enum Season
                 }
                 lastValidEndTime = dataGridView[1, row.Index].Value.ToString();
             }
+#else
+            int idx;
+            for (idx = dataGridView.Rows.Count - 1; idx >= 0; idx--)
+            {
+                if (idx == dataGridView.NewRowIndex) {
+                    continue;
+                }
+                if (dataGridView[0, idx].Value == null || dataGridView[1, idx].Value == null) {
+                    continue;
+                }
+                lastValidStartTime = dataGridView[0, idx].Value.ToString();
+                lastValidEndTime = dataGridView[1, idx].Value.ToString();
+                break;
+            }
+#endif
 
-            if (GetDrawRange(lastValidEndTime, out drawRange) < 0) {
+//            if (GetDrawRange(lastValidStartTime, lastValidEndTime, out drawRange) < 0) {
+            if (GetDrawRange(lastValidStartTime, out drawRange) < 0) {
                 return(-1);
             }
 
@@ -1394,6 +1466,8 @@ public enum Season
 
         /// <summary>
         /// [保存](btnSaveActivityLog)ボタンがクリックされた時の処理
+        /// ...画面上に表示されているActivityLogの内容をActivityLogファイルに上書き保存する。
+        /// ...画面上に表示されているActivityLogの内容をReviewedActivityLogにコピーする。
         /// <param name="sender">イベントを送信したオブジェクト</param>
         /// <param name="e">イベントに関わる引数</param>
         /// </summary>
