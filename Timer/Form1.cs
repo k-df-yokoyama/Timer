@@ -131,7 +131,11 @@ public enum DrawRange
             }
         }
 
-        // [スタート]/[ストップ]ボタンクリック時の処理
+        /// <summary>
+        /// [スタート]/[ストップ]ボタンクリック時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         internal void buttonStart_Click(object sender, EventArgs e)
         {
             // 時間のカウント中でない場合（＝ストップ状態でスタートボタンがクリックされた場合）
@@ -198,7 +202,11 @@ public enum DrawRange
             }
         }
 
-        // [時間設定]の時間が経過したらダイアログ[時間になりました]を表示する。
+        /// <summary>
+        /// [時間設定]の時間が経過したらダイアログ[時間になりました]を表示する。
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void timerControl_Tick(object sender, EventArgs e)
         {
             int remainingTime; // 残り時間の変数を整数型で定義
@@ -226,7 +234,11 @@ public enum DrawRange
             }
         }
 
-        // [リセット]ボタンクリック時の処理
+        /// <summary>
+        /// [リセット]ボタンクリック時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void buttonReset_Click(object sender, EventArgs e)
         {
             // (1)リセット実施可否確認
@@ -273,6 +285,11 @@ public enum DrawRange
             }
         }
 
+        /// <summary>
+        /// xxxされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void textSetTime_TextChanged(object sender, EventArgs e)
         {
             //MessageBox.Show("リセットしました！");
@@ -280,6 +297,10 @@ public enum DrawRange
         }
 
         //Todo: UnitTest候補
+        //Todo: stringListは引数渡しにした方がよい
+        /// <summary>
+        /// 履歴ファイルから値を読み取る
+        /// </summary>
         private void ReadWorkHistory()
         {
             string line = "";
@@ -380,7 +401,11 @@ public enum DrawRange
             return true;
         }
 
-        // [ログ表示]ボタンをクリック
+        /// <summary>
+        /// [ログ表示]ボタンがクリックされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void buttonShowLog_Click(object sender, EventArgs e)
         {
             //Form2クラスのインスタンスを作成する
@@ -393,6 +418,11 @@ public enum DrawRange
             f.Dispose();
         }
 
+        /// <summary>
+        /// xxxされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //MessageBox.Show(e.Node.Text);
@@ -405,7 +435,11 @@ public enum DrawRange
             }
         }
 
-        // [AddNode]ボタンをクリック
+        /// <summary>
+        /// [AddNode]ボタンがクリックされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
             treeView1.Nodes.Add("company");
@@ -420,7 +454,11 @@ public enum DrawRange
             treeView1.Nodes[0].Nodes.Add("company1");
         }
 
-        // [RemoveNode]ボタンをクリック
+        /// <summary>
+        /// [RemoveNode]ボタンがクリックされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void btnRemoveNode_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode != null)
@@ -459,7 +497,11 @@ public enum DrawRange
             RecursiveAddTree(tnc, ary, aryIdx);
         }
 
-        // [ShowGraph]ボタンをクリック
+        /// <summary>
+        /// [ShowGraph]ボタンがクリックされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void buttonShowGraph_Click(object sender, EventArgs e)
         {
             if (isPieChart) {
@@ -472,18 +514,24 @@ public enum DrawRange
             }
         }
 
-        // 作業内容のテキストボックスの入力値から<開始時間(hh:mm)>と<終了時間(hh:mm)>を取得する
-        // 処理できる時間部分のフォーマットと取得結果は以下。
-        // ""00:00-  Task"
-        //   return -1
-        // "00:00-00:15  Task"
-        //   開始時間：00:00
-        //   終了時間：00:15
-        // "00:00-00:15-  Task"
-        //   return -1
-        // "00:00-00:15-00:30  Task"
-        //   開始時間：00:00
-        //   終了時間：00:30
+        /// <summary>
+        /// 入力値から<開始時間(hh:mm)>、<終了時間(hh:mm)>、<タスク名>を取得する
+        /// 処理できる時間部分のフォーマットと取得結果は以下。
+        /// ""00:00-  Task"
+        ///   return -1
+        /// "00:00-00:15  Task"
+        ///   開始時間：00:00
+        ///   終了時間：00:15
+        /// "00:00-00:15-  Task"
+        ///   return -1
+        /// "00:00-00:15-00:30  Task"
+        ///   開始時間：00:00
+        ///   終了時間：00:30
+        /// <param name="taskAndTime">タスクと時間</param>
+        /// <param name="startTime">開始時間</param> 
+        /// <param name="endTime">終了時間</param>
+        /// <param name="task">タスク</param>
+        /// </summary>
         internal int GetStartAndEndTimeAndTaskFromHeading(string taskAndTime, out string startTime, out string endTime, out string task)
         {
             bool isFormatOK = true;
@@ -522,36 +570,31 @@ public enum DrawRange
             Match startTimeObj = Regex.Match(matchedObj.Value, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]");
             Match endTimeObjWithDelimiter = Regex.Match(matchedObj.Value, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]  ");
             Match endTimeObj = Regex.Match(endTimeObjWithDelimiter.Value, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]");
-            task = Regex.Replace(taskAndTime, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]  ", "");
 
             startTime = startTimeObj.Value;
             endTime = endTimeObj.Value;
-            //task = "task";
-
-#if NOTDEF
-            //入力値を時間と分に分割
-            //int found = 0;
-            var startHh = startTime.Substring(0, 2);
-            var startMm = startTime.Substring(3, 2);
-            var endHh = endTime.Substring(0, 2);
-            var endMm = endTime.Substring(3, 2);
-#endif
+            task = Regex.Replace(taskAndTime, @"^(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]  ", "");
 
             return 0;
         }
 
-        // 作業内容のテキストボックスの入力値から<開始時間(hh:mm)>と<終了時間(hh:mm)>を取得する
-        // 処理できる時間部分のフォーマットと取得結果は以下。
-        // "Start,Task:00:00-"
-        //   return -1
-        // "Start,Task:00:00-00:15"
-        //   開始時間：00:00
-        //   終了時間：00:15
-        // "Start,Task:00:00-00:15-"
-        //   return -1
-        // "Start,Task:00:00-00:15-00:30"
-        //   開始時間：00:00
-        //   終了時間：00:30
+        /// <summary>
+        /// 入力値から<開始時間(hh:mm)>と<終了時間(hh:mm)>を取得する
+        /// 処理できる時間部分のフォーマットと取得結果は以下。
+        /// "Start,Task:00:00-"
+        ///   return -1
+        /// "Start,Task:00:00-00:15"
+        ///   開始時間：00:00
+        ///   終了時間：00:15
+        /// "Start,Task:00:00-00:15-"
+        ///   return -1
+        /// "Start,Task:00:00-00:15-00:30"
+        ///   開始時間：00:00
+        ///   終了時間：00:30
+        /// <param name="taskAndTime">タスクと時間</param>
+        /// <param name="startTime">開始時間</param> 
+        /// <param name="endTime">終了時間</param>
+        /// </summary>
         internal int GetStartAndEndTimeFromTrailing(string taskAndTime, out string startTime, out string endTime)
         {
             bool isFormatOK = true;
@@ -602,7 +645,16 @@ public enum DrawRange
             return 0;
         }
 
-        //入力フォーマット：hh:mm|hh：mm、00:00から24:00まで可、9:00や10:1は不可
+        /// <summary>
+        /// 指定された開始時間、終了時間から凡その（15分刻みの）開始時間、終了時間を取得する。
+        /// 入力フォーマット：hh:mm|hh：mm、00:00から24:00まで可、9:00や10:1は不可
+        /// <param name="startTime">開始時間</param> 
+        /// <param name="endTime">終了時間</param>
+        /// <param name="intStartHh"></param> 
+        /// <param name="intStartMm"></param>
+        /// <param name="intEndHh"></param> 
+        /// <param name="intEndMm"></param>
+        /// </summary>
         internal int GetApproximateIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
             out int intEndHh, out int intEndMm)
         {
@@ -679,8 +731,12 @@ public enum DrawRange
             return 0;
         }
 
-        //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
-        //<開始時間(hh:mm)>と<終了時間(hh:mm)>を渡してドーナッツグラフを描画する
+        /// <summary>
+        /// https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
+        /// <開始時間(hh:mm)>と<終了時間(hh:mm)>を渡してドーナッツグラフを描画する
+        /// <param name="startTime">開始時間</param> 
+        /// <param name="endTime">終了時間</param>
+        /// </summary>
         internal int DrawChartDoughnut(string startTime, string endTime)
         {
             int intStartHh, intStartMm, intEndHh, intEndMm;
@@ -775,7 +831,11 @@ public enum DrawRange
             return 0;
         }
 
-        //開始時間と終了時間を15分刻みの時間に変換する
+        /// <summary>
+        /// 開始時間と終了時間を15分刻みの時間に変換する
+        /// <param name="startTime">開始時間</param> 
+        /// <param name="endTime">終了時間</param>
+        /// </summary>
         internal int GetApproximateIntMm(string strMm, out int intMm)
         {
             //入力値のフォーマットチェック
@@ -807,6 +867,9 @@ public enum DrawRange
             return 0;
         }
 
+        /// <summary>
+        /// ドーナッツグラフを描画する
+        /// </summary>
         private void DrawChartDoughnut()
         {
 #if NOTDEF
@@ -876,6 +939,9 @@ public enum DrawRange
 #endif
         }
 
+        /// <summary>
+        /// 積み上げ縦棒グラフを描画する
+        /// </summary>
         private void ShowChartStackedColumn()
         {
             string[] legends = new string[] { "グラフ１", "グラフ２", "グラフ３" }; //凡例
@@ -909,6 +975,9 @@ public enum DrawRange
             }
         }
 
+        /// <summary>
+        /// 円グラフを描画する
+        /// </summary>
         //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
         private void ShowChartPie()
         {
@@ -948,9 +1017,11 @@ public enum DrawRange
             //chart1.ChartAreas.Add(area);
         }
 
-        //AddActivityLog()
-        //引数で指定されたタスクと時間の情報をtextBox1(ActivityLog)に追加する
-        //引数で指定された文字列に時間の情報が含まれている場合には、時間の情報を先頭に移動して追加する
+        /// <summary>
+        /// 引数で指定されたタスクと時間の情報をtextBox1(ActivityLog)に追加する
+        /// 引数で指定された文字列に時間の情報が含まれている場合には、時間の情報を先頭に移動して追加する
+        /// <param name="taskAndTime">タスクと時間</param>
+        /// </summary>
         private void AddActivityLog(string taskAndTime)
         {
             //タスクと時間に分割する
@@ -993,6 +1064,9 @@ public enum DrawRange
             btnSaveActivityLog_Click(null, null);
         }
 
+        /// <summary>
+        /// ActivityLogファイルの中身をActivityLogのGUIに読み込む
+        /// </summary>
         internal void ReadActivityLog()
         {
             if (!File.Exists(@strActivityLogFilePath))
@@ -1005,9 +1079,11 @@ public enum DrawRange
             textBox1.Text = textFromLogFile;
         }
 
-        // dataGridView1の列の定義と初期値の設定
-        // (I)object sender;
-        // (I)EventArgs e;
+        /// <summary>
+        /// dataGridView1の列の定義と初期値の設定
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         internal void FormTimer_Load(object sender, EventArgs e)
         {
 #if NOTDEF
@@ -1094,7 +1170,11 @@ private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string 
     return col;
 }
 
-        // [RALグラフ表示](btnShowGraphReviewedActivityLog)ボタンがクリックされた時の処理
+        /// <summary>
+        /// [RALグラフ表示](btnShowGraphReviewedActivityLog)ボタンがクリックされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void btnShowGraphReviewedActivityLog_Click(object sender, EventArgs e)
         {
             DrawChartDoughnut(dataGridView1);
@@ -1220,7 +1300,11 @@ public enum Season
             return 0;
         }
 
-        // [RAL保存](btnSaveReviewedActivityLog)ボタンがクリックされた時の処理
+        /// <summary>
+        /// [RAL保存](btnSaveReviewedActivityLog)ボタンがクリックされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void btnSaveReviewedActivityLog_Click(object sender, EventArgs e)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
@@ -1256,7 +1340,11 @@ public enum Season
         checkBoxCol.Width = 50;
         */
 
-        // [保存](btnSaveActivityLog)ボタンがクリックされた時の処理
+        /// <summary>
+        /// [保存](btnSaveActivityLog)ボタンがクリックされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         internal void btnSaveActivityLog_Click(object sender, EventArgs e)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
@@ -1271,7 +1359,9 @@ public enum Season
             CopyActivityLogToReviewedActivityLog();
         }
 
-        //ActivityLogの値をReviewedActivityLogにコピーする
+        /// <summary>
+        /// ActivityLogの値をReviewedActivityLogにコピーする
+        /// </summary>
         private void CopyActivityLogToReviewedActivityLog()
         {
             //ReviewedActivityLogの内容をクリアする
@@ -1304,7 +1394,11 @@ public enum Season
         }
 #endif
 
-        // [AddPanel](btnAddPanel)ボタンがクリックされた時の処理
+        /// <summary>
+        /// [AddPanel](btnAddPanel)ボタンがクリックされた時の処理
+        /// <param name="sender">イベントを送信したオブジェクト</param>
+        /// <param name="e">イベントに関わる引数</param>
+        /// </summary>
         private void buttonAddPanel_Click(object sender, EventArgs e)
         {
             foreach(Panel p in panel1.Controls)
