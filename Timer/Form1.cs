@@ -39,6 +39,9 @@ public enum DrawRange
         //
         internal System.Windows.Forms.TextBox myTextBox1;
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public FormTimer()
         {
             InitializeComponent();
@@ -110,7 +113,10 @@ public enum DrawRange
             this.Width = Constants.MainFormWidthFormal;
         }
 
-        //Constructor to show developping controls
+        /// <summary>
+        /// Constructor to show developping controls
+        /// <param name="args">起動引数</param>
+        /// </summary>
         public FormTimer(string[] args):this()
         {
             if (args.Length >= 1 && args[0] == "-showdev") {
@@ -337,13 +343,17 @@ public enum DrawRange
 
         }
         
-        // inString から時間部分を削除した文字列を作成する。
-        // inString、outStringのフォーマットは以下。
-        // IN:  "Start,Task:00:00-"
-        // IN:  "Start,Task:00:00-00:15"
-        // IN:  "Start,Task:00:00-00:15-"
-        // IN:  "Start,Task:00:00-00:15-00:30"
-        // OUT: "Start,Task"
+        /// <summary>
+        /// inString から時間部分を削除した文字列を作成する。
+        /// inString、outStringのフォーマットは以下。
+        /// IN:  "Start,Task:00:00-"
+        /// IN:  "Start,Task:00:00-00:15"
+        /// IN:  "Start,Task:00:00-00:15-"
+        /// IN:  "Start,Task:00:00-00:15-00:30"
+        /// OUT: "Start,Task"
+        /// <param name="inString">入力文字列</param>
+        /// <param name="outString">出力文字列</param>
+        /// </summary>
         internal void RemoveTimeString(string inString, out string outString)
         {
             Regex re = new Regex("[:：][0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]-[0-9][0-9][:：][0-9][0-9]$", RegexOptions.Singleline);
@@ -363,11 +373,15 @@ public enum DrawRange
             if (!outString.Equals(inString)) return;
         }
 
-        // inStringのフォーマットは以下。
-        // "Start,Task:00:00-"
-        // "Start,Task:00:00-00:15"
-        // "Start,Task:00:00-00:15-"
-        // "Start,Task:00:00-00:15-00:30"
+        /// <summary>
+        /// 入力文字列を履歴ファイルに追記する。
+        /// inStringのフォーマットは以下。
+        /// "Start,Task:00:00-"
+        /// "Start,Task:00:00-00:15"
+        /// "Start,Task:00:00-00:15-"
+        /// "Start,Task:00:00-00:15-00:30"
+        /// <param name="inString">入力文字列</param>
+        /// </summary>
         private void SaveWorkHistory(string inString)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
@@ -383,8 +397,11 @@ public enum DrawRange
             sw.Close();
         }
         
-        // Output Log
-        // Log format: datetime,(スタート|ストップ|リセット),task[:starttime-endtime]
+        /// <summary>
+        /// Output Log
+        /// Log format: datetime,(スタート|ストップ|リセット),task[:starttime-endtime]
+        /// <param name="inString">出力文字列</param>
+        /// </summary>
         private void WriteLog(string outString)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
@@ -396,10 +413,16 @@ public enum DrawRange
             writer.Close();
         }
 
-        private bool isWhiteSpace(string outString)
+#if NOTDEF
+        /// <summary>
+        /// ホワイトスペースかを判定する
+        /// <param name="inString">入力文字列</param>
+        /// </summary>
+        private bool isWhiteSpace(string inString)
         {
             return true;
         }
+#endif
 
         /// <summary>
         /// [ログ表示]ボタンがクリックされた時の処理
@@ -466,6 +489,12 @@ public enum DrawRange
             //treeView1.Nodes.Clear();
         }
 
+        /// <summary>
+        /// 
+        /// <param name="tnc"></param>
+        /// <param name="ary"></param>
+        /// <param name="aryIdx"></param>
+        /// </summary>
         private void RecursiveAddTree(TreeNodeCollection tnc, string[] ary, int aryIdx)
         {
             // 文字列sを:で分割する
@@ -1145,30 +1174,43 @@ public enum DrawRange
             dataGridView1.Rows.Add("10:00", "12:00", "引継ぎ会議", "議事メモ", "", false, false, false, false, false, false, false, false, false, false);
         }
 
-private DataGridViewColumn CreateDataGridViewTextBoxColumn(string name, string header, int width, Type type)
-{
-    DataGridViewTextBoxColumn col = new DataGridViewTextBoxColumn();
-    col.Name = name;
-    col.DataPropertyName = name;
-    col.HeaderText = header;
-    col.ValueType = type;
-    col.Width = width;
-    return col;
-}
+        /// <summary>
+        /// DataGridViewにテキストボックスの列を追加する。
+        /// <param name="name"></param>
+        /// <param name="header"></param>
+        /// <param name="width"></param>
+        /// <param name="type"></param>
+        /// </summary>
+        private DataGridViewColumn CreateDataGridViewTextBoxColumn(string name, string header, int width, Type type)
+        {
+            DataGridViewTextBoxColumn col = new DataGridViewTextBoxColumn();
+            col.Name = name;
+            col.DataPropertyName = name;
+            col.HeaderText = header;
+            col.ValueType = type;
+            col.Width = width;
+            return col;
+        }
 
-private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string header, int width)
-{
-    DataGridViewCheckBoxColumn col = new DataGridViewCheckBoxColumn();
-    col.Name = name;
-    col.DataPropertyName = name; // データソースの name をバインドする
-    col.HeaderText = header;
-    //checkBoxCol.SortMode = DataGridViewColumnSortMode.NotSortable;
-    //checkBoxCol.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-    //checkBoxCol.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-    //col.ValueType = type;
-    col.Width = width;
-    return col;
-}
+        /// <summary>
+        /// DataGridViewにチェックボックスの列を追加する。
+        /// <param name="name"></param>
+        /// <param name="header"></param>
+        /// <param name="width"></param>
+        /// </summary>
+        private DataGridViewColumn CreateDataGridViewCheckBoxColumn(string name, string header, int width)
+        {
+            DataGridViewCheckBoxColumn col = new DataGridViewCheckBoxColumn();
+            col.Name = name;
+            col.DataPropertyName = name; // データソースの name をバインドする
+            col.HeaderText = header;
+            //checkBoxCol.SortMode = DataGridViewColumnSortMode.NotSortable;
+            //checkBoxCol.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //checkBoxCol.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            //col.ValueType = type;
+            col.Width = width;
+            return col;
+        }
 
         /// <summary>
         /// [RALグラフ表示](btnShowGraphReviewedActivityLog)ボタンがクリックされた時の処理
@@ -1190,14 +1232,22 @@ public enum Season
 }
 */
 
+        /// <summary>
+        /// 描画範囲の指定
+        /// <param name="lastValidEndTime"></param>
+        /// <param name="drawRange"></param>
+        /// </summary>
         internal int GetDrawRange(string lastValidEndTime, out DrawRange drawRange)
         {
             drawRange = DrawRange.Am;
             return(0);
         }
 
-        //https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
-        //DataGridViewを渡してドーナッツグラフを描画する
+        /// <summary>
+        ///  https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
+        /// DataGridViewを渡してドーナッツグラフを描画する
+        /// <param name="dataGridView"></param>
+        /// </summary>
         internal int DrawChartDoughnut(DataGridView dataGridView)
         {
             //グラフ描画
@@ -1385,14 +1435,6 @@ public enum Season
             }
             return;
         }
-
-#if NOTDEF
-        // 内容情報を取得する
-        private void getContentInfo()
-        {
-            return;
-        }
-#endif
 
         /// <summary>
         /// [AddPanel](btnAddPanel)ボタンがクリックされた時の処理
