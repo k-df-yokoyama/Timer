@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint22 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 10D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint23 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 20D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint24 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -81,6 +81,15 @@
             this.label22 = new System.Windows.Forms.Label();
             this.btnSaveReviewedActivityLog = new System.Windows.Forms.Button();
             this.btnShowGraphReviewedActivityLog = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -258,7 +267,7 @@
             // 
             // btnAddNode
             // 
-            this.btnAddNode.Location = new System.Drawing.Point(1546, 678);
+            this.btnAddNode.Location = new System.Drawing.Point(1546, 587);
             this.btnAddNode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnAddNode.Name = "btnAddNode";
             this.btnAddNode.Size = new System.Drawing.Size(143, 34);
@@ -269,7 +278,7 @@
             // 
             // btnRemoveNode
             // 
-            this.btnRemoveNode.Location = new System.Drawing.Point(1546, 720);
+            this.btnRemoveNode.Location = new System.Drawing.Point(1546, 629);
             this.btnRemoveNode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnRemoveNode.Name = "btnRemoveNode";
             this.btnRemoveNode.Size = new System.Drawing.Size(143, 34);
@@ -360,7 +369,7 @@
             // 
             // btnShowGraph
             // 
-            this.btnShowGraph.Location = new System.Drawing.Point(1699, 720);
+            this.btnShowGraph.Location = new System.Drawing.Point(1699, 629);
             this.btnShowGraph.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnShowGraph.Name = "btnShowGraph";
             this.btnShowGraph.Size = new System.Drawing.Size(143, 34);
@@ -371,21 +380,21 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea8.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea8);
+            legend8.Name = "Legend1";
+            this.chart1.Legends.Add(legend8);
             this.chart1.Location = new System.Drawing.Point(1124, 22);
             this.chart1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            series1.Points.Add(dataPoint1);
-            series1.Points.Add(dataPoint2);
-            series1.Points.Add(dataPoint3);
-            this.chart1.Series.Add(series1);
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series8.Legend = "Legend1";
+            series8.Name = "Series1";
+            series8.Points.Add(dataPoint22);
+            series8.Points.Add(dataPoint23);
+            series8.Points.Add(dataPoint24);
+            this.chart1.Series.Add(series8);
             this.chart1.Size = new System.Drawing.Size(363, 270);
             this.chart1.TabIndex = 22;
             this.chart1.Text = "chart1";
@@ -395,15 +404,15 @@
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(1497, 22);
+            this.panel1.Location = new System.Drawing.Point(1513, 22);
             this.panel1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(345, 636);
+            this.panel1.Size = new System.Drawing.Size(329, 271);
             this.panel1.TabIndex = 26;
             // 
             // btnAddPanel
             // 
-            this.btnAddPanel.Location = new System.Drawing.Point(1699, 678);
+            this.btnAddPanel.Location = new System.Drawing.Point(1699, 587);
             this.btnAddPanel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnAddPanel.Name = "btnAddPanel";
             this.btnAddPanel.Size = new System.Drawing.Size(143, 34);
@@ -447,7 +456,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(23, 678);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(1468, 332);
+            this.dataGridView1.Size = new System.Drawing.Size(1819, 332);
             this.dataGridView1.TabIndex = 30;
             // 
             // label14
@@ -553,11 +562,101 @@
             this.btnShowGraphReviewedActivityLog.UseVisualStyleBackColor = true;
             this.btnShowGraphReviewedActivityLog.Click += new System.EventHandler(this.btnShowGraphReviewedActivityLog_Click);
             // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(1510, 307);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(62, 18);
+            this.label23.TabIndex = 42;
+            this.label23.Text = "効率化";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(1510, 340);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(80, 18);
+            this.label24.TabIndex = 43;
+            this.label24.Text = "人材育成";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(1510, 370);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(169, 18);
+            this.label25.TabIndex = 44;
+            this.label25.Text = "人の集まる場所を作る";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(1510, 410);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(121, 18);
+            this.label26.TabIndex = 45;
+            this.label26.Text = "Code of Values";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(1510, 439);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(261, 18);
+            this.label27.TabIndex = 46;
+            this.label27.Text = "視線は外向き。未来を見通すように";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(1510, 470);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(264, 18);
+            this.label28.TabIndex = 47;
+            this.label28.Text = "思考はシンプル。戦略を示せるように";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(1510, 500);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(249, 18);
+            this.label29.TabIndex = 48;
+            this.label29.Text = "心は情熱的。自らやり遂げるように";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(1510, 529);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(277, 18);
+            this.label30.TabIndex = 49;
+            this.label30.Text = "行動はスピード。チャンスを逃さぬように";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(1510, 559);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(296, 18);
+            this.label31.TabIndex = 50;
+            this.label31.Text = "組織はオープン。全員が成長できるように";
+            // 
             // FormTimer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1856, 1022);
+            this.ClientSize = new System.Drawing.Size(2478, 1444);
+            this.Controls.Add(this.label31);
+            this.Controls.Add(this.label30);
+            this.Controls.Add(this.label29);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.label24);
+            this.Controls.Add(this.label23);
             this.Controls.Add(this.btnShowGraphReviewedActivityLog);
             this.Controls.Add(this.btnSaveReviewedActivityLog);
             this.Controls.Add(this.label22);
@@ -662,6 +761,15 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Button btnSaveReviewedActivityLog;
         private System.Windows.Forms.Button btnShowGraphReviewedActivityLog;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
     }
 }
 

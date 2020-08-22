@@ -9,8 +9,10 @@ namespace Timer
     static class Constants
     {
         //public const int MainFormWidthFormal = 790;
-        public const int MainFormWidthFormal = 930;
+        //public const int MainFormWidthFormal = 930;
+        public const int MainFormWidthFormal = 1150;
         //public const int MainFormWidthDevelopping = 910;
-        public const int MainFormWidthDevelopping = 1130;
+        //public const int MainFormWidthDevelopping = 1130;
+        public const int MainFormWidthDevelopping = 1150;
     }
 }
