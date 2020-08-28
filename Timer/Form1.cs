@@ -348,11 +348,11 @@ namespace Timer
         /// <summary>
         /// inString から時間部分を削除した文字列を作成する。
         /// inString、outStringのフォーマットは以下。
-        /// IN:  "Start,Task:00:00-"
-        /// IN:  "Start,Task:00:00-00:15"
-        /// IN:  "Start,Task:00:00-00:15-"
-        /// IN:  "Start,Task:00:00-00:15-00:30"
-        /// OUT: "Start,Task"
+        /// IN:  "Task:00:00-"
+        /// IN:  "Task:00:00-00:15"
+        /// IN:  "Task:00:00-00:15-"
+        /// IN:  "Task:00:00-00:15-00:30"
+        /// OUT: "Task"
         /// <param name="inString">入力文字列</param>
         /// <param name="outString">出力文字列</param>
         /// </summary>
@@ -378,10 +378,12 @@ namespace Timer
         /// <summary>
         /// 入力文字列を履歴ファイルに追記する。
         /// inStringのフォーマットは以下。
-        /// "Start,Task:00:00-"
-        /// "Start,Task:00:00-00:15"
-        /// "Start,Task:00:00-00:15-"
-        /// "Start,Task:00:00-00:15-00:30"
+        /// "Task:00:00-"
+        /// "Task:00:00-00:15"
+        /// "Task:00:00-00:15-"
+        /// "Task:00:00-00:15-00:30"
+        /// 履歴ファイルに出力するフォーマットは以下。
+        /// "Task"
         /// <param name="inString">入力文字列</param>
         /// </summary>
         private void SaveWorkHistory(string inString)
@@ -402,7 +404,7 @@ namespace Timer
         /// <summary>
         /// Output Log
         /// Log format: datetime,(スタート|ストップ|リセット),task[:starttime-endtime]
-        /// <param name="inString">出力文字列</param>
+        /// <param name="inString">出力文字列:=(スタート|ストップ|リセット),task[:starttime-endtime]</param>
         /// </summary>
         private void WriteLog(string outString)
         {
