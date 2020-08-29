@@ -404,7 +404,7 @@ namespace Timer
         /// <summary>
         /// Output Log
         /// Log format: datetime,(スタート|ストップ|リセット),task[:starttime-endtime]
-        /// <param name="inString">出力文字列:=(スタート|ストップ|リセット),task[:starttime-endtime]</param>
+        /// <param name="outString">出力文字列:=(スタート|ストップ|リセット),task[:starttime-endtime]</param>
         /// </summary>
         private void WriteLog(string outString)
         {
@@ -548,7 +548,7 @@ namespace Timer
         }
 
         /// <summary>
-        /// 入力値から<開始時間(hh:mm)>、<終了時間(hh:mm)>、<タスク名>を取得する
+        /// 入力値から[開始時間 hh:mm]、[終了時間 hh:mm]、[タスク名]を取得する
         /// 処理できる時間部分のフォーマットと取得結果は以下。
         /// ""00:00-  Task"
         ///   return -1
@@ -612,7 +612,7 @@ namespace Timer
         }
 
         /// <summary>
-        /// 入力値から<開始時間(hh:mm)>と<終了時間(hh:mm)>を取得する
+        /// 入力値から[開始時間 hh:mm]と[終了時間 hh:mm]を取得する
         /// 処理できる時間部分のフォーマットと取得結果は以下。
         /// "Start,Task:00:00-"
         ///   return -1
@@ -765,8 +765,103 @@ namespace Timer
         }
 
         /// <summary>
+        /// 指定された開始時間、終了時間から凡その（15分刻みの）開始時間、終了時間を取得する。
+        /// 入力フォーマット：hh:mm|hh：mm、00:00から24:00まで可、9:00や10:1は不可
+        /// <param name="startTime">開始時間</param> 
+        /// <param name="endTime">終了時間</param>
+        /// <param name="intStartHh"></param> 
+        /// <param name="intStartMm"></param>
+        /// <param name="intEndHh"></param> 
+        /// <param name="intEndMm"></param>
+        /// </summary>
+        internal int GetApproximateIntHhAndMm2(string startTime, string endTime,
+            out int intStartHh, out int intStartMm, out int intEndHh, out int intEndMm)
+        {
+            intStartHh = -1;
+            intStartMm = -1;
+            intEndHh = -1;
+            intEndMm = -1;
+
+            //入力値のフォーマットチェック
+            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
+                return -1;
+            }
+            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
+                return -1;
+            }
+
+            //入力値を時間と分に分割
+            var startHh = startTime.Substring(0, 2);
+            var startMm = startTime.Substring(3, 2);
+            var endHh = endTime.Substring(0, 2);
+            var endMm = endTime.Substring(3, 2);
+
+            //開始時間と終了時間を15分刻みの時間に変換する
+            if (GetApproximateIntMm(startMm, out intStartMm) < 0) {
+                return -1;
+            }
+            if (GetApproximateIntMm(endMm, out intEndMm) < 0) {
+                return -1;
+            }
+
+            //入力値に応じた処理
+            //...開始時間の方が終了時間より大きい
+            if (int.Parse(startHh) > int.Parse(endHh)) {
+/*
+                if (int.Parse(endHh) < 12) {
+                    startHh = "00";
+                    startMm = "00";
+                    intStartMm = 0;
+                }
+                else {
+                    startHh = "12";
+                    startMm = "00";
+                    intStartMm = 0;
+                }
+*/
+                    startHh = "00";
+                    startMm = "00";
+                    intStartMm = 0;
+            }
+/*
+            //...開始時間と終了時間が12時をまたぐ
+            //...→開始時間を12とする
+            if (int.Parse(startHh) < 12 && 12 <= int.Parse(endHh) && !(int.Parse(endHh) == 12 && int.Parse(endMm) == 0))
+            {
+                startHh = "12";
+                startMm = "00";
+                intStartMm = 0;
+            }
+*/
+
+            intStartHh = int.Parse(startHh);
+            intEndHh = int.Parse(endHh);
+/*
+            //開始時間＝12:00、終了時間＝12:00の場合
+            //→開始・終了時間を12未満の数とする
+            if ((intStartHh == 12 && intStartMm == 0) && (intEndHh == 12 && intEndMm == 0))
+            {
+                intStartHh -= 12;
+                intEndHh -= 12;
+            }
+            //開始時間＝12:00以降の場合
+            //→開始時間を12未満の数とする
+            if (intStartHh >= 12) {
+                intStartHh -= 12;
+            }
+            //終了時間＝12:00以降で終了時間が12:00ではない場合
+            //→終了時間を12未満の数とする
+            if (intEndHh >= 12 && !(intEndHh ==12 && intEndMm == 0)) {
+                intEndHh -= 12;
+            }
+*/
+
+            return 0;
+        }
+
+        /// <summary>
         /// https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
-        /// <開始時間(hh:mm)>と<終了時間(hh:mm)>を渡してドーナッツグラフを描画する
+        /// [開始時間 hh:mm]と[終了時間 hh:mm]を渡してドーナッツグラフを描画する
         /// <param name="startTime">開始時間</param> 
         /// <param name="endTime">終了時間</param>
         /// </summary>
@@ -1313,7 +1408,9 @@ public enum Season
 
             Series series = new Series();
             //series.Name = "Series";
+#if SHOW_LEGEND
             series.LegendText = "Task";
+#endif
             series.ChartType = SeriesChartType.Doughnut;
             series["DoughnutRadius"] = "60";
             series["PieStartAngle"] = "270";
@@ -1339,6 +1436,7 @@ public enum Season
                 lastValidEndTime = dataGridView[1, row.Index].Value.ToString();
             }
 #else
+            //最後の最も妥当な開始・終了時間を取得
             int idx;
             for (idx = dataGridView.Rows.Count - 1; idx >= 0; idx--)
             {
@@ -1354,11 +1452,17 @@ public enum Season
             }
 #endif
 
+#if STILL_NOT_USED
+            //最後の妥当な開始時間から描画範囲を特定する
 //            if (GetDrawRange(lastValidStartTime, lastValidEndTime, out drawRange) < 0) {
             if (GetDrawRange(lastValidStartTime, out drawRange) < 0) {
                 return(-1);
             }
+#endif
 
+#if DEBUG
+            SaveChartInput("DrawChartDoughnut()");
+#endif
             foreach (DataGridViewRow row in dataGridView.Rows) {
                 taskIdx++;
 
@@ -1371,7 +1475,7 @@ public enum Season
 
                 //startTime/endTime1からintStratHh,intStartMm,intEndHh,intEndMmを取得
                 intCrntStartHh = intCrntStartMm = intCrntEndHh = intCrntEndMm = -1;
-                if (GetApproximateIntHhAndMm(crntStartTime, crntEndTime, out intCrntStartHh, out intCrntStartMm,
+                if (GetApproximateIntHhAndMm2(crntStartTime, crntEndTime, out intCrntStartHh, out intCrntStartMm,
                     out intCrntEndHh, out intCrntEndMm) < 0) {
                     return(-1);
                 }
@@ -1380,12 +1484,21 @@ public enum Season
                 if (intPrevEndHh != intCrntStartHh || intPrevEndMm != intCrntStartMm) {
                     //時間を埋める
                     point = new DataPoint();
+#if SHOW_LEGEND
                     point.LegendText = "Task " + taskIdx.ToString();
+#endif
                     //point.LegendText = dataGridView[2, row.Index].Value.ToString();
                     point.XValue = 0;
                     //point.YValues = new double[] { (intPrevEndHh * 60 + intStartMm) }; // 円グラフに占める割合
                     point.YValues = new double[] { (intCrntStartHh * 60 + intCrntStartMm) - (intPrevEndHh * 60 + intPrevEndMm) }; // 円グラフに占める割合
                     series.Points.Add(point);
+#if DEBUG
+                    SaveChartInput("[blank]");
+                    SaveChartInput(intPrevEndHh.ToString());
+                    SaveChartInput(intPrevEndMm.ToString());
+                    SaveChartInput(crntStartTime);
+                    SaveChartInput(point.YValues[0].ToString());
+#endif
 
                     taskIdx++;
                 }
@@ -1401,6 +1514,12 @@ public enum Season
                 //point.YValues = new double[] { (intCrntStartHh * 60 + intCrntStartMm) }; // 円グラフに占める割合
                 point.YValues = new double[] { (intCrntEndHh * 60 + intCrntEndMm) - (intCrntStartHh * 60 + intCrntStartMm) }; // 円グラフに占める割合
                 series.Points.Add(point);
+#if DEBUG
+                SaveChartInput("[task]");
+                SaveChartInput(crntStartTime);
+                SaveChartInput(crntEndTime);
+                SaveChartInput(point.YValues[0].ToString());
+#endif
 
                 //intPrevStartHh = intCrntStartHh;
                 //intPrevStartMm = intCrntStartMm;
@@ -1413,12 +1532,20 @@ public enum Season
             //直前のタスクの終了時間から時間間隔が空いている場合
             if (intPrevEndHh != 0 || intPrevEndMm != 0) {
                 point = new DataPoint();
+#if SHOW_LEGEND
                 point.LegendText = "Task " + taskIdx.ToString();
+#endif
                 point.XValue = 0;
-                point.YValues = new double[] { 60 * 12 - (intPrevEndHh * 60 + intPrevEndMm) }; // 円グラフに占める割合
+                point.YValues = new double[] { 60 * 24 - (intPrevEndHh * 60 + intPrevEndMm) }; // 円グラフに占める割合
                 point.Color = System.Drawing.Color.Silver;
                 //point.Color = "BFBFBF"
                 series.Points.Add(point);
+#if DEBUG
+                SaveChartInput("[empty]");
+                SaveChartInput(intPrevEndHh.ToString());
+                SaveChartInput(intPrevEndMm.ToString());
+                SaveChartInput(point.YValues[0].ToString());
+#endif
             }
 
             chart1.Series.Add(series);
@@ -1426,6 +1553,23 @@ public enum Season
             return 0;
         }
 
+        /// <summary>
+        /// 入力文字列をChartInputファイルに追記する。
+        /// <param name="inString">入力文字列</param>
+        /// </summary>
+        private void SaveChartInput(string inString)
+        {
+            string strChartInputFilePath;
+            strChartInputFilePath = ".\\timer_chartinput.txt"; 
+
+            //（1）テキスト・ファイルを開く、もしくは作成する
+            StreamWriter sw = new StreamWriter(@strChartInputFilePath, true, sjisEnc);
+            //（2）テキスト内容を書き込む
+            sw.WriteLine(inString);
+            //（3）テキスト・ファイルを閉じる
+            sw.Close();
+        }
+        
         /// <summary>
         /// [RAL保存](btnSaveReviewedActivityLog)ボタンがクリックされた時の処理
         /// <param name="sender">イベントを送信したオブジェクト</param>
