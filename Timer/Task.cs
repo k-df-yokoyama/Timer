@@ -9,8 +9,8 @@ namespace Timer
 {
     class Task
     {
-        string startTime, endTime;
-        string taskName;
+        public string startTime, endTime;
+        public string taskName;
 
 /*
         string input, output;

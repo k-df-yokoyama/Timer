@@ -646,54 +646,13 @@ namespace Timer
             //入力値に応じた処理
             //...開始時間の方が終了時間より大きい
             if (int.Parse(startHh) > int.Parse(endHh)) {
-/*
-                if (int.Parse(endHh) < 12) {
-                    startHh = "00";
-                    startMm = "00";
-                    intStartMm = 0;
-                }
-                else {
-                    startHh = "12";
-                    startMm = "00";
-                    intStartMm = 0;
-                }
-*/
-                    startHh = "00";
-                    startMm = "00";
-                    intStartMm = 0;
-            }
-/*
-            //...開始時間と終了時間が12時をまたぐ
-            //...→開始時間を12とする
-            if (int.Parse(startHh) < 12 && 12 <= int.Parse(endHh) && !(int.Parse(endHh) == 12 && int.Parse(endMm) == 0))
-            {
-                startHh = "12";
+                startHh = "00";
                 startMm = "00";
                 intStartMm = 0;
             }
-*/
 
             intStartHh = int.Parse(startHh);
             intEndHh = int.Parse(endHh);
-/*
-            //開始時間＝12:00、終了時間＝12:00の場合
-            //→開始・終了時間を12未満の数とする
-            if ((intStartHh == 12 && intStartMm == 0) && (intEndHh == 12 && intEndMm == 0))
-            {
-                intStartHh -= 12;
-                intEndHh -= 12;
-            }
-            //開始時間＝12:00以降の場合
-            //→開始時間を12未満の数とする
-            if (intStartHh >= 12) {
-                intStartHh -= 12;
-            }
-            //終了時間＝12:00以降で終了時間が12:00ではない場合
-            //→終了時間を12未満の数とする
-            if (intEndHh >= 12 && !(intEndHh ==12 && intEndMm == 0)) {
-                intEndHh -= 12;
-            }
-*/
 
             return 0;
         }
@@ -991,45 +950,14 @@ namespace Timer
         /// </summary>
         private void AddActivityLog(string taskAndTime)
         {
-            //タスクと時間に分割する
-            bool isFormatOK = true;
+            Task addedTask = new Task(taskAndTime);
 
-            //入力値のフォーマットチェック
-            if (Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
-                Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-24[:：]00$") ||
-                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
-                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-24[:：]00$")) {
-                isFormatOK = true;
+            if (addedTask.startTime.Equals("") || addedTask.endTime.Equals("")) {
+                textBox1.Text = textBox1.Text + "\r\n" + addedTask.taskName;
             }
             else {
-                isFormatOK = false;
-            }
-            if (isFormatOK ||
-                Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
-                Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-.*-24[:：]00$") ||
-                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
-                Regex.IsMatch(taskAndTime, @"[:：]24[:：]00-.*-24[:：]00$"))
-            {
-                isFormatOK = true;
-            }
-            else {
-                isFormatOK = false;
-            }
-
-            //ActivityLogのテキストボックス(textBox1)へのTaskAndTimeの追加
-            if (!isFormatOK) {
-                //そのままActivityLogのテキストボックス(textBox1)に追加
-                textBox1.Text = textBox1.Text + "\r\n" + taskAndTime;
-            }
-            else {
-                //フォーマットを変更してActivityLogのテキストボックス(textBox1)に追加
-                //taskAndTimeから時間文字列を取得
-                Match timeString = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
-
-                string taskString;
-                Utils.RemoveTimeString(taskAndTime, out taskString);
-
-                textBox1.Text = textBox1.Text + "\r\n" + timeString.Value + "  " + taskString;
+                textBox1.Text = textBox1.Text + "\r\n" +
+                    addedTask.startTime + "-" + addedTask.endTime + "  " + addedTask.taskName;
             }
 
             // 画面上に表示されているActivityLogの内容を
