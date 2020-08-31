@@ -550,10 +550,10 @@ namespace Timer
             var endMm = endTime.Substring(3, 2);
 
             //開始時間と終了時間を15分刻みの時間に変換する
-            if (GetApproximateIntMm(startMm, out intStartMm) < 0) {
+            if (Utils.GetApproximateIntMm(startMm, out intStartMm) < 0) {
                 return -1;
             }
-            if (GetApproximateIntMm(endMm, out intEndMm) < 0) {
+            if (Utils.GetApproximateIntMm(endMm, out intEndMm) < 0) {
                 return -1;
             }
 
@@ -636,10 +636,10 @@ namespace Timer
             var endMm = endTime.Substring(3, 2);
 
             //開始時間と終了時間を15分刻みの時間に変換する
-            if (GetApproximateIntMm(startMm, out intStartMm) < 0) {
+            if (Utils.GetApproximateIntMm(startMm, out intStartMm) < 0) {
                 return -1;
             }
-            if (GetApproximateIntMm(endMm, out intEndMm) < 0) {
+            if (Utils.GetApproximateIntMm(endMm, out intEndMm) < 0) {
                 return -1;
             }
 
@@ -753,42 +753,6 @@ namespace Timer
             //chart1.Series.Legend = "Legend2";
             series.IsVisibleInLegend = true;
 #endif
-
-            return 0;
-        }
-
-        /// <summary>
-        /// 開始時間と終了時間を15分刻みの時間に変換する
-        /// <param name="strMm">開始時間</param> 
-        /// <param name="intMm">終了時間</param>
-        /// </summary>
-        internal int GetApproximateIntMm(string strMm, out int intMm)
-        {
-            //入力値のフォーマットチェック
-            if (!Regex.IsMatch(strMm, @"[0-5][0-9]")) {
-                intMm = -1;
-                return -1;
-            }
-
-            if (int.Parse(strMm) >= 0 && int.Parse(strMm) < 8) {
-                intMm = 0;
-            }
-            else if (int.Parse(strMm) >= 8 && int.Parse(strMm) < 15 + 8) {
-                intMm = 15;
-            }
-            else if (int.Parse(strMm) >= 15 + 8 && int.Parse(strMm) < 30 + 8) {
-                intMm = 30;
-            }
-            else if (int.Parse(strMm) >= 30 + 8 && int.Parse(strMm) < 45 + 8) {
-                intMm = 45;
-            }
-            else if (int.Parse(strMm) >= 45 + 8 && int.Parse(strMm) < 60) {
-                intMm = 60;
-            }
-            else {
-                intMm = -1;
-                return -1;
-            }
 
             return 0;
         }

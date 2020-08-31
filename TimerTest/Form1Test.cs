@@ -134,6 +134,7 @@ namespace Timer.Tests
             Assert.IsTrue(ret == 0);
         }
 
+/*
         [TestMethod]
         public void Test_approximateMm()
         {
@@ -188,6 +189,7 @@ namespace Timer.Tests
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(intMm == 60);
         }
+*/
 
         [TestMethod()]
         public void Test_readActivityLog()

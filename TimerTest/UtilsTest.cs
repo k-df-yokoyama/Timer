@@ -37,5 +37,61 @@ namespace Timer.Tests
 
             Assert.IsTrue(outString.Equals("Start,Task"));
         }
+
+        [TestMethod]
+        public void Test_approximateMm()
+        {
+            int ret;
+            int intMm = 0;
+
+            //FormTimer Utils = new FormTimer();
+            //var pbFormTimer = new PrivateObject(Utils);
+            //ret = pbFormTimer.Invoke("GetApproximateIntMm", "00", intMm);
+            ret = Utils.GetApproximateIntMm("aa", out intMm);
+            Assert.IsTrue(ret == -1);
+
+            ret = Utils.GetApproximateIntMm("0", out intMm);
+            Assert.IsTrue(ret == -1);
+
+            ret = Utils.GetApproximateIntMm("60", out intMm);
+            Assert.IsTrue(ret == -1);
+
+            ret = Utils.GetApproximateIntMm("00", out intMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intMm == 0);
+
+            ret = Utils.GetApproximateIntMm("07", out intMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intMm == 0);
+
+            ret = Utils.GetApproximateIntMm("08", out intMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intMm == 15);
+
+            ret = Utils.GetApproximateIntMm("22", out intMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intMm == 15);
+
+            ret = Utils.GetApproximateIntMm("23", out intMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intMm == 30);
+
+            ret = Utils.GetApproximateIntMm("37", out intMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intMm == 30);
+
+            ret = Utils.GetApproximateIntMm("52", out intMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intMm == 45);
+
+            ret = Utils.GetApproximateIntMm("53", out intMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intMm == 60);
+
+            ret = Utils.GetApproximateIntMm("59", out intMm);
+            Assert.IsTrue(ret == 0);
+            Assert.IsTrue(intMm == 60);
+        }
+
     }
 }
