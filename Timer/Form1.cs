@@ -518,146 +518,6 @@ namespace Timer
         }
 
         /// <summary>
-        /// 指定された開始時間、終了時間から凡その（15分刻みの）開始時間、終了時間を取得する。
-        /// 入力フォーマット：hh:mm|hh：mm、00:00から24:00まで可、9:00や10:1は不可
-        /// <param name="startTime">開始時間</param> 
-        /// <param name="endTime">終了時間</param>
-        /// <param name="intStartHh"></param> 
-        /// <param name="intStartMm"></param>
-        /// <param name="intEndHh"></param> 
-        /// <param name="intEndMm"></param>
-        /// </summary>
-        internal int GetApproximateIntHhAndMm(string startTime, string endTime, out int intStartHh, out int intStartMm,
-            out int intEndHh, out int intEndMm)
-        {
-            intStartHh = -1;
-            intStartMm = -1;
-            intEndHh = -1;
-            intEndMm = -1;
-
-            //入力値のフォーマットチェック
-            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
-                return -1;
-            }
-            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
-                return -1;
-            }
-
-            //入力値を時間と分に分割
-            var startHh = startTime.Substring(0, 2);
-            var startMm = startTime.Substring(3, 2);
-            var endHh = endTime.Substring(0, 2);
-            var endMm = endTime.Substring(3, 2);
-
-            //開始時間と終了時間を15分刻みの時間に変換する
-            if (Utils.GetApproximateIntMm(startMm, out intStartMm) < 0) {
-                return -1;
-            }
-            if (Utils.GetApproximateIntMm(endMm, out intEndMm) < 0) {
-                return -1;
-            }
-
-            //入力値に応じた処理
-            //...開始時間の方が終了時間より大きい
-            if (int.Parse(startHh) > int.Parse(endHh)) {
-                if (int.Parse(endHh) < 12) {
-                    startHh = "00";
-                    startMm = "00";
-                    intStartMm = 0;
-                }
-                else {
-                    startHh = "12";
-                    startMm = "00";
-                    intStartMm = 0;
-                }
-            }
-            //...開始時間と終了時間が12時をまたぐ
-            //...→開始時間を12とする
-            if (int.Parse(startHh) < 12 && 12 <= int.Parse(endHh) && !(int.Parse(endHh) == 12 && int.Parse(endMm) == 0))
-            {
-                startHh = "12";
-                startMm = "00";
-                intStartMm = 0;
-            }
-
-            intStartHh = int.Parse(startHh);
-            intEndHh = int.Parse(endHh);
-            //開始時間＝12:00、終了時間＝12:00の場合
-            //→開始・終了時間を12未満の数とする
-            if ((intStartHh == 12 && intStartMm == 0) && (intEndHh == 12 && intEndMm == 0))
-            {
-                intStartHh -= 12;
-                intEndHh -= 12;
-            }
-            //開始時間＝12:00以降の場合
-            //→開始時間を12未満の数とする
-            if (intStartHh >= 12) {
-                intStartHh -= 12;
-            }
-            //終了時間＝12:00以降で終了時間が12:00ではない場合
-            //→終了時間を12未満の数とする
-            if (intEndHh >= 12 && !(intEndHh ==12 && intEndMm == 0)) {
-                intEndHh -= 12;
-            }
-
-            return 0;
-        }
-
-        /// <summary>
-        /// 指定された開始時間、終了時間から凡その（15分刻みの）開始時間、終了時間を取得する。
-        /// 入力フォーマット：hh:mm|hh：mm、00:00から24:00まで可、9:00や10:1は不可
-        /// <param name="startTime">開始時間</param> 
-        /// <param name="endTime">終了時間</param>
-        /// <param name="intStartHh"></param> 
-        /// <param name="intStartMm"></param>
-        /// <param name="intEndHh"></param> 
-        /// <param name="intEndMm"></param>
-        /// </summary>
-        internal int GetApproximateIntHhAndMm2(string startTime, string endTime,
-            out int intStartHh, out int intStartMm, out int intEndHh, out int intEndMm)
-        {
-            intStartHh = -1;
-            intStartMm = -1;
-            intEndHh = -1;
-            intEndMm = -1;
-
-            //入力値のフォーマットチェック
-            if (!Regex.IsMatch(startTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
-                return -1;
-            }
-            if (!Regex.IsMatch(endTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]")) {
-                return -1;
-            }
-
-            //入力値を時間と分に分割
-            var startHh = startTime.Substring(0, 2);
-            var startMm = startTime.Substring(3, 2);
-            var endHh = endTime.Substring(0, 2);
-            var endMm = endTime.Substring(3, 2);
-
-            //開始時間と終了時間を15分刻みの時間に変換する
-            if (Utils.GetApproximateIntMm(startMm, out intStartMm) < 0) {
-                return -1;
-            }
-            if (Utils.GetApproximateIntMm(endMm, out intEndMm) < 0) {
-                return -1;
-            }
-
-            //入力値に応じた処理
-            //...開始時間の方が終了時間より大きい
-            if (int.Parse(startHh) > int.Parse(endHh)) {
-                startHh = "00";
-                startMm = "00";
-                intStartMm = 0;
-            }
-
-            intStartHh = int.Parse(startHh);
-            intEndHh = int.Parse(endHh);
-
-            return 0;
-        }
-
-        /// <summary>
         /// https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
         /// [開始時間 hh:mm]と[終了時間 hh:mm]を渡してドーナッツグラフを描画する
         /// <param name="startTime">開始時間</param> 
@@ -667,7 +527,7 @@ namespace Timer
         {
             int intStartHh, intStartMm, intEndHh, intEndMm;
 
-            if (GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0) {
+            if (Utils.GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0) {
                 return -1;
             }
 
@@ -1079,7 +939,7 @@ public enum Season
         {
 /*
             int intStartHh, intStartMm, intEndHh, intEndMm;
-            if (GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0)
+            if (Utils.GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0)
             {
                 drawRange = DrawRange.None;
                 return (-1);
@@ -1207,7 +1067,7 @@ public enum Season
 
                 //startTime/endTime1からintStratHh,intStartMm,intEndHh,intEndMmを取得
                 intCrntStartHh = intCrntStartMm = intCrntEndHh = intCrntEndMm = -1;
-                if (GetApproximateIntHhAndMm2(crntStartTime, crntEndTime, out intCrntStartHh, out intCrntStartMm,
+                if (Utils.GetApproximateIntHhAndMm2(crntStartTime, crntEndTime, out intCrntStartHh, out intCrntStartMm,
                     out intCrntEndHh, out intCrntEndMm) < 0) {
                     return(-1);
                 }

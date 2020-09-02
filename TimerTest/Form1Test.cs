@@ -236,48 +236,5 @@ namespace Timer.Tests
             Assert.IsTrue(ret == 0);
             Assert.IsTrue(drawRange == DrawRange.Am);
         }
-
-        [TestMethod]
-        public void Test_GetApproximateIntHhAndMm()
-        {
-            int ret;
-            int intStartHh, intStartMm, intEndHh, intEndMm;
-
-            FormTimer formTimer = new FormTimer();
-            ret = formTimer.GetApproximateIntHhAndMm("00:00", "01:00", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
-            Assert.IsTrue(ret == 0);
-            Assert.IsTrue(intStartHh == 0);
-            Assert.IsTrue(intStartMm == 0);
-            Assert.IsTrue(intEndHh == 1);
-            Assert.IsTrue(intEndMm == 0);
-
-            ret = formTimer.GetApproximateIntHhAndMm("00:10", "02:20", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
-            Assert.IsTrue(ret == 0);
-            Assert.IsTrue(intStartHh == 0);
-            Assert.IsTrue(intStartMm == 15);
-            Assert.IsTrue(intEndHh == 2);
-            Assert.IsTrue(intEndMm == 15);
-
-            ret = formTimer.GetApproximateIntHhAndMm("12:00", "13:00", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
-            Assert.IsTrue(ret == 0);
-            Assert.IsTrue(intStartHh == 0);
-            Assert.IsTrue(intStartMm == 0);
-            Assert.IsTrue(intEndHh == 1);
-            Assert.IsTrue(intEndMm == 0);
-
-            ret = formTimer.GetApproximateIntHhAndMm("12:10", "13:20", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
-            Assert.IsTrue(ret == 0);
-            Assert.IsTrue(intStartHh == 0);
-            Assert.IsTrue(intStartMm == 15);
-            Assert.IsTrue(intEndHh == 1);
-            Assert.IsTrue(intEndMm == 15);
-
-            ret = formTimer.GetApproximateIntHhAndMm("00:10", "13:20", out intStartHh, out intStartMm, out intEndHh, out intEndMm);
-            Assert.IsTrue(ret == 0);
-            Assert.IsTrue(intStartHh == 0);
-            Assert.IsTrue(intStartMm == 0);
-            Assert.IsTrue(intEndHh == 1);
-            Assert.IsTrue(intEndMm == 15);
-        }
     }
 }
