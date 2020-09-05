@@ -41,6 +41,8 @@ namespace Timer
         //
         internal System.Windows.Forms.TextBox myTextBox1;
 
+        List<Task> taskList = new List<Task>();
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -776,6 +778,8 @@ namespace Timer
         {
             Task addedTask = new Task(taskAndTime);
 
+            taskList.Add(addedTask);
+
             if (addedTask.startTime.Equals("") || addedTask.endTime.Equals("")) {
                 textBox1.Text = textBox1.Text + "\r\n" + addedTask.taskName;
             }
@@ -1211,28 +1215,35 @@ public enum Season
         /// </summary>
         internal void btnSaveActivityLog_Click(object sender, EventArgs e)
         {
-            //（1）テキスト・ファイルを開く、もしくは作成する
-            StreamWriter sw = new StreamWriter(@strActivityLogFilePath, false, sjisEnc);
-            //（2）テキスト内容を書き込む
-            //string outString = myTextBox1.Text;
-            sw.Write(textBox1.Text);
-            //（3）テキスト・ファイルを閉じる
-            sw.Close();
+            //ActivityLogファイルに上書き保存する。
+            SaveActivityLog(textBox1.Text);
 
-            //（4）ReviewedActivityLogにコピーする
-            CopyActivityLogToReviewedActivityLog();
+            //ReviewedActivityLogにコピーする。
+            CopyActivityLogToReviewedActivityLog(textBox1.Text);
+        }
+
+        /// <summary>
+        /// ActivityLogファイルに上書き保存する。
+        /// </summary>
+        private void SaveActivityLog(string textValue)
+        {
+            // テキスト・ファイルを開く、もしくは作成する
+            StreamWriter sw = new StreamWriter(@strActivityLogFilePath, false, sjisEnc);
+            // テキスト内容を書き込む
+            sw.Write(textValue);
+            // テキスト・ファイルを閉じる
+            sw.Close();
         }
 
         /// <summary>
         /// ActivityLogの値をReviewedActivityLogにコピーする
         /// </summary>
-        private void CopyActivityLogToReviewedActivityLog()
+        private void CopyActivityLogToReviewedActivityLog(string textValue)
         {
             //ReviewedActivityLogの内容をクリアする
             dataGridView1.Rows.Clear();
 
             //ActivityLogのテキストボックスの内容を取得する
-            string textValue = textBox1.Text;
             var lineList = textValue.Replace("\r\n","\n").Split(new[]{'\n','\r'});
             foreach(var line in lineList)
             {
