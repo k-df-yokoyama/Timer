@@ -788,10 +788,13 @@ namespace Timer
                     addedTask.startTime + "-" + addedTask.endTime + "  " + addedTask.taskName;
             }
 
-            // 画面上に表示されているActivityLogの内容を
-            // (1)ActivityLogファイルに上書き保存する。
-            // (2)ReviewedActivityLogにコピーする。
-            btnSaveActivityLog_Click(null, null);
+            //画面上に表示されているActivityLogの内容を
+            //ActivityLogファイルに上書き保存する。
+            SaveActivityLog(textBox1.Text);
+
+            //画面上に表示されているActivityLogの内容を
+            //ReviewedActivityLogにコピーする。
+            CopyActivityLogToReviewedActivityLog(textBox1.Text);
         }
 
         /// <summary>
