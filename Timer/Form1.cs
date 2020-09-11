@@ -41,7 +41,8 @@ namespace Timer
         //
         internal System.Windows.Forms.TextBox myTextBox1;
 
-        List<Task> taskList = new List<Task>();
+        //List<Task> taskList = new List<Task>();
+        TaskList taskList = new TaskList();
 
         /// <summary>
         /// コンストラクタ
@@ -778,6 +779,7 @@ namespace Timer
         {
             Task addedTask = new Task(taskAndTime);
 
+            //taskList.tasks.Add(addedTask);
             taskList.Add(addedTask);
 
             if (addedTask.startTime.Equals("") || addedTask.endTime.Equals("")) {
@@ -791,6 +793,7 @@ namespace Timer
             //画面上に表示されているActivityLogの内容を
             //ActivityLogファイルに上書き保存する。
             SaveActivityLog(textBox1.Text);
+            taskList.SaveActivityLog();
 
             //画面上に表示されているActivityLogの内容を
             //ReviewedActivityLogにコピーする。
@@ -810,6 +813,15 @@ namespace Timer
 
             string textFromLogFile = File.ReadAllText(@strActivityLogFilePath, sjisEnc);
             textBox1.Text = textFromLogFile;
+
+            StreamReader sr = new StreamReader(@strActivityLogFilePath, Encoding.GetEncoding("SHIFT_JIS"));
+            while (sr.EndOfStream == false) {
+                string line = sr.ReadLine();
+                Task addedTask = new Task(line);
+
+                taskList.Add(addedTask);
+            }
+            sr.Close();
         }
 
         /// <summary>
