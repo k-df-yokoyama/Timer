@@ -209,7 +209,8 @@ namespace Timer
             string startTime = "00:00", endTime = "00:00";
             if (Utils.GetStartAndEndTimeFromTrailing(comboBox1.Text, out startTime, out endTime) == 0) {
                 // ドーナッツグラフを再描画する
-                GraphUtils.DrawChartDoughnut(chart1, startTime, endTime);
+                //GraphUtils.DrawChartDoughnut(chart1, startTime, endTime);
+                GraphUtils.ShowChartStackedColumn(chart1);
             }
         }
 
@@ -292,7 +293,8 @@ namespace Timer
             string startTime = "00:00", endTime = "00:00";
             if (Utils.GetStartAndEndTimeFromTrailing(comboBox1.Text, out startTime, out endTime) == 0) {
                 // ドーナッツグラフを再描画する
-                GraphUtils.DrawChartDoughnut(chart1, startTime, endTime);
+                //GraphUtils.DrawChartDoughnut(chart1, startTime, endTime);
+                GraphUtils.ShowChartStackedColumn(chart1);
             }
         }
 

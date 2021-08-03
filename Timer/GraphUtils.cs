@@ -204,11 +204,11 @@ namespace Timer
                 chart.Series.Add(item);    //グラフ追加
                 //グラフの種類を指定（Columnは積み上げ縦棒グラフ）
                 chart.Series[item].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
-                //                chart.Series[item].LegendText = item;  //凡例に表示するテキストを指定
+                //chart.Series[item].LegendText = item;  //凡例に表示するテキストを指定
             }
 
-            //            string[] xValues = new string[] { "A", "B", "C", "D", "E" };    //X軸のデータ
-            //            int[,] yValues = new int[,] {{ 10, 20, 30, 40, 50 }, {20, 40, 60, 80, 100} };    //Y軸のデータ
+            //string[] xValues = new string[] { "A", "B", "C", "D", "E" };    //X軸のデータ
+            //int[,] yValues = new int[,] {{ 10, 20, 30, 40, 50 }, {20, 40, 60, 80, 100} };    //Y軸のデータ
 
             string[] xValues = new string[] { "予", "実" };    //X軸のデータ
             int[,] yValues = new int[,] { { 10, 5 }, { 20, 10 }, { 30, 40 } };    //Y軸のデータ
@@ -218,7 +218,8 @@ namespace Timer
                 for (int j = 0; j < yValues.GetLength(0); j++)
                 {
                     //グラフに追加するデータクラスを生成
-                    System.Windows.Forms.DataVisualization.Charting.DataPoint dp = new System.Windows.Forms.DataVisualization.Charting.DataPoint();
+                    System.Windows.Forms.DataVisualization.Charting.DataPoint dp =
+                        new System.Windows.Forms.DataVisualization.Charting.DataPoint();
                     dp.SetValueXY(xValues[i], yValues[j, i]);  //XとYの値を設定
                     dp.IsValueShownAsLabel = true;  //グラフに値を表示するように指定
                     chart.Series[legends[j]].Points.Add(dp);   //グラフにデータ追加
