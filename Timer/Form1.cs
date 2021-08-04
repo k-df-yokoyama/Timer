@@ -554,7 +554,7 @@ namespace Timer
             //画面上に表示されているActivityLogの内容を
             //ActivityLogファイルに上書き保存する。
             SaveRawActivityList(textBox1.Text);
-            taskList.SaveRawActivityList();
+            taskList.SaveTaskList();
 
             //画面上に表示されているActivityLogの内容を
             //ReviewedActivityLogにコピーする。

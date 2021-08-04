@@ -27,7 +27,7 @@ namespace Timer
         /// <summary>
         /// ActivityLogファイルに上書き保存する。
         /// </summary>
-        public void SaveRawActivityList()
+        public void SaveTaskList()
         {
             // テキスト・ファイルを開く、もしくは作成する
             StreamWriter sw = new StreamWriter(@strActivityLogFilePath, false, sjisEnc);
