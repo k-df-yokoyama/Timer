@@ -40,6 +40,29 @@ namespace Timer
         }
         
         /// <summary>
+        /// 入力値からTaskを取得する
+        /// 処理できる時間部分のフォーマットと取得結果は以下。
+        /// "Task"
+        /// "Task:"
+        /// "Task:00:00-"
+        /// "Task:00:00-00:15"
+        /// "Task:00:00-00:15-"
+        /// "Task:00:00-00:15-00:30"
+        /// <param name="taskAndTime">タスクと時間</param>
+        /// <param name="task">タスク</param> 
+        /// </summary>
+        internal static int GetTaskFromInputText(string taskAndTime, out string task)
+        {
+            char[] del = {':', '：'};
+
+            string[] arr = taskAndTime.Split(del);
+
+            task = arr[0];
+
+            return 0;
+        }
+
+        /// <summary>
         /// 入力値から[開始時間 hh:mm]と[終了時間 hh:mm]を取得する
         /// 処理できる時間部分のフォーマットと取得結果は以下。
         /// "Start,Task:00:00-"

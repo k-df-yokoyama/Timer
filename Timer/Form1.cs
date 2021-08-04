@@ -208,9 +208,11 @@ namespace Timer
             // 作業内容のテキストから開始時間と終了時間を取得する
             string startTime = "00:00", endTime = "00:00";
             if (Utils.GetStartAndEndTimeFromTrailing(comboBox1.Text, out startTime, out endTime) == 0) {
+                string task = "";
+                Utils.GetTaskFromInputText(comboBox1.Text, out task);
                 // グラフを再描画する
                 //GraphUtils.ShowChartStackedColumn(chart1);
-                GraphUtils.ShowChartColumn(chart1, "zzz", startTime, endTime);
+                GraphUtils.ShowChartColumn(chart1, task, startTime, endTime);
             }
         }
 
@@ -291,10 +293,13 @@ namespace Timer
 
             // 作業内容のテキストから開始時間と終了時間を取得する
             string startTime = "00:00", endTime = "00:00";
-            if (Utils.GetStartAndEndTimeFromTrailing(comboBox1.Text, out startTime, out endTime) == 0) {
+            if (Utils.GetStartAndEndTimeFromTrailing(comboBox1.Text, out startTime, out endTime) == 0)
+            {
+                string task = "";
+                Utils.GetTaskFromInputText(comboBox1.Text, out task);
                 // グラフを再描画する
                 //GraphUtils.ShowChartStackedColumn(chart1);
-                GraphUtils.ShowChartColumn(chart1, "zzz", startTime, endTime);
+                GraphUtils.ShowChartColumn(chart1, task, startTime, endTime);
             }
         }
 
