@@ -32,9 +32,9 @@ namespace Timer.Tests
             FormTimer formTimer = new FormTimer();
             var pbFormTimer = new PrivateObject(formTimer);
             string outString = "Start,Task:00:00-00:15";
-            pbFormTimer.Invoke("WriteLog", outString);
+            pbFormTimer.Invoke("WriteInputLog", outString);
             //ログファイルを開いて書き込まれていることを確認
-            var strLogFilePath = (string)pbFormTimer.GetField("strLogFilePath");
+            var strLogFilePath = (string)pbFormTimer.GetField("inputLogFilePath");
             string last = File.ReadLines(@strLogFilePath).Last();
             string loggedString = last.Substring(last.IndexOf(",") + 1);
             Assert.IsTrue(outString.Equals(loggedString));
@@ -199,7 +199,7 @@ namespace Timer.Tests
             var pbFormTimer = new PrivateObject(formTimer);
             formTimer.ReadRawActivityList();
             //ログファイルを開いて読み込まれていることを確認
-            var strActivityLogFilePath = (string)pbFormTimer.GetField("strActivityLogFilePath");
+            var strActivityLogFilePath = (string)pbFormTimer.GetField("rawActivityListFilePath");
             string textFromTextBox = formTimer.myTextBox1.Text;
             //byte[] bytesUTF8 = System.Text.Encoding.Default.GetBytes(textFromTextBox);
             //string textFromTextBoxSJIS = System.Text.Encoding.UTF8.GetString(bytesUTF8);
@@ -217,7 +217,7 @@ namespace Timer.Tests
             //string outString = "Start,Task:00:00-00:15";
             //pbFormTimer.Invoke("WriteLog", outString);
             //ログファイルを開いて書き込まれていることを確認
-            var strActivityLogFilePath = (string)pbFormTimer.GetField("strActivityLogFilePath");
+            var strActivityLogFilePath = (string)pbFormTimer.GetField("rawActivityListFilePath");
             string textFromTextBox = formTimer.myTextBox1.Text;
             //byte[] bytesUTF8 = System.Text.Encoding.Default.GetBytes(textFromTextBox);
             //string textFromTextBoxSJIS = System.Text.Encoding.UTF8.GetString(bytesUTF8);
