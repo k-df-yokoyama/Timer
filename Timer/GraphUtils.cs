@@ -14,6 +14,128 @@ namespace Timer
         internal static Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
 
         /// <summary>
+        /// 棒グラフを描画する
+        /// <param name="chart1">グラフ</param>
+        /// <param name="axisLabel">軸ラベル</param> 
+        /// <param name="startTime">開始時間</param> 
+        /// <param name="endTime">終了時間</param>
+        /// </summary>
+        internal static int ShowChartColumn(Chart chart1, string taskName, TaskList taskList)
+        {
+/*
+            int intStartHh, intStartMm, intEndHh, intEndMm;
+
+            if (Utils.GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0)
+            {
+                return -1;
+            }
+            if (intStartHh == intEndHh && intStartMm == intEndMm)
+            {
+                return 0;
+            }
+
+            //double[] y_values = new double[5] { 1.0, 1.2, 0.8, 1.8, 0.2 };
+            double[] y_values = new double[] { (intEndHh + intEndMm / 60.0) - (intStartHh + intStartMm / 60.0) };
+*/
+            double elaspedTime = 0.0;
+
+            for (int i = 0; i < taskList.tasks.Count; i++)
+            {
+                int intStartHh, intStartMm, intEndHh, intEndMm;
+
+                if (taskName.Equals(taskList.tasks[i].taskName) != true)
+                {
+                    continue;
+                }
+                if (Utils.GetApproximateIntHhAndMm(taskList.tasks[i].startTime, taskList.tasks[i].endTime,
+                    out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0)
+                {
+                    continue;
+                }
+                if (intStartHh == intEndHh && intStartMm == intEndMm)
+                {
+                    continue;
+                }
+                elaspedTime += (intEndHh + intEndMm / 60.0) - (intStartHh + intStartMm / 60.0);
+            }
+
+            double[] y_values = new double[] { elaspedTime };
+
+
+            chart1.ChartAreas.Clear(); //ChartArea初期化
+            chart1.Series.Clear();     //Series初期化
+
+            // ChartにChartAreaを追加
+            string chart_area1 = "Area1";
+            chart1.ChartAreas.Add(new ChartArea(chart_area1));
+
+            // ChartにSeriesを追加
+            //string legend0 = "Plan";
+            string legend1 = "Actual";
+            chart1.Series.Add(legend1);
+
+            // ChartTypeを設定
+            chart1.Series[legend1].ChartType = SeriesChartType.Column;
+            //System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+
+            for (int i = 0; i < y_values.Length; i++)
+            {
+                chart1.Series[legend1].Points.AddY(y_values[i]);
+                chart1.Series[legend1].Points[i].AxisLabel = taskName;
+            }
+            return 0;
+        }
+
+
+        /// <summary>
+        /// 棒グラフを描画する
+        /// <param name="chart1">グラフ</param>
+        /// <param name="axisLabel">軸ラベル</param> 
+        /// <param name="startTime">開始時間</param> 
+        /// <param name="endTime">終了時間</param>
+        /// </summary>
+        internal static int ShowChartColumn(Chart chart1, string axisLabel, string startTime, string endTime)
+        {
+            int intStartHh, intStartMm, intEndHh, intEndMm;
+
+            if (Utils.GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0)
+            {
+                return -1;
+            }
+            if (intStartHh == intEndHh && intStartMm == intEndMm)
+            {
+                return 0;
+            }
+
+            chart1.ChartAreas.Clear(); //ChartArea初期化
+            chart1.Series.Clear();     //Series初期化
+
+            // ChartにChartAreaを追加
+            string chart_area1 = "Area1";
+            chart1.ChartAreas.Add(new ChartArea(chart_area1));
+
+            // ChartにSeriesを追加
+            //string legend0 = "Plan";
+            string legend1 = "Actual";
+            chart1.Series.Add(legend1);
+
+            // ChartTypeを設定
+            chart1.Series[legend1].ChartType = SeriesChartType.Column;
+            //System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+
+            //double[] y_values = new double[5] { 1.0, 1.2, 0.8, 1.8, 0.2 };
+            double[] y_values = new double[] { (intEndHh + intEndMm / 60.0) - (intStartHh + intStartMm / 60.0) };
+
+            for (int i = 0; i < y_values.Length; i++)
+            {
+                chart1.Series[legend1].Points.AddY(y_values[i]);
+                chart1.Series[legend1].Points[i].AxisLabel = axisLabel;
+            }
+            return 0;
+        }
+
+
+        /// <summary>
         /// https://www.atmarkit.co.jp/fdotnet/dotnettips/1001aspchartpie/aspchartpie.html
         /// [開始時間 hh:mm]と[終了時間 hh:mm]を渡してドーナッツグラフを描画する
         /// <param name="chart">グラフ</param> 
@@ -226,54 +348,6 @@ namespace Timer
                 }
             }
         }
-
-        /// <summary>
-        /// 棒グラフを描画する
-        /// <param name="chart1">グラフ</param>
-        /// <param name="axisLabel">軸ラベル</param> 
-        /// <param name="startTime">開始時間</param> 
-        /// <param name="endTime">終了時間</param>
-        /// </summary>
-        internal static int ShowChartColumn(Chart chart1, string axisLabel, string startTime, string endTime)
-        {
-            int intStartHh, intStartMm, intEndHh, intEndMm;
-
-            if (Utils.GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0)
-            {
-                return -1;
-            }
-            if (intStartHh == intEndHh && intStartMm == intEndMm)
-            {
-                return 0;
-            }
-
-            chart1.ChartAreas.Clear(); //ChartArea初期化
-            chart1.Series.Clear();     //Series初期化
-
-            // ChartにChartAreaを追加
-            string chart_area1 = "Area1";
-            chart1.ChartAreas.Add(new ChartArea(chart_area1));
-
-            // ChartにSeriesを追加
-            //string legend0 = "Plan";
-            string legend1 = "Actual";
-            chart1.Series.Add(legend1);
-
-            // ChartTypeを設定
-            chart1.Series[legend1].ChartType = SeriesChartType.Column;
-            //System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
-
-            //double[] y_values = new double[5] { 1.0, 1.2, 0.8, 1.8, 0.2 };
-            double[] y_values = new double[] { (intEndHh + intEndMm / 60.0) - (intStartHh + intStartMm / 60.0) };
-
-            for (int i = 0; i < y_values.Length; i++)
-            {
-                chart1.Series[legend1].Points.AddY(y_values[i]);
-                chart1.Series[legend1].Points[i].AxisLabel = axisLabel;
-            }
-            return 0;
-        }
-
 
         /// <summary>
         /// 円グラフを描画する

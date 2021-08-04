@@ -51,15 +51,9 @@ namespace Timer
         /// <param name="taskAndTime">タスクと時間</param>
         /// <param name="task">タスク</param> 
         /// </summary>
-        internal static int GetTaskFromInputText(string taskAndTime, out string task)
+        internal static void GetTaskFromInputText(string taskAndTime, out string task)
         {
-            char[] del = {':', '：'};
-
-            string[] arr = taskAndTime.Split(del);
-
-            task = arr[0];
-
-            return 0;
+            RemoveTimeString(taskAndTime, out task);
         }
 
         /// <summary>
