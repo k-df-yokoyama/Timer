@@ -743,7 +743,7 @@
         private System.Windows.Forms.TextBox textLastStopTime2;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button btnShowGraph;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        internal System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAddPanel;
         private System.Windows.Forms.TextBox textBox1;

@@ -109,28 +109,29 @@ namespace Timer.Tests
             int ret;
 
             FormTimer formTimer = new FormTimer();
-            ret = formTimer.DrawChartDoughnut("00:00", "10:00");
+            formTimer.FormTimer_Load(null, null);
+            ret = GraphUtils.DrawChartDoughnut(formTimer.chart1, "00:00", "10:00");
             Assert.IsTrue(ret == 0);
 
-            ret = formTimer.DrawChartDoughnut("03:00", "12:00");
+            ret = GraphUtils.DrawChartDoughnut(formTimer.chart1, "03:00", "12:00");
             Assert.IsTrue(ret == 0);
 
-            ret = formTimer.DrawChartDoughnut("12:00", "14:00");
+            ret = GraphUtils.DrawChartDoughnut(formTimer.chart1, "12:00", "14:00");
             Assert.IsTrue(ret == 0);
 
-            ret = formTimer.DrawChartDoughnut("0:00", "03:00");
+            ret = GraphUtils.DrawChartDoughnut(formTimer.chart1, "0:00", "03:00");
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.DrawChartDoughnut("00:0", "03:00");
+            ret = GraphUtils.DrawChartDoughnut(formTimer.chart1, "00:0", "03:00");
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.DrawChartDoughnut("aa:00", "03:00");
+            ret = GraphUtils.DrawChartDoughnut(formTimer.chart1, "aa:00", "03:00");
             Assert.IsTrue(ret == -1);
 
-            ret = formTimer.DrawChartDoughnut("00:00", "00:00");
+            ret = GraphUtils.DrawChartDoughnut(formTimer.chart1, "00:00", "00:00");
             Assert.IsTrue(ret == 0);
 
-            ret = formTimer.DrawChartDoughnut("02:00", "01:00");
+            ret = GraphUtils.DrawChartDoughnut(formTimer.chart1, "02:00", "01:00");
             Assert.IsTrue(ret == 0);
         }
 
