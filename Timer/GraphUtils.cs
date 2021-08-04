@@ -202,7 +202,7 @@ namespace Timer
             foreach (var item in legends)
             {
                 chart.Series.Add(item);    //グラフ追加
-                //グラフの種類を指定（Columnは積み上げ縦棒グラフ）
+                //グラフの種類を指定（StackedColumnは積み上げ縦棒グラフ）
                 chart.Series[item].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
                 //chart.Series[item].LegendText = item;  //凡例に表示するテキストを指定
             }
@@ -228,11 +228,26 @@ namespace Timer
         }
 
         /// <summary>
-        /// 横棒グラフを描画する
-        /// <param name="chart">グラフ</param> 
+        /// 棒グラフを描画する
+        /// <param name="chart1">グラフ</param> 
+        /// <param name="startTime">開始時間</param> 
+        /// <param name="endTime">終了時間</param>
         /// </summary>
-        internal static void ShowChartColumn(Chart chart1)
+        internal static int ShowChartColumn(Chart chart1, string startTime, string endTime)
         {
+            int intStartHh, intStartMm, intEndHh, intEndMm;
+
+            if (Utils.GetApproximateIntHhAndMm(startTime, endTime, out intStartHh, out intStartMm, out intEndHh, out intEndMm) < 0)
+            {
+                return -1;
+            }
+            if (intStartHh == intEndHh && intStartMm == intEndMm)
+            {
+                return 0;
+            }
+            //point.YValues = new double[] { (intEndHh * 60 + intEndMm) - (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
+            //point.YValues = new double[] { (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
+
             chart1.Series.Clear();  //グラフ初期化
             chart1.ChartAreas.Clear();
 
@@ -245,13 +260,17 @@ namespace Timer
             chart1.Series.Add(legend1);
 
             chart1.Series[legend1].ChartType = SeriesChartType.Column;
+            //System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
 
-            double[] y_values = new double[5] { 1.0, 1.2, 0.8, 1.8, 0.2 };
+            //ToDo: 値が0の場合、グラフ表示が変になる
+            //double[] y_values = new double[5] { 1.0, 1.2, 0.8, 1.8, 0.2 };
+            double[] y_values = new double[] { (intEndHh + intEndMm / 60.0) - (intStartHh + intStartMm / 60.0) };
 
             for (int i = 0; i < y_values.Length; i++)
             {
                 chart1.Series[legend1].Points.AddY(y_values[i]);
             }
+            return 0;
         }
 
 
