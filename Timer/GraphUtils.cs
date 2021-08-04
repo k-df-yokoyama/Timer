@@ -486,6 +486,7 @@ namespace Timer
             return 0;
         }
 
+#if DEBUG
         /// <summary>
         /// 入力文字列をChartInputファイルに追記する。
         /// <param name="inString">入力文字列</param>
@@ -502,5 +503,6 @@ namespace Timer
             //（3）テキスト・ファイルを閉じる
             sw.Close();
         }
+#endif
     }
 }
