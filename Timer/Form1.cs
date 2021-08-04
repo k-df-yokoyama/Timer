@@ -26,14 +26,19 @@ namespace Timer
 
     public partial class FormTimer : Form
     {
+        private static readonly string inputHistoryFname = "timer_act_input_history.txt";
+        private static readonly string inputLogFname = "timer_act_input.log";
+        private static readonly string rawActivityListFname = "timer_raw_act_list.txt";
+        private static readonly string reviewedActivityListFname = "timer_reviewed_act_list.log";
+
         int currEndTime; // 現在のタスク終了までの予定時間（[時間設定]TextBoxから取得した値）
         int prevEndTime = 1500; // 前回のタスク終了までの予定時間のデフォルト値
         //ToDo: prevEndTimeに設定されているマジックナンバー(1500)を定数にする
         int nowTime; // 経過時間（残り時間を計算するために使用）
         //internal bool isTimeCounting; // 時間のカウント中かの判定
         bool isTimeCounting; // 時間のカウント中かの判定
-        string strDesktopDirectory;
-        string strHistoryFilePath, strLogFilePath, strActivityLogFilePath, strReviewedActivityLogFilePath;
+        string desktopDirectory;
+        string inputHistoryFilePath, inputLogFilePath, rawActivityListFilePath, reviewedActivityListFilePath;
         internal Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
         //ArrayList al = new ArrayList();
         List<string> stringList = new List<string>();
@@ -55,11 +60,11 @@ namespace Timer
             isTimeCounting = false;
             // 変数の初期化（変数：経過時間）
             nowTime = 0;
-            strDesktopDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            strHistoryFilePath = ".\\timer_history.txt"; 
-            strLogFilePath = strDesktopDirectory + "\\timer.log";
-            strActivityLogFilePath = ".\\timer_activity.log";
-            strReviewedActivityLogFilePath = ".\\timer_reviewed_activity.log";
+            desktopDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            inputHistoryFilePath = ".\\" + inputHistoryFname;
+            inputLogFilePath = desktopDirectory + "\\" + inputLogFname;
+            rawActivityListFilePath = ".\\" + rawActivityListFname;
+            reviewedActivityListFilePath = ".\\" + reviewedActivityListFname;
 
             // 変数の初期化（変数：時間のカウント中かの判定）
             isPieChart = true;
@@ -67,7 +72,7 @@ namespace Timer
             myTextBox1 = textBox1;
 
             // 履歴ファイルから値を読み取る
-            ReadWorkHistory();
+            ReadInputHistory();
 
             // コンボボックスに値を設定する
 //            for (int i = 0; i < stringList.Count; i++) {
@@ -99,7 +104,7 @@ namespace Timer
             }
 
             // テキストボックスに値を設定する
-            ReadActivityLog();
+            ReadRawActivityList();
 
             //Hide developping controls
             btnAddNode.Visible = false;
@@ -169,10 +174,10 @@ namespace Timer
                 }
                 // 作業内容の履歴の保存
                 // ToDo: UnitTest候補
-                //SaveWorkHistory(textBox1.Text);
-                SaveWorkHistory(comboBox1.Text);
+                //SaveInputHistory(textBox1.Text);
+                SaveInputHistory(comboBox1.Text);
                 // 作業内容の履歴の保存
-                AddActivityLog(comboBox1.Text);
+                AddRawActivityList(comboBox1.Text);
                 // タスク終了までの予定時間の格納
                 prevEndTime = currEndTime;
                 // タイマースタート
@@ -180,7 +185,7 @@ namespace Timer
                 isTimeCounting = true;
                 // スタート／ストップボタンの表示をストップにする
                 btnStart.Text = "ストップ";
-                WriteLog("スタート," + comboBox1.Text);
+                WriteInputLog("スタート," + comboBox1.Text);
                 // 作業内容のテキストボックスを読み取り専用にする
                 this.comboBox1.Enabled = false;
             }
@@ -192,7 +197,7 @@ namespace Timer
                 isTimeCounting = false;
                 // スタート／ストップボタンの表示をスタート！にする
                 btnStart.Text = "スタート！";
-                WriteLog("ストップ," + comboBox1.Text);
+                WriteInputLog("ストップ," + comboBox1.Text);
                 // コンボボックスのリストに値を追加する
                 // ...空白文字のみの場合、追加しない
                 bool isWhiteSpaceOnly = !Regex.IsMatch(comboBox1.Text, "[^ 　]");
@@ -274,12 +279,12 @@ namespace Timer
             textLastStopTime2.Text = DateTime.Now.ToString();
             // (6)スタート／ストップボタンの表示をスタート！にする
             btnStart.Text = "スタート！";
-            WriteLog("リセット," + comboBox1.Text);
+            WriteInputLog("リセット," + comboBox1.Text);
             // (7)作業内容の履歴の保存
             // ToDo: UnitTest候補
-            SaveWorkHistory(comboBox1.Text);
+            SaveInputHistory(comboBox1.Text);
             // (7)-2作業内容の履歴の保存
-            AddActivityLog(comboBox1.Text);
+            AddRawActivityList(comboBox1.Text);
             // (8)コンボボックスのリストに値を追加する
             // ...空白文字のみの場合、追加しない
             bool isWhiteSpaceOnly = !Regex.IsMatch(comboBox1.Text, "[^ 　]");
@@ -317,7 +322,7 @@ namespace Timer
         /// <summary>
         /// 履歴ファイルから値を読み取る
         /// </summary>
-        private void ReadWorkHistory()
+        private void ReadInputHistory()
         {
             string line = "";
 
@@ -328,7 +333,7 @@ namespace Timer
             // ファイルがある場合
             try {
                 using (StreamReader sr = new StreamReader(
-                    @strHistoryFilePath, Encoding.GetEncoding("Shift_JIS"))) {
+                    @inputHistoryFilePath, Encoding.GetEncoding("Shift_JIS"))) {
                     while ((line = sr.ReadLine()) != null) {
                         //al.Add(line);
                         stringList.Add(line);
@@ -345,7 +350,7 @@ namespace Timer
             //}
 
             //（1）テキスト・ファイルを開く
-            //StreamReader sr = new StreamReader(@strHistoryFilePath, sjisEnc);
+            //StreamReader sr = new StreamReader(@inputHistoryFilePath, sjisEnc);
             //（2）テキスト内容を読み込む
             //string text = sr.ReadToEnd();
             //（3）テキスト・ファイルを閉じる
@@ -364,10 +369,10 @@ namespace Timer
         /// "Task"
         /// <param name="inString">入力文字列</param>
         /// </summary>
-        private void SaveWorkHistory(string inString)
+        private void SaveInputHistory(string inString)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
-            StreamWriter sw = new StreamWriter(@strHistoryFilePath, true, sjisEnc);
+            StreamWriter sw = new StreamWriter(@inputHistoryFilePath, true, sjisEnc);
             //ToDo:書き込もうとしている値とファイル中の値が重複していないか確認
             //（2）テキスト内容を書き込む
             //ToDo:時間の部分は削除する
@@ -384,10 +389,10 @@ namespace Timer
         /// Log format: datetime,(スタート|ストップ|リセット),task[:starttime-endtime]
         /// <param name="outString">出力文字列:=(スタート|ストップ|リセット),task[:starttime-endtime]</param>
         /// </summary>
-        private void WriteLog(string outString)
+        private void WriteInputLog(string outString)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
-            StreamWriter writer = new StreamWriter(@strLogFilePath, true, sjisEnc);
+            StreamWriter writer = new StreamWriter(@inputLogFilePath, true, sjisEnc);
             //（2）テキスト内容を書き込む
             //writer.WriteLine("テスト書き込みです。");
             writer.WriteLine(DateTime.Now + "," + outString);
@@ -531,7 +536,7 @@ namespace Timer
         /// 引数で指定された文字列に時間の情報が含まれている場合には、時間の情報を先頭に移動して追加する
         /// <param name="taskAndTime">タスクと時間</param>
         /// </summary>
-        private void AddActivityLog(string taskAndTime)
+        private void AddRawActivityList(string taskAndTime)
         {
             Task addedTask = new Task(taskAndTime);
 
@@ -548,8 +553,8 @@ namespace Timer
 
             //画面上に表示されているActivityLogの内容を
             //ActivityLogファイルに上書き保存する。
-            SaveActivityLog(textBox1.Text);
-            taskList.SaveActivityLog();
+            SaveRawActivityList(textBox1.Text);
+            taskList.SaveRawActivityList();
 
             //画面上に表示されているActivityLogの内容を
             //ReviewedActivityLogにコピーする。
@@ -559,18 +564,18 @@ namespace Timer
         /// <summary>
         /// ActivityLogファイルの中身をActivityLogのGUIに読み込む
         /// </summary>
-        internal void ReadActivityLog()
+        internal void ReadRawActivityList()
         {
-            if (!File.Exists(@strActivityLogFilePath))
+            if (!File.Exists(@rawActivityListFilePath))
             {
-                StreamWriter sw = new StreamWriter(@strActivityLogFilePath, true, sjisEnc);
+                StreamWriter sw = new StreamWriter(@rawActivityListFilePath, true, sjisEnc);
                 sw.Close();
             }
 
-            string textFromLogFile = File.ReadAllText(@strActivityLogFilePath, sjisEnc);
+            string textFromLogFile = File.ReadAllText(@rawActivityListFilePath, sjisEnc);
             textBox1.Text = textFromLogFile;
 
-            StreamReader sr = new StreamReader(@strActivityLogFilePath, Encoding.GetEncoding("SHIFT_JIS"));
+            StreamReader sr = new StreamReader(@rawActivityListFilePath, Encoding.GetEncoding("SHIFT_JIS"));
             while (sr.EndOfStream == false) {
                 string line = sr.ReadLine();
                 Task addedTask = new Task(line);
@@ -689,7 +694,7 @@ namespace Timer
         /// <param name="sender">イベントを送信したオブジェクト</param>
         /// <param name="e">イベントに関わる引数</param>
         /// </summary>
-        private void btnShowGraphReviewedActivityLog_Click(object sender, EventArgs e)
+        private void btnShowGraphReviewedActivityList_Click(object sender, EventArgs e)
         {
             GraphUtils.DrawChartDoughnut(chart1, dataGridView1);
         }
@@ -762,14 +767,14 @@ public enum Season
         }
 
         /// <summary>
-        /// [RAL保存](btnSaveReviewedActivityLog)ボタンがクリックされた時の処理
+        /// [RAL保存](btnSaveReviewedActivityList)ボタンがクリックされた時の処理
         /// <param name="sender">イベントを送信したオブジェクト</param>
         /// <param name="e">イベントに関わる引数</param>
         /// </summary>
-        private void btnSaveReviewedActivityLog_Click(object sender, EventArgs e)
+        private void btnSaveReviewedActivityList_Click(object sender, EventArgs e)
         {
             //（1）テキスト・ファイルを開く、もしくは作成する
-            StreamWriter sw = new StreamWriter(@strReviewedActivityLogFilePath, false, sjisEnc);
+            StreamWriter sw = new StreamWriter(@reviewedActivityListFilePath, false, sjisEnc);
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -811,7 +816,7 @@ public enum Season
         internal void btnSaveActivityLog_Click(object sender, EventArgs e)
         {
             //ActivityLogファイルに上書き保存する。
-            SaveActivityLog(textBox1.Text);
+            SaveRawActivityList(textBox1.Text);
 
             //ReviewedActivityLogにコピーする。
             CopyActivityLogToReviewedActivityLog(textBox1.Text);
@@ -820,10 +825,10 @@ public enum Season
         /// <summary>
         /// ActivityLogファイルに上書き保存する。
         /// </summary>
-        private void SaveActivityLog(string textValue)
+        private void SaveRawActivityList(string textValue)
         {
             // テキスト・ファイルを開く、もしくは作成する
-            StreamWriter sw = new StreamWriter(@strActivityLogFilePath, false, sjisEnc);
+            StreamWriter sw = new StreamWriter(@rawActivityListFilePath, false, sjisEnc);
             // テキスト内容を書き込む
             sw.Write(textValue);
             // テキスト・ファイルを閉じる

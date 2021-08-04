@@ -10,8 +10,8 @@ namespace Timer
     class TaskList
     {
         public List<Task> tasks;
-        //string strHistoryFilePath, strLogFilePath, strActivityLogFilePath, strReviewedActivityLogFilePath;
-        string strActivityLogFilePath = ".\\timer_activity2.log";
+        private static readonly string taskListFname = "timer_task_list.txt";
+        private static readonly string strActivityLogFilePath = ".\\" + taskListFname;
         internal Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
 
         public TaskList()
@@ -27,7 +27,7 @@ namespace Timer
         /// <summary>
         /// ActivityLogファイルに上書き保存する。
         /// </summary>
-        public void SaveActivityLog()
+        public void SaveRawActivityList()
         {
             // テキスト・ファイルを開く、もしくは作成する
             StreamWriter sw = new StreamWriter(@strActivityLogFilePath, false, sjisEnc);
