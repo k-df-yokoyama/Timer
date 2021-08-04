@@ -228,6 +228,37 @@ namespace Timer
         }
 
         /// <summary>
+        /// 横棒グラフを描画する
+        /// <param name="chart">グラフ</param> 
+        /// </summary>
+        internal static void ShowChartColumn(Chart chart1)
+        {
+            chart1.Series.Clear();  //グラフ初期化
+            chart1.ChartAreas.Clear();
+
+            // ChartにChartAreaを追加
+            string chart_area1 = "Area1";
+            chart1.ChartAreas.Add(new ChartArea(chart_area1));
+
+            // ChartにSeriesを追加
+            string legend1 = "Graph1";
+            chart1.Series.Add(legend1);
+
+            chart1.Series[legend1].ChartType = SeriesChartType.Column;
+
+            double[] y_values = new double[5] { 1.0, 1.2, 0.8, 1.8, 0.2 };
+
+            for (int i = 0; i < y_values.Length; i++)
+            {
+                chart1.Series[legend1].Points.AddY(y_values[i]);
+            }
+        }
+
+
+
+
+
+        /// <summary>
         /// 円グラフを描画する
         /// <param name="chart">グラフ</param> 
         /// </summary>
@@ -302,7 +333,7 @@ namespace Timer
 
             string lastValidStartTime = "";
             string lastValidEndTime = "";
-            DrawRange drawRange;
+            //DrawRange drawRange;
 
 #if NOTDEF
             foreach (DataGridViewRow row in dataGridView.Rows) {
