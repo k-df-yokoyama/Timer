@@ -21,7 +21,7 @@ namespace Timer.Tests
             //var pbObj = new PrivateObject(formTimer);
             //formTimer.isCounting = true;
             formTimer.FormTimer_Load(null, null);
-            formTimer.buttonStart_Click(null, null);
+            formTimer.btnStart_Click(null, null);
             Assert.IsTrue(true);
             //Assert.Fail("failed");
         }

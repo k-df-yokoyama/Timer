@@ -152,7 +152,7 @@ namespace Timer
         /// <param name="sender">イベントを送信したオブジェクト</param>
         /// <param name="e">イベントに関わる引数</param>
         /// </summary>
-        internal void buttonStart_Click(object sender, EventArgs e)
+        internal void btnStart_Click(object sender, EventArgs e)
         {
             // 時間のカウント中でない場合（＝ストップ状態でスタートボタンがクリックされた場合）
             if (!isTimeCounting)
@@ -257,7 +257,7 @@ namespace Timer
         /// <param name="sender">イベントを送信したオブジェクト</param>
         /// <param name="e">イベントに関わる引数</param>
         /// </summary>
-        private void buttonReset_Click(object sender, EventArgs e)
+        private void btnReset_Click(object sender, EventArgs e)
         {
             // (1)リセット実施可否確認
             DialogResult result = MessageBox.Show("リセットしてもよいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
@@ -314,7 +314,7 @@ namespace Timer
         private void textSetTime_TextChanged(object sender, EventArgs e)
         {
             //MessageBox.Show("リセットしました！");
-            //buttonReset_Click(sender, e);
+            //btnReset_Click(sender, e);
         }
 
         //Todo: UnitTest候補
@@ -821,6 +821,18 @@ public enum Season
             //ReviewedActivityLogにコピーする。
             CopyActivityLogToReviewedActivityLog(textBox1.Text);
         }
+
+        /*
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+
+        }
+        */
 
         /// <summary>
         /// ActivityLogファイルに上書き保存する。

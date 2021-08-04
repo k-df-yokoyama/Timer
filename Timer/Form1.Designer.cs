@@ -148,7 +148,7 @@
             this.btnStart.TabIndex = 5;
             this.btnStart.Text = "スタート！";
             this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.buttonStart_Click);
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // textRemainingTime
             // 
@@ -173,7 +173,7 @@
             this.btnReset.TabIndex = 7;
             this.btnReset.Text = "リセット";
             this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.buttonReset_Click);
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // textElaspedTimeMinutes
             // 
