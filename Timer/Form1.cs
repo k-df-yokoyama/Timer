@@ -211,7 +211,6 @@ namespace Timer
                 string task = "";
                 Utils.GetTaskFromInputText(comboBox1.Text, out task);
                 // グラフを再描画する
-                //GraphUtils.ShowChartStackedColumn(chart1);
                 GraphUtils.ShowChartColumn(chart1, task, startTime, endTime);
             }
         }
@@ -298,7 +297,6 @@ namespace Timer
                 string task = "";
                 Utils.GetTaskFromInputText(comboBox1.Text, out task);
                 // グラフを再描画する
-                //GraphUtils.ShowChartStackedColumn(chart1);
                 GraphUtils.ShowChartColumn(chart1, task, startTime, endTime);
             }
         }

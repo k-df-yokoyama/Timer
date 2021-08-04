@@ -229,7 +229,8 @@ namespace Timer
 
         /// <summary>
         /// 棒グラフを描画する
-        /// <param name="chart1">グラフ</param> 
+        /// <param name="chart1">グラフ</param>
+        /// <param name="axisLabel">軸ラベル</param> 
         /// <param name="startTime">開始時間</param> 
         /// <param name="endTime">終了時間</param>
         /// </summary>
@@ -245,8 +246,6 @@ namespace Timer
             {
                 return 0;
             }
-            //point.YValues = new double[] { (intEndHh * 60 + intEndMm) - (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
-            //point.YValues = new double[] { (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
 
             chart1.ChartAreas.Clear(); //ChartArea初期化
             chart1.Series.Clear();     //Series初期化
@@ -263,8 +262,6 @@ namespace Timer
             // ChartTypeを設定
             chart1.Series[legend1].ChartType = SeriesChartType.Column;
             //System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
-	    //
-            //chart1.Series[legend1].IsValueShownAsLabel = true;
 
             //double[] y_values = new double[5] { 1.0, 1.2, 0.8, 1.8, 0.2 };
             double[] y_values = new double[] { (intEndHh + intEndMm / 60.0) - (intStartHh + intStartMm / 60.0) };
@@ -273,13 +270,9 @@ namespace Timer
             {
                 chart1.Series[legend1].Points.AddY(y_values[i]);
                 chart1.Series[legend1].Points[i].AxisLabel = axisLabel;
-                //chart1.Series[legend1].Points[i].Label = "bbb";
             }
             return 0;
         }
-
-
-
 
 
         /// <summary>
