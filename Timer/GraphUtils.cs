@@ -233,7 +233,7 @@ namespace Timer
         /// <param name="startTime">開始時間</param> 
         /// <param name="endTime">終了時間</param>
         /// </summary>
-        internal static int ShowChartColumn(Chart chart1, string startTime, string endTime)
+        internal static int ShowChartColumn(Chart chart1, string axisLabel, string startTime, string endTime)
         {
             int intStartHh, intStartMm, intEndHh, intEndMm;
 
@@ -248,27 +248,32 @@ namespace Timer
             //point.YValues = new double[] { (intEndHh * 60 + intEndMm) - (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
             //point.YValues = new double[] { (intStartHh * 60 + intStartMm) }; // 円グラフに占める割合
 
-            chart1.Series.Clear();  //グラフ初期化
-            chart1.ChartAreas.Clear();
+            chart1.ChartAreas.Clear(); //ChartArea初期化
+            chart1.Series.Clear();     //Series初期化
 
             // ChartにChartAreaを追加
             string chart_area1 = "Area1";
             chart1.ChartAreas.Add(new ChartArea(chart_area1));
 
             // ChartにSeriesを追加
-            string legend1 = "Graph1";
+            //string legend0 = "Plan";
+            string legend1 = "Actual";
             chart1.Series.Add(legend1);
 
+            // ChartTypeを設定
             chart1.Series[legend1].ChartType = SeriesChartType.Column;
             //System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+	    //
+            //chart1.Series[legend1].IsValueShownAsLabel = true;
 
-            //ToDo: 値が0の場合、グラフ表示が変になる
             //double[] y_values = new double[5] { 1.0, 1.2, 0.8, 1.8, 0.2 };
             double[] y_values = new double[] { (intEndHh + intEndMm / 60.0) - (intStartHh + intStartMm / 60.0) };
 
             for (int i = 0; i < y_values.Length; i++)
             {
                 chart1.Series[legend1].Points.AddY(y_values[i]);
+                chart1.Series[legend1].Points[i].AxisLabel = axisLabel;
+                //chart1.Series[legend1].Points[i].Label = "bbb";
             }
             return 0;
         }

@@ -210,7 +210,7 @@ namespace Timer
             if (Utils.GetStartAndEndTimeFromTrailing(comboBox1.Text, out startTime, out endTime) == 0) {
                 // グラフを再描画する
                 //GraphUtils.ShowChartStackedColumn(chart1);
-                GraphUtils.ShowChartColumn(chart1, startTime, endTime);
+                GraphUtils.ShowChartColumn(chart1, "zzz", startTime, endTime);
             }
         }
 
@@ -294,7 +294,7 @@ namespace Timer
             if (Utils.GetStartAndEndTimeFromTrailing(comboBox1.Text, out startTime, out endTime) == 0) {
                 // グラフを再描画する
                 //GraphUtils.ShowChartStackedColumn(chart1);
-                GraphUtils.ShowChartColumn(chart1, startTime, endTime);
+                GraphUtils.ShowChartColumn(chart1, "zzz", startTime, endTime);
             }
         }
 
