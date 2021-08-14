@@ -103,8 +103,10 @@ namespace Timer
                 }
             }
 
-            // テキストボックスに値を設定する
-            ReadRawActivityList();
+            // RawActivityListファイルの中身をActivityLogのGUIに読み込む
+            RawActivityList2TextBox();
+            // RawActivityListファイルの中身をTaskListに読み込む
+            RawActivityList2TaskList();
 
             //Hide developping controls
             btnAddNode.Visible = false;
@@ -564,10 +566,9 @@ namespace Timer
         }
 
         /// <summary>
-        /// ActivityLogファイルの中身をActivityLogのGUIに読み込む
-        /// ActivityLogファイルの中身をTaskListに読み込む
+        /// RawActivityListファイルの中身をActivityLogのGUIに読み込む
         /// </summary>
-        internal void ReadRawActivityList()
+        internal void RawActivityList2TextBox()
         {
             if (!File.Exists(@rawActivityListFilePath))
             {
@@ -577,6 +578,18 @@ namespace Timer
 
             string textFromLogFile = File.ReadAllText(@rawActivityListFilePath, sjisEnc);
             textBox1.Text = textFromLogFile;
+        }
+
+        /// <summary>
+        /// RawActivityListファイルの中身をTaskListに読み込む
+        /// </summary>
+        internal void RawActivityList2TaskList()
+        {
+            if (!File.Exists(@rawActivityListFilePath))
+            {
+                StreamWriter sw = new StreamWriter(@rawActivityListFilePath, true, sjisEnc);
+                sw.Close();
+            }
 
             StreamReader sr = new StreamReader(@rawActivityListFilePath, sjisEnc);
             while (sr.EndOfStream == false) {
