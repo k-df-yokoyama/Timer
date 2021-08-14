@@ -103,7 +103,7 @@ namespace Timer
                 }
             }
 
-            // RawActivityListファイルの中身をActivityLogのGUIに読み込む
+            // RawActivityListファイルの中身をActivityListのGUIに読み込む
             RawActivityList2TextBox();
             // RawActivityListファイルの中身をTaskListに読み込む
             RawActivityList2TaskList();
@@ -536,8 +536,8 @@ namespace Timer
 
 
         /// <summary>
-        /// 引数で指定されたタスクと時間の情報をtextBox1(ActivityLog)に追加する
-        /// 引数で指定された文字列に時間の情報が含まれている場合には、時間の情報を先頭に移動して追加する
+        /// 引数で指定された文字列(タスクと時間の情報)をActivityListのGUI(textBox1)に追加する
+        /// 引数で指定された文字列に時間の情報が含まれている場合には、時間の情報を行頭に移動して追加する
         /// <param name="taskAndTime">タスクと時間</param>
         /// </summary>
         private void AddRawActivityList(string taskAndTime)
@@ -555,18 +555,18 @@ namespace Timer
                     addedTask.startTime + "-" + addedTask.endTime + "  " + addedTask.taskName;
             }
 
-            //画面上に表示されているActivityLogの内容を
-            //ActivityLogファイルに上書き保存する。
+            //画面上に表示されているActivityListの内容を
+            //ActivityListファイルに上書き保存する。
             SaveRawActivityList(textBox1.Text);
             taskList.SaveTaskList();
 
-            //画面上に表示されているActivityLogの内容を
-            //ReviewedActivityLogにコピーする。
-            CopyActivityLogToReviewedActivityLog(textBox1.Text);
+            //画面上に表示されているActivityListの内容を
+            //ReviewedActivityListにコピーする。
+            CopyActivityListToReviewedActivityList(textBox1.Text);
         }
 
         /// <summary>
-        /// RawActivityListファイルの中身をActivityLogのGUIに読み込む
+        /// RawActivityListファイルの中身をActivityListのGUI(textBox1)に読み込む
         /// </summary>
         internal void RawActivityList2TextBox()
         {
@@ -824,18 +824,18 @@ public enum Season
 
         /// <summary>
         /// [保存](btnSaveActivityLog)ボタンがクリックされた時の処理
-        /// ...画面上に表示されているActivityLogの内容をActivityLogファイルに上書き保存する。
-        /// ...画面上に表示されているActivityLogの内容をReviewedActivityLogにコピーする。
+        /// ...画面上に表示されているActivityListの内容をActivityListファイルに上書き保存する。
+        /// ...画面上に表示されているActivityListの内容をReviewedActivityListにコピーする。
         /// <param name="sender">イベントを送信したオブジェクト</param>
         /// <param name="e">イベントに関わる引数</param>
         /// </summary>
         internal void btnSaveActivityLog_Click(object sender, EventArgs e)
         {
-            //ActivityLogファイルに上書き保存する。
+            //ActivityListファイルに上書き保存する。
             SaveRawActivityList(textBox1.Text);
 
-            //ReviewedActivityLogにコピーする。
-            CopyActivityLogToReviewedActivityLog(textBox1.Text);
+            //ReviewedActivityListにコピーする。
+            CopyActivityListToReviewedActivityList(textBox1.Text);
         }
 
         /*
@@ -851,7 +851,7 @@ public enum Season
         */
 
         /// <summary>
-        /// ActivityLogファイルに上書き保存する。
+        /// ActivityListファイルに上書き保存する。
         /// </summary>
         private void SaveRawActivityList(string textValue)
         {
@@ -864,23 +864,23 @@ public enum Season
         }
 
         /// <summary>
-        /// ActivityLogの値をReviewedActivityLogにコピーする
+        /// ActivityListの値をReviewedActivityListにコピーする
         /// </summary>
-        private void CopyActivityLogToReviewedActivityLog(string textValue)
+        private void CopyActivityListToReviewedActivityList(string textValue)
         {
-            //ReviewedActivityLogの内容をクリアする
+            //ReviewedActivityListの内容をクリアする
             dataGridView1.Rows.Clear();
 
-            //ActivityLogのテキストボックスの内容を取得する
+            //ActivityListのテキストボックスの内容を取得する
             var lineList = textValue.Replace("\r\n","\n").Split(new[]{'\n','\r'});
             foreach(var line in lineList)
             {
                 //System.Console.WriteLine($"<{line}>");
 
-                //ActivityLogのテキストボックスの内容を1行ずつReviewedActivityLogに書き込む
+                //ActivityListのテキストボックスの内容を1行ずつReviewedActivityListに書き込む
                 string startTime, endTime, task;
                 //...startTime, endTime, Taskを取得
-                //(ActivityLogのテキストボックスの内容が書き込み可能かを判定)
+                //(ActivityListのテキストボックスの内容が書き込み可能かを判定)
                 if (Utils.GetStartAndEndTimeAndTaskFromHeading(line, out startTime, out endTime, out task) == 0) {
                     //...startTime, endTime, Taskの書き込み
                     dataGridView1.Rows.Add(startTime, endTime, task, "", "", false, false, false, false, false, false, false, false, false, false);
