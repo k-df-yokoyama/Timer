@@ -197,7 +197,8 @@ namespace Timer.Tests
         {
             FormTimer formTimer = new FormTimer();
             var pbFormTimer = new PrivateObject(formTimer);
-            formTimer.ReadRawActivityList();
+            formTimer.RawActivityList2TextBox();
+            formTimer.RawActivityList2TaskList();
             //ログファイルを開いて読み込まれていることを確認
             var strActivityLogFilePath = (string)pbFormTimer.GetField("rawActivityListFilePath");
             string textFromTextBox = formTimer.myTextBox1.Text;
