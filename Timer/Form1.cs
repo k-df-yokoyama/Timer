@@ -335,7 +335,7 @@ namespace Timer
             // ファイルがある場合
             try {
                 using (StreamReader sr = new StreamReader(
-                    @inputHistoryFilePath, Encoding.GetEncoding("Shift_JIS"))) {
+                    @inputHistoryFilePath, sjisEnc)) {
                     while ((line = sr.ReadLine()) != null) {
                         //al.Add(line);
                         stringList.Add(line);
@@ -565,6 +565,7 @@ namespace Timer
 
         /// <summary>
         /// ActivityLogファイルの中身をActivityLogのGUIに読み込む
+        /// ActivityLogファイルの中身をTaskListに読み込む
         /// </summary>
         internal void ReadRawActivityList()
         {
@@ -577,7 +578,7 @@ namespace Timer
             string textFromLogFile = File.ReadAllText(@rawActivityListFilePath, sjisEnc);
             textBox1.Text = textFromLogFile;
 
-            StreamReader sr = new StreamReader(@rawActivityListFilePath, Encoding.GetEncoding("SHIFT_JIS"));
+            StreamReader sr = new StreamReader(@rawActivityListFilePath, sjisEnc);
             while (sr.EndOfStream == false) {
                 string line = sr.ReadLine();
                 Task addedTask = new Task(line);
