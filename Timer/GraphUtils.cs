@@ -16,9 +16,8 @@ namespace Timer
         /// <summary>
         /// 棒グラフを描画する
         /// <param name="chart1">グラフ</param>
-        /// <param name="axisLabel">軸ラベル</param> 
-        /// <param name="startTime">開始時間</param> 
-        /// <param name="endTime">終了時間</param>
+        /// <param name="taskName">TaskName</param> 
+        /// <param name="taskList">TaskList</param>
         /// </summary>
         internal static int ShowChartColumn(Chart chart1, string taskName, TaskList taskList)
         {

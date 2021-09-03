@@ -594,7 +594,7 @@ namespace Timer
             StreamReader sr = new StreamReader(@rawActivityListFilePath, sjisEnc);
             while (sr.EndOfStream == false) {
                 string line = sr.ReadLine();
-                Task addedTask = new Task(line);
+                Task addedTask = new Task(line, true);
 
                 taskList.Add(addedTask);
             }

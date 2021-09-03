@@ -31,9 +31,9 @@ namespace Timer
         public Task(string taskAndTime)
         {
             bool isFormatOK = true;
+            taskName = "";
             startTime = "";
             endTime = "";
-            taskName = "";
 
             //入力値のフォーマットチェック
             if (Regex.IsMatch(taskAndTime, @"[:：](0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]-(0[0-9]|1[0-9]|2[0-3])[:：][0-5][0-9]$") ||
@@ -71,7 +71,7 @@ namespace Timer
 
                 //フォーマットを変更してActivityLogのテキストボックス(textBox1)に追加
                 //taskAndTimeから時間文字列を取得
-                Match timeString = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
+                //Match timeString = Regex.Match(taskAndTime, @"(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]-.*-?(0[0-9]|1[0-9]|2[0-4])[:：][0-5][0-9]$");
 
                 string taskString;
                 Utils.RemoveTimeString(taskAndTime, out taskString);
@@ -80,6 +80,22 @@ namespace Timer
             }
         }
 
+        public Task(string taskAndTime, bool isRawActivityFormat)
+        {
+            taskName = "";
+            startTime = "";
+            endTime = "";
+
+            if (isRawActivityFormat == false) {
+                new Task(taskAndTime);
+                return;
+            }
+
+            int ret = Utils.GetStartAndEndTimeAndTaskFromHeading(taskAndTime, out startTime, out endTime, out taskName);
+            if (ret < 0) {
+                taskName = taskAndTime;
+            }
+        }
 
     }
 }
